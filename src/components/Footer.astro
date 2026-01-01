@@ -1,11 +1,178 @@
 ---
 const today = new Date();
-import { SITE_SINCE, SITE_TITLE } from '@/consts';
+import { SITE_SINCE, SITE_TITLE, patrocinadores } from '@/consts';
+
+const currentYear = today.getFullYear();
+const copyrightYear = Number(SITE_SINCE) === currentYear 
+    ? currentYear.toString() 
+    : `${SITE_SINCE} - ${currentYear}`;
 ---
-<footer class="footer bg-primary text-white py-3">
-    <div class="container"><p class="m-0">&copy;{SITE_SINCE} - {today.getFullYear()} {SITE_TITLE}</p></div>
+<footer class="footer bg-dark text-white py-4">
+    <div class="container">
+        <!-- Sección de Patrocinadores -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="sponsors-section">
+                    {patrocinadores.map((patrocinador) => (
+                        <a 
+                            href={patrocinador.url} 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            class="sponsor-link"
+                            aria-label={`Patrocinador ${patrocinador.img}`}
+                        >
+                            <img 
+                                src={`/assets/images/${patrocinador.img}`}
+                                alt={`Logo ${patrocinador.img}`}
+                                class="sponsor-logo"
+                            />
+                        </a>
+                    ))}
+                </div>
+            </div>
+        </div>
+        
+        <div class="row align-items-center">
+            <div class="col-md-6 mb-3 mb-md-0">
+                <img 
+                    src="/assets/images/logo_gigates.svg" 
+                    alt="Logo Gigantes" 
+                    class="footer-logo"
+                    width="78"
+                    height="auto"
+                />
+            </div>
+            <div class="col-md-6 text-md-end">
+                <div class="social-links">
+                    <a 
+                        href="https://www.facebook.com/GigantesDeAguascalientes?locale=es_LA" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        class="social-link"
+                        aria-label="Facebook"
+                    >
+                        <i class="fa-brands fa-facebook-f"></i>
+                    </a>
+                    <a 
+                        href="https://www.instagram.com/gigantesdeaguascalientes/" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        class="social-link"
+                        aria-label="Instagram"
+                    >
+                        <i class="fa-brands fa-instagram"></i>
+                    </a>
+                    <a 
+                        href="https://www.tiktok.com/@gigantesdeaguascalientes" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        class="social-link"
+                        aria-label="TikTok"
+                    >
+                        <i class="fa-brands fa-tiktok"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-12 text-center">
+                <p class="m-0 copyright">&copy; {copyrightYear} {SITE_TITLE}</p>
+            </div>
+        </div>
+    </div>
 </footer>
 
 <style>
+	.sponsors-section {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		gap: 2rem;
+		flex-wrap: wrap;
+		padding: 2rem 0;
+		border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+		margin-bottom: 2rem;
+	}
 	
+	.sponsor-link {
+		display: inline-block;
+		opacity: 0.7;
+		transition: opacity 0.3s ease;
+	}
+	
+	.sponsor-link:hover {
+		opacity: 1;
+	}
+	
+	.sponsor-logo {
+		height: 75px;
+		width: auto;
+		max-width: 150px;
+		object-fit: contain;
+		filter: grayscale(100%) brightness(1.2);
+		transition: filter 0.3s ease;
+	}
+	
+	.sponsor-link:hover .sponsor-logo {
+		filter: grayscale(0%) brightness(1);
+	}
+	
+	.footer-logo {
+		max-width: 150px;
+		height: auto;
+	}
+	
+	.social-links {
+		display: flex;
+		gap: 1rem;
+		justify-content: flex-end;
+		align-items: center;
+	}
+	
+	.social-link {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 40px;
+		height: 40px;
+		border-radius: 50%;
+		background-color: var(--bs-primary);
+		color: var(--bs-secondary);
+		text-decoration: none;
+		transition: all 0.3s ease;
+		font-size: 1.2rem;
+        
+	}
+	
+	.social-link:hover {
+		background-color: var(--bs-secondary);
+		color: var(--bs-primary);
+		transform: translateY(-2px);
+	}
+	
+	.copyright {
+		font-size: 0.9rem;
+		opacity: 0.8;
+	}
+	
+	@media (max-width: 767.98px) {
+		.sponsors-section {
+			gap: 1.5rem;
+			padding: 1.5rem 0;
+		}
+		
+		.sponsor-logo {
+			height: 40px;
+			max-width: 120px;
+		}
+		
+		.social-links {
+			justify-content: center;
+		}
+		
+		.footer-logo {
+			margin: 0 auto;
+			display: block;
+		}
+	}
 </style>

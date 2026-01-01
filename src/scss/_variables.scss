@@ -1,14 +1,16 @@
 $urlweb:'/';
 //Bootstrap Colors
-$primary:#0068FF;
-$secondary:#fefefe;
+$primary:#0D3963;
+$secondary:#6CB3DF;
+$tertiary:#FFB400;
+$quaternary:#7C2133;
 
 $success: #4DB169;
 $info: #2384A5;
 $warning:#F6B82C;
 $danger: #FE0000;
 $light: #FDFFFF;
-$dark: #26201C;
+$dark: #151515;
 
 
 $body-bg: $light;
@@ -28,10 +30,10 @@ $theme-colors: (
   "dark": $dark,
 );
 
-// $container-max-widths: (
-//   sm: 500px,
-//   md: 700px,
-//   lg: 1024px,
-//   xl: 1536px,
-//   xxl: 1920px
-// );
+$container-max-widths: (
+  sm: 500px,
+  md: 700px,
+  lg: 1024px,
+  xl: 1536px,
+  xxl: 1920px
+);

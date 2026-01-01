@@ -2,15 +2,18 @@
 import Navbar from "@/components/Navbar.astro";
 import BaseHead from "@/components/BaseHead.astro";
 import Footer from "@/components/Footer.astro";
-const { title = "Mi sitio web" } = Astro.props;
+const { title } = Astro.props;
 
 import { SITE_TITLE, SITE_DESCRIPTION,  } from '@/consts';
+
+const pageTitle = title ? `${SITE_TITLE} - ${title}` : SITE_TITLE;
 ---
 
 <!DOCTYPE html>
 <html lang="es">
     <head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+		<BaseHead title={pageTitle} description={SITE_DESCRIPTION} />
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
 	</head>
     <body>
         <Navbar />
