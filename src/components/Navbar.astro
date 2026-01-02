@@ -10,100 +10,310 @@
     const pathname = Astro.url.pathname;
     ---
 
-    <nav class="navbar navbar-expand-lg mb-5 fixed-top p-0">
-    <div class="top-bar"></div>
-    <div class="container">
-        <a class="navbar-brand" href={url('/')}> 
-        <img src={url('/assets/images/logo_gigates.svg')} alt={SITE_TITLE} class="navbar-logo" />
-        </a>
-        
-        <button
-            class="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-        >
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-            {sections.map((section) => (
-                <li class="nav-item">
-                <a
-                    class={`nav-link text-black ${(
-                      section.href === '/' ? pathname === '/' : pathname.startsWith(section.href)
-                    ) ? 'active' : ''}`}
-                    href={url(section.href)}
-                    aria-current={(section.href === '/' ? pathname === '/' : pathname.startsWith(section.href)) ? 'page' : undefined}
-                >
-                    {section.name}
-                </a>
-                </li>
-            ))}
-            </ul>
+    <!-- Navbar Desktop -->
+    <nav class="navbar navbar-desktop mb-5 fixed-top p-0">
+        <div class="top-bar"></div>
+        <div class="container">
+            <div class="navbar-content">
+                <!-- Enlaces izquierda: Inicio, Tienda -->
+                <div class="navbar-links-left">
+                    <ul class="navbar-nav">
+                        {sections.slice(0, 2).map((section) => (
+                            <li class="nav-item">
+                                <a
+                                    class={`nav-link ${(
+                                      section.href === '/' ? pathname === '/' : pathname.startsWith(section.href)
+                                    ) ? 'active' : ''}`}
+                                    href={url(section.href)}
+                                    aria-current={(section.href === '/' ? pathname === '/' : pathname.startsWith(section.href)) ? 'page' : undefined}
+                                >
+                                    {section.name}
+                                </a>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+                
+                <!-- Logo centrado -->
+                <div class="navbar-brand-container">
+                    <a class="navbar-brand" href={url('/')}> 
+                        <img src={url('/assets/images/logo_gigates.svg')} alt={SITE_TITLE} class="navbar-logo" />
+                    </a>
+                </div>
+                
+                <!-- Enlaces derecha: Noticias, Contacto -->
+                <div class="navbar-links-right">
+                    <ul class="navbar-nav">
+                        {sections.slice(2).map((section) => (
+                            <li class="nav-item">
+                                <a
+                                    class={`nav-link ${(
+                                      section.href === '/' ? pathname === '/' : pathname.startsWith(section.href)
+                                    ) ? 'active' : ''}`}
+                                    href={url(section.href)}
+                                    aria-current={(section.href === '/' ? pathname === '/' : pathname.startsWith(section.href)) ? 'page' : undefined}
+                                >
+                                    {section.name}
+                                </a>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            </div>
         </div>
-        
-    </div>
+    </nav>
+
+    <!-- Navbar Mobile -->
+    <nav class="navbar navbar-mobile mb-5 fixed-top p-0">
+        <div class="top-bar"></div>
+        <div class="container">
+            <div class="navbar-mobile-header">
+                <a class="navbar-brand" href={url('/')}> 
+                    <img src={url('/assets/images/logo_gigates.svg')} alt={SITE_TITLE} class="navbar-logo" />
+                </a>
+                <button
+                    class="navbar-toggler"
+                    type="button"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+                    id="mobile-menu-toggle"
+                >
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+            <div class="navbar-mobile-menu" id="mobile-menu">
+                <ul class="navbar-nav">
+                    {sections.map((section) => (
+                        <li class="nav-item">
+                            <a
+                                class={`nav-link ${(
+                                  section.href === '/' ? pathname === '/' : pathname.startsWith(section.href)
+                                ) ? 'active' : ''}`}
+                                href={url(section.href)}
+                                aria-current={(section.href === '/' ? pathname === '/' : pathname.startsWith(section.href)) ? 'page' : undefined}
+                            >
+                                {section.name}
+                            </a>
+                        </li>
+                    ))}
+                </ul>
+            </div>
+        </div>
     </nav>
     <script is:inline>
     document.addEventListener('DOMContentLoaded', () => {
-      const toggler = document.querySelector('.navbar-toggler');
-      const collapse = document.querySelector('#navbarSupportedContent');
-      if (!toggler || !collapse) return;
+      const toggler = document.querySelector('#mobile-menu-toggle');
+      const menu = document.querySelector('#mobile-menu');
+      if (!toggler || !menu) return;
       toggler.addEventListener('click', () => {
-        const isShown = collapse.classList.toggle('show');
+        const isShown = menu.classList.toggle('show');
         toggler.setAttribute('aria-expanded', String(isShown));
       });
+      
+      // Detectar scroll y agregar clase al navbar
+      const navbarDesktop = document.querySelector('.navbar-desktop');
+      const navbarMobile = document.querySelector('.navbar-mobile');
+      
+      function handleScroll() {
+        if (window.scrollY > 50) {
+          if (navbarDesktop) navbarDesktop.classList.add('scrolled');
+          if (navbarMobile) navbarMobile.classList.add('scrolled');
+        } else {
+          if (navbarDesktop) navbarDesktop.classList.remove('scrolled');
+          if (navbarMobile) navbarMobile.classList.remove('scrolled');
+        }
+      }
+      
+      window.addEventListener('scroll', handleScroll);
+      handleScroll(); // Verificar estado inicial
     });
     </script>
     <style>
-    .navbar{
+    /* Estilos comunes */
+    .navbar {
         background:rgba(13, 57, 99, .85);
         backdrop-filter: saturate(180%) blur(33px);
         flex-direction: column;
         transition: all 0.5s ease;
-        @media (width > 768px) {
-        padding-inline: 4.5rem;
-        }
-        /* filter: invert(100%); */
-        & .nav-link{
-        /* opacity: 0; */
+    }
+    
+    .nav-link {
         font-family: "Bebas Neue", sans-serif;
         color: white;
         transition: all 0.5s ease;
-        }
+        text-transform: uppercase;
+        font-size: 1.3rem;
+        letter-spacing: 1px;
     }
-    .navbar-brand img {
-        max-height: 60px; 
-        transition: max-height 0.5s ease;
-        /* filter:brightness(0) */
+    
+    .nav-link.active {
+        color: var(--bs-warning)!important;
     }
-    .navbar-scrolled .navbar-brand img {
-        max-height: 60px; 
+    
+    .nav-link:hover {
+        color: var(--bs-warning)!important;
     }
-    .navbar-scrolled  {
-        background: var(--bs-primary);
-        backdrop-filter: saturate(180%) blur(5px);
-        transition: all 0.5s ease;
-        box-shadow: rgba(0,0,0,.33) 0 0 20px;
-        /* filter: invert(0); */
-        & .nav-link{
-        opacity: 1;
-        transition: all 0.5s ease;
-        }
-        /* & .navbar-brand img {
-        filter:brightness(0) saturate(100%))
-        } */
-    }
-    .top-bar{
+    
+    .top-bar {
         background: var(--bs-secondary);
         height: 15px;
         width: 100%;
     }
+    
+    .navbar-nav {
+        display: flex;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+    
+    .nav-item {
+        list-style: none;
+    }
+    
+    /* Navbar Desktop */
+    .navbar-desktop {
+        display: none;
+    }
+    
+    @media (min-width: 992px) {
+        .navbar-desktop {
+            display: block;
+        }
+        
+        .navbar-desktop .container {
+            padding-inline: 4.5rem;
+        }
+        
+        .navbar-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            position: relative;
+            padding: 1rem 0;
+        }
+        
+        .navbar-links-left,
+        .navbar-links-right {
+            flex: 1;
+            display: flex;
+        }
+        
+        .navbar-links-left {
+            justify-content: flex-start;
+        }
+        
+        .navbar-links-right {
+            justify-content: flex-end;
+        }
+        
+        .navbar-brand-container {
+            position: absolute;
+            left: 50%;
+            transform: translate(-50%, 25%);
+            z-index: 10;
+        }
+        
+        .navbar-brand {
+            display: block;
+            padding: 0;
+        }
+        
+        .navbar-brand img {
+            height: 223px;
+            width: auto;
+            transition: all 0.5s ease;
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+        }
+        
+        .navbar-desktop.scrolled .navbar-brand img {
+            height: 133px;
+        }
+        
+        .navbar-nav {
+            flex-direction: row;
+            gap: 2rem;
+        }
+    }
+    
+    /* Navbar Mobile */
+    .navbar-mobile {
+        display: block;
+    }
+    
+    @media (min-width: 992px) {
+        .navbar-mobile {
+            display: none;
+        }
+    }
+    
+    .navbar-mobile-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1rem 0;
+        width: 100%;
+    }
+    
+    .navbar-mobile .navbar-brand {
+        display: block;
+        padding: 0;
+        flex-shrink: 0;
+    }
+    
+    .navbar-mobile .navbar-brand img {
+        height: 80px;
+        width: auto;
+        transition: all 0.5s ease;
+    }
+    
+    .navbar-toggler {
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        padding: 0.25rem 0.5rem;
+        background: transparent;
+        cursor: pointer;
+        margin-left: auto;
+        flex-shrink: 0;
+    }
+    
+    .navbar-toggler-icon {
+        display: block;
+        width: 24px;
+        height: 24px;
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+    
+    .navbar-mobile-menu {
+        display: none;
+        width: 100%;
+        margin-top: 1rem;
+        padding-bottom: 1rem;
+    }
+    
+    .navbar-mobile-menu.show {
+        display: block;
+    }
+    
+    .navbar-mobile .navbar-nav {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .navbar-mobile .nav-link {
+        font-size: 1.2rem;
+        padding: 0.75rem 0;
+        display: block;
+    }
+    
+    @media (max-width: 575.98px) {
+        .navbar-mobile .navbar-brand img {
+            height: 60px;
+        }
+    }
+
     </style>
 
 
