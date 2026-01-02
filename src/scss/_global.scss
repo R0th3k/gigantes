@@ -47,10 +47,12 @@ html{
     // scrollbar-width: thin;
 }
 body {
-    font-family: "Montserrat", serif;
+    font-family: "Arimo", sans-serif;
     font-optical-sizing: auto;
     font-weight: 400;
     font-style: normal;
     color:$black;
     font-size: 20px;
+    background: #1E73A8;
+    background: radial-gradient(circle, rgba(30, 115, 168, 1) 0%, rgba(13, 57, 99, 1) 50%);
 }

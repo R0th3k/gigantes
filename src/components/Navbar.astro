@@ -1,17 +1,20 @@
     ---
     const sections: Array<{ name: string; href: string; isAnchor?: boolean; external?: boolean }> = [
       { name: "Inicio", href: "/" },
-      { name: "Blog", href: "/blog" },
+      { name: "Tienda", href: "/tienda" },
+      { name: "Noticias", href: "/blog" },
+      { name: "Contacto", href: "/contacto" },
     ];
     import { SITE_TITLE } from '@/consts';
     import { url } from '@/utils/url';
     const pathname = Astro.url.pathname;
     ---
 
-    <nav class="navbar navbar-expand-lg mb-5 fixed-top">
-    <div class="container-fluid">
+    <nav class="navbar navbar-expand-lg mb-5 fixed-top p-0">
+    <div class="top-bar"></div>
+    <div class="container">
         <a class="navbar-brand" href={url('/')}> 
-        <img src={url('/assets/images/logo.svg')} alt={SITE_TITLE} class="navbar-logo" />
+        <img src={url('/assets/images/logo_gigates.svg')} alt={SITE_TITLE} class="navbar-logo" />
         </a>
         
         <button
@@ -57,11 +60,11 @@
       });
     });
     </script>
-    <style is:inline>
+    <style>
     .navbar{
-        background: rgba(255, 255, 255, 0.5);
+        background:rgba(13, 57, 99, .85);
         backdrop-filter: saturate(180%) blur(33px);
-        
+        flex-direction: column;
         transition: all 0.5s ease;
         @media (width > 768px) {
         padding-inline: 4.5rem;
@@ -69,6 +72,8 @@
         /* filter: invert(100%); */
         & .nav-link{
         /* opacity: 0; */
+        font-family: "Bebas Neue", sans-serif;
+        color: white;
         transition: all 0.5s ease;
         }
     }
@@ -81,7 +86,7 @@
         max-height: 60px; 
     }
     .navbar-scrolled  {
-        background: rgba(255, 255, 255, 0.9);
+        background: var(--bs-primary);
         backdrop-filter: saturate(180%) blur(5px);
         transition: all 0.5s ease;
         box-shadow: rgba(0,0,0,.33) 0 0 20px;
@@ -94,7 +99,11 @@
         filter:brightness(0) saturate(100%))
         } */
     }
-
+    .top-bar{
+        background: var(--bs-secondary);
+        height: 15px;
+        width: 100%;
+    }
     </style>
 
 
