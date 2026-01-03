@@ -11,7 +11,7 @@
     ---
 
     <!-- Navbar Desktop -->
-    <nav class="navbar navbar-desktop mb-5 fixed-top p-0">
+    <nav class="navbar navbar-desktop p-0">
         <div class="top-bar"></div>
         <div class="container">
             <div class="navbar-content">
@@ -64,7 +64,7 @@
     </nav>
 
     <!-- Navbar Mobile -->
-    <nav class="navbar navbar-mobile mb-5 fixed-top p-0">
+    <nav class="navbar navbar-mobile p-0">
         <div class="top-bar"></div>
         <div class="container">
             <div class="navbar-mobile-header">
@@ -131,6 +131,9 @@
     <style>
     /* Estilos comunes */
     .navbar {
+        position: sticky;
+        top: 0;
+        z-index: 1000;
         background:rgba(13, 57, 99, .85);
         backdrop-filter: saturate(180%) blur(33px);
         flex-direction: column;
