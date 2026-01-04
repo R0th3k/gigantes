@@ -62,7 +62,13 @@ body {
 
 
 .swiper-pagination-bullet-active {
-    opacity: var(--swiper-pagination-bullet-opacity, 1);
-    background: var(--bs-warning);
+    background: var(--bs-warning)!important;
     transform: scale(1.6);
+}
+
+.bg-balls{
+    background-image: url('/assets/images/balls.png');
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
 }
