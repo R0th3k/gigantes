@@ -1,0 +1,132 @@
+---
+import { url } from '@/utils/url';
+
+interface Props {
+  image: string;
+  title: string;
+  textColor?: string;
+}
+
+const { image, title, textColor = 'white' } = Astro.props;
+---
+
+<section class="hero-inner">
+  <div class="hero-inner-slide">
+    <div class="hero-inner-image">
+      <img src={url(image)} alt={title} />
+    </div>
+    <div class="hero-inner-overlay"></div>
+    <div class="hero-inner-content">
+      <div class="container">
+        <h1 class="hero-inner-title" style={`color: ${textColor};`}>{title}</h1>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero-inner {
+    position: relative;
+    min-height: 400px;
+    overflow: hidden;
+  }
+  
+  .hero-inner-slide {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .hero-inner-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    overflow: hidden;
+  }
+  
+  .hero-inner-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+  
+  .hero-inner-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      to bottom,
+      rgba(13, 57, 99, 0.7) 0%,
+      rgba(13, 57, 99, 0.5) 50%,
+      rgba(13, 57, 99, 0.8) 100%
+    );
+    z-index: 2;
+  }
+  
+  .hero-inner-content {
+    position: relative;
+    z-index: 3;
+    width: 100%;
+    text-align: center;
+    padding: 4rem 2rem;
+  }
+  
+  .hero-inner-content .container {
+    text-align: center;
+  }
+  
+  .hero-inner-title {
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 4.5rem;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin: 0;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+    line-height: 1.1;
+  }
+  
+  @media (max-width: 991.98px) {
+    .hero-inner {
+      min-height: 350px;
+    }
+    
+    .hero-inner-slide {
+      min-height: 350px;
+    }
+    
+    .hero-inner-title {
+      font-size: 3.5rem;
+    }
+  }
+  
+  @media (max-width: 575.98px) {
+    .hero-inner {
+      min-height: 300px;
+    }
+    
+    .hero-inner-slide {
+      min-height: 300px;
+    }
+    
+    .hero-inner-title {
+      font-size: 2.5rem;
+      letter-spacing: 2px;
+    }
+    
+    .hero-inner-content {
+      padding: 3rem 1.5rem;
+    }
+  }
+</style>
+

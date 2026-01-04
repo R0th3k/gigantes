@@ -1,0 +1,598 @@
+---
+import Main from '@/layouts/Main.astro';
+import { url } from '@/utils/url';
+---
+
+<Main title="Contacto" class="contacto-section">
+  <section class="container">
+    <div class="row g-0">
+      <!-- Sección izquierda - Información de contacto -->
+      <div class="col-lg-6 contacto-info">
+        <div class="contacto-info-content">
+          <h2 class="contacto-title">CONTÁCTANOS</h2>
+          <p class="contacto-description">
+            Estamos aquí para ayudarte. Si tienes alguna pregunta, comentario o sugerencia, no dudes en ponerte en contacto con nosotros. Tu opinión es importante para nosotros y nos ayuda a mejorar continuamente.
+          </p>
+          
+          <div class="contacto-details">
+            <div class="contacto-detail-item">
+              <i class="fa-solid fa-location-dot contacto-icon"></i>
+              <div class="contacto-detail-content">
+                <span class="contacto-label">Ubicación</span>
+                <span class="contacto-value">Estadio Morelos, Aguascalientes, Aguascalientes</span>
+              </div>
+            </div>
+            
+            <div class="contacto-detail-item">
+              <i class="fa-solid fa-envelope contacto-icon"></i>
+              <div class="contacto-detail-content">
+                <span class="contacto-label">Email</span>
+                <span class="contacto-value">hola@gigantes.mx</span>
+              </div>
+            </div>
+            
+            <div class="contacto-detail-item">
+              <i class="fa-solid fa-phone contacto-icon"></i>
+              <div class="contacto-detail-content">
+                <span class="contacto-label">Teléfono</span>
+                <div class="contacto-phone-numbers">
+                  <span class="contacto-value">449 369 852 74</span>
+                  <span class="contacto-value">449 369 852 75</span>
+                  <span class="contacto-value">449 369 852 76</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="contacto-social">
+            <a href="https://www.facebook.com/GigantesDeAguascalientes?locale=es_LA" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Facebook">
+              <i class="fa-brands fa-facebook-f"></i>
+            </a>
+            <a href="https://www.instagram.com/gigantesdeaguascalientes/" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Instagram">
+              <i class="fa-brands fa-instagram"></i>
+            </a>
+            <a href="https://twitter.com/gigantesags" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Twitter">
+              <i class="fa-brands fa-twitter"></i>
+            </a>
+            <a href="https://wa.me/5244936985274" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="WhatsApp">
+              <i class="fa-brands fa-whatsapp"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Sección derecha - Formulario -->
+      <div class="col-lg-6 contacto-form-wrapper">
+        <div class="contacto-form-container">
+          <form class="contacto-form" method="POST" action="/send-mail.php" id="contacto-form">
+            <div id="form-message" class="alert d-none" role="alert"></div>
+            <div class="form-floating mb-3">
+              <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre Completo" pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+" required>
+              <label for="nombre">Nombre Completo</label>
+              <small class="form-error" id="nombre-error"></small>
+            </div>
+            
+            <div class="form-floating mb-3">
+              <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com" required>
+              <label for="email">Email</label>
+              <small class="form-error" id="email-error"></small>
+            </div>
+            
+            <div class="form-floating mb-3">
+              <input type="tel" class="form-control" id="telefono" name="telefono" placeholder="449 123 456 78" pattern="[0-9\s\-\(\)]+" required>
+              <label for="telefono">Teléfono</label>
+              <small class="form-error" id="telefono-error"></small>
+            </div>
+            
+            <div class="form-floating mb-3">
+              <textarea class="form-control" id="mensaje" name="mensaje" placeholder="Escribe tu mensaje aquí" style="height: 120px;" required></textarea>
+              <label for="mensaje">Mensaje</label>
+              <small class="form-error" id="mensaje-error"></small>
+            </div>
+            
+            <button type="submit" class="btn btn-submit">ENVIAR MENSAJE</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+</Main>
+
+<style>
+  .contacto-section {
+    min-height: calc(100vh - 200px);
+  }
+  
+  .row.g-0 {
+    margin: 0;
+    min-height: calc(100vh - 200px);
+  }
+  
+  /* Sección izquierda - Información */
+  .contacto-info {
+
+    background-size: cover;
+    background-position: center;
+    background-blend-mode: overlay;
+    padding: 4rem 3rem;
+    display: flex;
+    align-items: center;
+    position: relative;
+  }
+  
+  .contacto-info::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    
+    z-index: 1;
+  }
+  
+  .contacto-info-content {
+    position: relative;
+    z-index: 2;
+    color: white;
+    width: 100%;
+  }
+  
+  .contacto-title {
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 3.5rem;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-bottom: 2rem;
+    color: white;
+  }
+  
+  .contacto-description {
+    font-family: "Arimo", sans-serif;
+    font-size: 1.1rem;
+    line-height: 1.8;
+    margin-bottom: 3rem;
+    color: rgba(255, 255, 255, 0.9);
+  }
+  
+  .contacto-details {
+    margin-bottom: 3rem;
+  }
+  
+  .contacto-detail-item {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 2rem;
+    gap: 1.5rem;
+  }
+  
+  .contacto-icon {
+    color: var(--bs-warning);
+    font-size: 1.5rem;
+    margin-top: 0.25rem;
+    flex-shrink: 0;
+  }
+  
+  .contacto-detail-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .contacto-label {
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 1.2rem;
+    color: var(--bs-warning);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  
+  .contacto-value {
+    font-family: "Arimo", sans-serif;
+    font-size: 1rem;
+    color: white;
+  }
+  
+  .contacto-phone-numbers {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  
+  .contacto-social {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  
+  .social-icon {
+    width: 50px;
+    height: 50px;
+    border: 2px solid white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-decoration: none;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+  }
+  
+  .social-icon:hover {
+    background-color: white;
+    color: var(--bs-primary);
+    transform: translateY(-3px);
+  }
+  
+  /* Sección derecha - Formulario */
+  .contacto-form-wrapper {
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 2rem;
+  }
+  
+  .contacto-form-container {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    padding: 2.5rem;
+    width: 100%;
+    max-width: 500px;
+  }
+  
+  .contacto-form {
+    width: 100%;
+  }
+  
+  .form-floating {
+    position: relative;
+  }
+  
+  .form-floating > .form-control {
+    height: calc(3.5rem + 2px);
+    padding: 1rem 0.75rem;
+    font-family: "Arimo", sans-serif;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 0.375rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .form-floating > textarea.form-control {
+    height: 120px;
+    padding-top: 1rem;
+  }
+  
+  .form-floating > label {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    padding: 1rem 0.75rem;
+    pointer-events: none;
+    border: 1px solid transparent;
+    transform-origin: 0 0;
+    transition: opacity 0.1s ease-in-out, transform 0.1s ease-in-out;
+    font-family: "Arimo", sans-serif;
+    color: #6c757d;
+  }
+  
+  .form-floating > .form-control:focus ~ label,
+  .form-floating > .form-control:not(:placeholder-shown) ~ label {
+    opacity: 0.65;
+    transform: scale(0.85) translateY(-0.5rem) translateX(0.15rem);
+  }
+  
+  .form-control:focus {
+    outline: none;
+    border-color: var(--bs-primary);
+    box-shadow: 0 0 0 3px rgba(13, 57, 99, 0.1);
+  }
+  
+  .form-control.error {
+    border-color: #dc3545;
+  }
+  
+  .form-control.valid {
+    border-color: #28a745;
+  }
+  
+  .form-error {
+    display: block;
+    color: #dc3545;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+    min-height: 1.25rem;
+  }
+  
+  #form-message {
+    margin-bottom: 1.5rem;
+  }
+  
+  .btn-submit:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+  
+  .btn-submit {
+    width: 100%;
+    background-color: var(--bs-warning);
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 1.3rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 400;
+  }
+  
+  .btn-submit:hover {
+    background-color: #e6a200;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 180, 0, 0.4);
+  }
+  
+  @media (max-width: 991.98px) {
+    .contacto-info {
+      padding: 3rem 2rem;
+    }
+    
+    .contacto-title {
+      font-size: 2.5rem;
+    }
+    
+    .contacto-form-wrapper {
+      padding: 2rem 1.5rem;
+    }
+    
+    .contacto-form-container {
+      padding: 2rem;
+    }
+  }
+  
+  @media (max-width: 575.98px) {
+    .contacto-info {
+      padding: 2rem 1.5rem;
+    }
+    
+    .contacto-title {
+      font-size: 2rem;
+      letter-spacing: 2px;
+    }
+    
+    .contacto-description {
+      font-size: 1rem;
+    }
+    
+    .contacto-form-container {
+      padding: 1.5rem;
+    }
+    
+    .contacto-detail-item {
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    
+    .contacto-phone-numbers {
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const form = document.querySelector('.contacto-form');
+    const nombreInput = document.getElementById('nombre');
+    const emailInput = document.getElementById('email');
+    const telefonoInput = document.getElementById('telefono');
+    const mensajeInput = document.getElementById('mensaje');
+    
+    // Función para validar email
+    function validateEmail(email) {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return emailRegex.test(email);
+    }
+    
+    // Función para validar teléfono (solo números, espacios, guiones y paréntesis)
+    function validatePhone(phone) {
+      const phoneRegex = /^[0-9\s\-\(\)]+$/;
+      return phoneRegex.test(phone) && phone.replace(/\D/g, '').length >= 10;
+    }
+    
+    // Función para validar nombre (solo letras y espacios)
+    function validateName(name) {
+      const nameRegex = /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/;
+      return nameRegex.test(name) && name.trim().length >= 2;
+    }
+    
+    // Función para mostrar error
+    function showError(input, errorId, message) {
+      input.classList.add('error');
+      input.classList.remove('valid');
+      const errorElement = document.getElementById(errorId);
+      if (errorElement) {
+        errorElement.textContent = message;
+      }
+    }
+    
+    // Función para mostrar éxito
+    function showSuccess(input, errorId) {
+      input.classList.add('valid');
+      input.classList.remove('error');
+      const errorElement = document.getElementById(errorId);
+      if (errorElement) {
+        errorElement.textContent = '';
+      }
+    }
+    
+    // Validación en tiempo real para nombre
+    nombreInput.addEventListener('input', () => {
+      const value = nombreInput.value.trim();
+      if (value === '') {
+        showError(nombreInput, 'nombre-error', 'El nombre es requerido');
+      } else if (!validateName(value)) {
+        showError(nombreInput, 'nombre-error', 'El nombre solo debe contener letras y espacios');
+      } else {
+        showSuccess(nombreInput, 'nombre-error');
+      }
+    });
+    
+    // Validación en tiempo real para email
+    emailInput.addEventListener('input', () => {
+      const value = emailInput.value.trim();
+      if (value === '') {
+        showError(emailInput, 'email-error', 'El email es requerido');
+      } else if (!validateEmail(value)) {
+        showError(emailInput, 'email-error', 'Ingresa un email válido');
+      } else {
+        showSuccess(emailInput, 'email-error');
+      }
+    });
+    
+    // Validación en tiempo real para teléfono (solo números mientras escribe)
+    telefonoInput.addEventListener('input', (e) => {
+      // Permitir solo números, espacios, guiones y paréntesis
+      let value = e.target.value.replace(/[^0-9\s\-\(\)]/g, '');
+      e.target.value = value;
+      
+      if (value === '') {
+        showError(telefonoInput, 'telefono-error', 'El teléfono es requerido');
+      } else if (!validatePhone(value)) {
+        showError(telefonoInput, 'telefono-error', 'Ingresa un teléfono válido (mínimo 10 dígitos)');
+      } else {
+        showSuccess(telefonoInput, 'telefono-error');
+      }
+    });
+    
+    // Validación en tiempo real para mensaje
+    mensajeInput.addEventListener('input', () => {
+      const value = mensajeInput.value.trim();
+      if (value === '') {
+        showError(mensajeInput, 'mensaje-error', 'El mensaje es requerido');
+      } else if (value.length < 10) {
+        showError(mensajeInput, 'mensaje-error', 'El mensaje debe tener al menos 10 caracteres');
+      } else {
+        showSuccess(mensajeInput, 'mensaje-error');
+      }
+    });
+    
+    // Función para mostrar mensaje del formulario
+    function showFormMessage(message, type = 'success') {
+      const messageDiv = document.getElementById('form-message');
+      if (messageDiv) {
+        messageDiv.className = `alert alert-${type === 'success' ? 'success' : 'danger'} d-block`;
+        messageDiv.textContent = message;
+        messageDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        
+        // Ocultar mensaje después de 5 segundos si es éxito
+        if (type === 'success') {
+          setTimeout(() => {
+            messageDiv.classList.add('d-none');
+          }, 5000);
+        }
+      }
+    }
+    
+    // Validación y envío del formulario
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      let isValid = true;
+      
+      // Validar nombre
+      if (!validateName(nombreInput.value.trim())) {
+        showError(nombreInput, 'nombre-error', 'El nombre es requerido y solo debe contener letras');
+        isValid = false;
+      }
+      
+      // Validar email
+      if (!validateEmail(emailInput.value.trim())) {
+        showError(emailInput, 'email-error', 'Ingresa un email válido');
+        isValid = false;
+      }
+      
+      // Validar teléfono
+      if (!validatePhone(telefonoInput.value.trim())) {
+        showError(telefonoInput, 'telefono-error', 'Ingresa un teléfono válido (mínimo 10 dígitos)');
+        isValid = false;
+      }
+      
+      // Validar mensaje
+      if (mensajeInput.value.trim().length < 10) {
+        showError(mensajeInput, 'mensaje-error', 'El mensaje debe tener al menos 10 caracteres');
+        isValid = false;
+      }
+      
+      if (!isValid) {
+        // Scroll al primer error
+        const firstError = form.querySelector('.error');
+        if (firstError) {
+          firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          firstError.focus();
+        }
+        return;
+      }
+      
+      // Deshabilitar botón de envío
+      const submitBtn = form.querySelector('.btn-submit');
+      const originalText = submitBtn.textContent;
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Enviando...';
+      
+      // Preparar datos del formulario
+      const formData = new FormData(form);
+      
+      try {
+        // Enviar datos mediante AJAX
+        const response = await fetch('/send-mail.php', {
+          method: 'POST',
+          body: formData
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+          // Mostrar mensaje de éxito
+          showFormMessage(result.message, 'success');
+          // Limpiar formulario
+          form.reset();
+          // Remover clases de validación
+          form.querySelectorAll('.form-control').forEach(input => {
+            input.classList.remove('error', 'valid');
+          });
+          form.querySelectorAll('.form-error').forEach(error => {
+            error.textContent = '';
+          });
+        } else {
+          // Mostrar mensaje de error
+          showFormMessage(result.message || 'Error al enviar el mensaje. Por favor, intenta nuevamente.', 'error');
+          
+          // Si hay errores específicos, mostrarlos
+          if (result.errors && Array.isArray(result.errors)) {
+            result.errors.forEach((errorMsg, index) => {
+              // Intentar asociar errores a campos específicos si es posible
+              console.error('Error:', errorMsg);
+            });
+          }
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        showFormMessage('Error de conexión. Por favor, verifica tu conexión a internet e intenta nuevamente.', 'error');
+      } finally {
+        // Rehabilitar botón
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalText;
+      }
+    });
+  });
+</script>
+
