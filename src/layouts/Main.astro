@@ -2,6 +2,7 @@
 import Navbar from "@/components/Navbar.astro";
 import BaseHead from "@/components/BaseHead.astro";
 import Footer from "@/components/Footer.astro";
+import Loader from "@/components/Loader.astro";
 
 interface Props {
   title?: string;
@@ -28,6 +29,7 @@ const pageImage = image || '/blog-placeholder-1.jpg';
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
 	</head>
     <body>
+        <Loader />
         <Navbar />
 
         <main>
