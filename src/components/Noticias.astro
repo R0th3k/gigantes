@@ -1,0 +1,193 @@
+---
+import { getCollection } from 'astro:content';
+import { url } from '@/utils/url';
+import { paginate } from '@/utils/content';
+
+interface Props {
+  cantidad?: number;
+}
+
+const { cantidad = 3 } = Astro.props;
+
+// Obtener todos los posts ordenados por fecha
+const allPosts = (await getCollection('blog')).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+
+// Si hay más de 12 posts, usar paginación
+const totalPosts = allPosts.length;
+const needsPagination = totalPosts > 12;
+
+let postsToShow;
+let pagination = null;
+let paginationPages: (number | string)[] = [];
+
+if (needsPagination) {
+  // Obtener el número de página de la URL (query param)
+  const currentPage = Number(Astro.url.searchParams.get('page') || '1');
+  const paginated = paginate(allPosts, currentPage, cantidad);
+  
+  postsToShow = paginated.items;
+  pagination = {
+    current: paginated.page,
+    total: paginated.pages,
+    hasPrev: paginated.hasPrev,
+    hasNext: paginated.hasNext,
+  };
+  
+  // Generar array de páginas para mostrar
+  const showEllipsis = pagination.total > 7;
+  
+  if (!showEllipsis) {
+    // Si hay pocas páginas, mostrar todas
+    for (let i = 1; i <= pagination.total; i++) {
+      paginationPages.push(i);
+    }
+  } else {
+    // Mostrar primera página
+    paginationPages.push(1);
+    
+    if (pagination.current <= 4) {
+      // Cerca del inicio: mostrar primeras páginas
+      for (let i = 2; i <= 5; i++) {
+        paginationPages.push(i);
+      }
+      paginationPages.push('ellipsis');
+      paginationPages.push(pagination.total);
+    } else if (pagination.current >= pagination.total - 3) {
+      // Cerca del final: mostrar últimas páginas
+      paginationPages.push('ellipsis');
+      for (let i = pagination.total - 4; i <= pagination.total; i++) {
+        paginationPages.push(i);
+      }
+    } else {
+      // En el medio: mostrar páginas alrededor de la actual
+      paginationPages.push('ellipsis');
+      for (let i = pagination.current - 1; i <= pagination.current + 1; i++) {
+        paginationPages.push(i);
+      }
+      paginationPages.push('ellipsis');
+      paginationPages.push(pagination.total);
+    }
+  }
+} else {
+  // Si no necesita paginación, solo mostrar la cantidad solicitada
+  postsToShow = allPosts.slice(0, cantidad);
+}
+---
+
+<div class="noticias-container">
+  <div class="row g-4">
+    {postsToShow.map((post) => (
+      <div class="col-md-4">
+        <div class="noticia-card p-3">
+          <div class="noticia-image">
+            <img class="br-10"
+              src={url(post.data.heroImage || '/blog-placeholder-1.jpg')}
+              alt={post.data.title}
+              loading="lazy"
+            />
+          </div>
+          <div class="noticia-content">
+            <h3 class="noticia-title">{post.data.title}</h3>
+            <p class="noticia-description">{post.data.description}</p>
+            <a href={url(`/blog/${post.id}/`)} class="noticia-btn">VER NOTA COMPLETA</a>
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+  
+  {pagination && (
+    <nav class="noticias-pagination mt-5" aria-label="Paginación de noticias">
+      <ul class="pagination justify-content-center">
+        {pagination.hasPrev && (
+          <li class="page-item">
+            <a 
+              class="page-link" 
+              href={`?page=${pagination.current - 1}`}
+              aria-label="Anterior"
+            >
+              <span aria-hidden="true">&laquo;</span>
+            </a>
+          </li>
+        )}
+        
+        {paginationPages.map((pageNum) => {
+          if (pageNum === 'ellipsis') {
+            return (
+              <li class="page-item disabled">
+                <span class="page-link">...</span>
+              </li>
+            );
+          }
+          
+          return (
+            <li class={`page-item ${pageNum === pagination.current ? 'active' : ''}`}>
+              <a 
+                class="page-link" 
+                href={`?page=${pageNum}`}
+              >
+                {pageNum}
+              </a>
+            </li>
+          );
+        })}
+        
+        {pagination.hasNext && (
+          <li class="page-item">
+            <a 
+              class="page-link" 
+              href={`?page=${pagination.current + 1}`}
+              aria-label="Siguiente"
+            >
+              <span aria-hidden="true">&raquo;</span>
+            </a>
+          </li>
+        )}
+      </ul>
+    </nav>
+  )}
+</div>
+
+<style>
+  .noticias-pagination {
+    .pagination {
+      .page-link {
+        color: #0D3963;
+      
+        padding: 0.5rem 1rem;
+        transition: all 0.3s ease;
+        
+        &:hover {
+          background-color: #B8D4E3;
+          color: #0D3963;
+        
+        }
+      }
+      
+      .page-item.active .page-link {
+        background-color: #FFB400;
+        border-color: #FFB400;
+        color: white;
+      }
+      
+      .page-item.disabled .page-link {
+        color: #6c757d;
+        pointer-events: none;
+        background-color: transparent;
+        border-color: #B8D4E3;
+      }
+    }
+    
+  }
+  .br-10{
+      border-radius: 10px;
+      overflow: hidden;
+    }
+  .br-10:hover{
+    border-radius: 10px!important;
+  }
+</style>
+
+

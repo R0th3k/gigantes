@@ -1,0 +1,125 @@
+.noticias {
+  background-color: #E8F4F8 !important;
+  
+  h2 {
+    color: #0D3963;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+  
+  .noticia-card {
+    background: white;
+    border-radius: 15px;
+  
+    overflow: hidden;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    }
+  }
+  
+  .noticia-image {
+    width: 100%;
+    height: 250px;
+    overflow: hidden;
+    
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+    
+    &:hover img {
+      transform: scale(1.05);
+    }
+  }
+  
+  .noticia-content {
+    padding: 1.5rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .noticia-title {
+    color: #0D3963;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    line-height: 1.3;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  
+  .noticia-description {
+    color: #4A4A4A;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    flex-grow: 1;
+  }
+  
+  .noticia-btn {
+    display: inline-block;
+    background-color: #FFB400;
+    color: var(--bs-primary);
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    text-align: center;
+    font-family: "Bebas Neue", sans-serif;
+    letter-spacing: 1px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    align-self: flex-start;
+    width: 100%;
+    &:hover {
+      background-color: #E5A200;
+      transform: translateY(-2px);
+      color: white;
+    }
+  }
+  
+  @media (max-width: 991.98px) {
+    .noticia-image {
+      height: 200px;
+    }
+    
+    .noticia-title {
+      font-size: 1.1rem;
+    }
+    
+    .noticia-description {
+      font-size: 0.9rem;
+    }
+  }
+  
+  @media (max-width: 575.98px) {
+    .noticia-image {
+      height: 180px;
+    }
+    
+    .noticia-content {
+      padding: 1.25rem;
+    }
+    
+    .noticia-title {
+      font-size: 1rem;
+    }
+    
+    .noticia-description {
+      font-size: 0.85rem;
+    }
+    
+    .noticia-btn {
+      padding: 0.65rem 1.25rem;
+      font-size: 0.9rem;
+    }
+  }
+}
+

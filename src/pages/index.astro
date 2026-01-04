@@ -2,16 +2,24 @@
 import Main from "@/layouts/Main.astro";
 import Hero from "@/components/Hero.astro";
 import PartidosProximos from "@/components/PartidosProximos.vue";
-import { url } from "@/utils/url";
+import Noticias from "@/components/Noticias.astro";
 ---
 
 <Main title="Inicio" class="main-content">
+
   <Hero />
   
   <section class="section partidos-proximos py-5 bg-balls">
     <div class="container">
       <h2 class="text-warning text-center pb-3">Partidos Próximos</h2>
       <PartidosProximos client:load cantidad={6} />
+    </div>
+  </section>
+
+  <section class="section noticias py-5 bg-light">
+    <div class="container">
+      <h2 class="text-primary text-center pb-3">NOTICIAS</h2>
+      <Noticias cantidad={3} />
     </div>
   </section>
 
