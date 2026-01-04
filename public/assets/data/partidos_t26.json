@@ -1,72 +1,92 @@
 [
   {
-    "fecha": "2026-01-15",
+    "fecha": "2026-01-01",
     "hora": "20:00",
     "equipo_local": "Gigantes",
+    "puntos_local": 2,
     "equipo_visitante": "Orizaba",
+    "puntos_visitante": 1,
     "sede": "Estadio Morelos, Aguascalientes"
   },
   {
-    "fecha": "2026-01-18",
+    "fecha": "2026-01-02",
     "hora": "19:30",
     "equipo_local": "Leones de Yucatán",
+    "puntos_local": 5,
     "equipo_visitante": "Gigantes",
+    "puntos_visitante": 6,
     "sede": "Estadio Kukulcán, Mérida"
   },
   {
-    "fecha": "2026-01-22",
-    "hora": "20:00",
+    "fecha": "2026-01-03",
+    "hora": "16:00",
     "equipo_local": "Gigantes",
+    "puntos_local": 9,
     "equipo_visitante": "Toros de Tijuana",
+    "puntos_visitante": 15,
     "sede": "Estadio Morelos, Aguascalientes"
   },
   {
     "fecha": "2026-01-25",
     "hora": "18:00",
     "equipo_local": "Sultanes de Monterrey",
+    "puntos_local": null,
     "equipo_visitante": "Gigantes",
+    "puntos_visitante": null,
     "sede": "Estadio Mobil Super, Monterrey"
   },
   {
     "fecha": "2026-01-28",
     "hora": "20:00",
     "equipo_local": "Gigantes",
+    "puntos_local": null,
     "equipo_visitante": "Orizaba",
+    "puntos_visitante": null,
     "sede": "Estadio Morelos, Aguascalientes"
   },
   {
     "fecha": "2026-02-01",
     "hora": "19:00",
     "equipo_local": "Diablos Rojos del México",
+    "puntos_local": null,
     "equipo_visitante": "Gigantes",
+    "puntos_visitante": null,
     "sede": "Estadio Fray Nano, Ciudad de México"
   },
   {
     "fecha": "2026-02-05",
     "hora": "20:00",
     "equipo_local": "Gigantes",
+    "puntos_local": null,
     "equipo_visitante": "Acereros del Norte",
+    "puntos_visitante": null,
     "sede": "Estadio Morelos, Aguascalientes"
   },
   {
     "fecha": "2026-02-08",
     "hora": "19:30",
     "equipo_local": "Orizaba",
+    "puntos_local": null,
     "equipo_visitante": "Gigantes",
+    "puntos_visitante": null,
     "sede": "Estadio Socum, Orizaba"
   },
   {
     "fecha": "2026-02-12",
     "hora": "20:00",
     "equipo_local": "Gigantes",
+    "puntos_local": null,
     "equipo_visitante": "Tigres de Quintana Roo",
+    "puntos_visitante": null,
     "sede": "Estadio Morelos, Aguascalientes"
   },
   {
     "fecha": "2026-02-15",
     "hora": "18:30",
     "equipo_local": "Guerreros de Oaxaca",
+    "puntos_local": null,
     "equipo_visitante": "Gigantes",
+    "puntos_visitante": null,
     "sede": "Estadio Eduardo Vasconcelos, Oaxaca"
   }
 ]

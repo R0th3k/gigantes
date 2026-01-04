@@ -1,7 +1,7 @@
 ---
 import Main from "@/layouts/Main.astro";
 import Hero from "@/components/Hero.astro";
-import PartidosProximos from "@/components/PartidosProximos.vue";
+import Partidos from "@/components/Partidos.vue";
 import Noticias from "@/components/Noticias.astro";
 import Image from "@/components/Image.astro";
 ---
@@ -13,7 +13,7 @@ import Image from "@/components/Image.astro";
   <section class="section partidos-proximos py-5 bg-balls">
     <div class="container">
       <h2 class="text-warning text-center pb-3">Partidos Próximos</h2>
-      <PartidosProximos client:load cantidad={6} />
+      <Partidos proximos={true} anteriores={false} client:load cantidad={} />
     </div>
   </section>
 
@@ -43,6 +43,13 @@ import Image from "@/components/Image.astro";
         </div>
       </div>
       
+    </div>
+  </section>
+
+  <section class="section partidos-anteriores py-5 bg-strokes">
+    <div class="container">
+      <h2 class="text-warning text-center pb-3">Partidos Jugados</h2>
+      <Partidos proximos={false} anteriores={true} client:load cantidad={6} />
     </div>
   </section>
 

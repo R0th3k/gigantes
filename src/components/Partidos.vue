@@ -35,6 +35,9 @@
                     />
                   </div>
                   <div class="equipo-nombre">{{ partido.equipo_local }}</div>
+                  <div v-if="yaPaso(partido)" class="equipo-puntos">
+                    {{ partido.puntos_local !== null ? partido.puntos_local : '-' }}
+                  </div>
                 </div>
                 
                 <div class="vs">VS</div>
@@ -48,6 +51,9 @@
                     />
                   </div>
                   <div class="equipo-nombre">{{ partido.equipo_visitante }}</div>
+                  <div v-if="yaPaso(partido)" class="equipo-puntos">
+                    {{ partido.puntos_visitante !== null ? partido.puntos_visitante : '-' }}
+                  </div>
                 </div>
               </div>
               
@@ -73,16 +79,56 @@ const props = defineProps({
   cantidad: {
     type: Number,
     default: 6
+  },
+  proximos: {
+    type: Boolean,
+    default: false
+  },
+  anteriores: {
+    type: Boolean,
+    default: false
   }
 });
+
+// Validar que solo una prop esté activa
+if (props.proximos && props.anteriores) {
+  console.warn('PartidosProximos: No se pueden usar "proximos" y "anteriores" al mismo tiempo. Se usará "proximos" por defecto.');
+}
 
 const partidos = ref([]);
 const loading = ref(true);
 const error = ref(false);
 const swiperInstance = ref(null);
 
+// Función para verificar si un partido ya pasó
+const yaPaso = (partido) => {
+  const ahora = new Date();
+  const fechaHoraPartido = new Date(`${partido.fecha}T${partido.hora}:00`);
+  return fechaHoraPartido < ahora;
+};
+
+// Función para verificar si un partido es futuro
+const esFuturo = (partido) => {
+  const ahora = new Date();
+  const fechaHoraPartido = new Date(`${partido.fecha}T${partido.hora}:00`);
+  return fechaHoraPartido >= ahora;
+};
+
+const partidosFiltrados = computed(() => {
+  let partidosFiltrados = partidos.value;
+  
+  // Filtrar según la prop activa
+  if (props.proximos && !props.anteriores) {
+    partidosFiltrados = partidos.value.filter(esFuturo);
+  } else if (props.anteriores && !props.proximos) {
+    partidosFiltrados = partidos.value.filter(yaPaso);
+  }
+  
+  return partidosFiltrados;
+});
+
 const partidosLimitados = computed(() => {
-  return partidos.value.slice(0, props.cantidad);
+  return partidosFiltrados.value.slice(0, props.cantidad);
 });
 
 const cargarPartidos = async () => {
@@ -95,7 +141,7 @@ const cargarPartidos = async () => {
       await loadScript('https://cdn.jsdelivr.net/npm/axios@1.6.0/dist/axios.min.js');
     }
     
-    const response = await axios.get('/assets/data/partidos_proximos_t26.json');
+    const response = await axios.get('/assets/data/partidos_t26.json');
     partidos.value = response.data;
   } catch (err) {
     console.error('Error al cargar partidos:', err);
@@ -173,8 +219,8 @@ const initSwiperInstance = () => {
   });
 };
 
-watch(() => partidos.value.length, () => {
-  if (partidos.value.length > 0) {
+watch(() => partidosLimitados.value.length, () => {
+  if (partidosLimitados.value.length > 0) {
     setTimeout(() => {
       initSwiper();
     }, 100);
@@ -195,10 +241,6 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.partidos-proximos {
-
-}
-
 .section-title {
   font-family: "Bebas Neue", sans-serif;
   font-size: 3rem;
@@ -282,6 +324,15 @@ background: radial-gradient(circle,rgba(30, 115, 168, 1) 0%, rgba(13, 57, 99, 1)
   text-align: center;
   text-transform: uppercase;
   letter-spacing: 1px;
+}
+
+.equipo-puntos {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--bs-warning);
+  margin-top: 0.5rem;
+  text-align: center;
 }
 
 .vs {
