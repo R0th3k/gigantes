@@ -1,0 +1,60 @@
+---
+import Main from '@/layouts/Main.astro';
+import { url } from '@/utils/url';
+---
+
+<Main title="Página no encontrada">
+  <section class="py-5">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-8 text-center">
+          <div class="error-404">
+            <h1 class="display-1 fw-bold text-primary mb-4">404</h1>
+            <h2 class="h3 mb-4">Página no encontrada</h2>
+            <p class="lead mb-4">
+              Lo sentimos, la página que estás buscando no existe o ha sido movida.
+            </p>
+            <div class="d-flex gap-3 justify-content-center flex-wrap">
+              <a href={url('/')} class="btn btn-primary btn-lg">
+                <i class="fas fa-home me-2"></i>Ir al Inicio
+              </a>
+              <a href={url('/blog/')} class="btn btn-outline-primary btn-lg">
+                <i class="fas fa-newspaper me-2"></i>Ver Blog
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Main>
+
+<style>
+  .error-404 {
+    padding: 3rem 0;
+  }
+  
+  .error-404 h1 {
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 8rem;
+    line-height: 1;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .error-404 h2 {
+    font-family: "Bebas Neue", sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+  
+  @media (max-width: 767.98px) {
+    .error-404 h1 {
+      font-size: 5rem;
+    }
+    
+    .error-404 {
+      padding: 2rem 0;
+    }
+  }
+</style>
+

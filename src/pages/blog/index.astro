@@ -1,58 +1,13 @@
 ---
-import BaseHead from '../../components/BaseHead.astro';
-import Navbar from '../../components/Navbar.astro';
-import Footer from '../../components/Footer.astro';
-import { SITE_TITLE, SITE_DESCRIPTION } from '../../consts';
-import { getCollection } from 'astro:content';
-import FormattedDate from '../../components/FormattedDate.astro';
-import { url } from '@/utils/url';
-
-const posts = (await getCollection('blog')).sort(
-  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
-);
+import Main from '@/layouts/Main.astro';
+import Noticias from '@/components/Noticias.astro';
 ---
 
-<!doctype html>
-<html lang="es">
-  <head>
-    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-  </head>
-  <body>
-    <Navbar />
-
-    <main class="container my-5">
-      <section>
-        <div class="row g-4">
-          {
-            posts.map((post) => (
-              <div class="col-md-6 col-lg-4">
-                <a href={url(`/blog/${post.id}/`)} class="text-decoration-none text-dark">
-                  <div class="card h-100 shadow-sm">
-                    <img
-                      src={url(post.data.heroImage || '/blog-placeholder-1.jpg')}
-                      class="card-img-top"
-                      alt={post.data.title}
-                      width={720}
-                      height={360}
-                      loading="lazy"
-                    />
-                    <div class="card-body">
-                      <h5 class="card-title">{post.data.title}</h5>
-                      <p class="card-text">
-                        <small class="text-muted">
-                          <FormattedDate date={post.data.pubDate} />
-                        </small>
-                      </p>
-                    </div>
-                  </div>
-                </a>
-              </div>
-            ))
-          }
-        </div>
-      </section>
-    </main>
-
-    <Footer />
-  </body>
-</html>
+<Main title="Blog">
+  <section class="section noticias py-5 bg-light">
+    <div class="container">
+      <h2 class="text-primary text-center pb-3">NOTICIAS</h2>
+      <Noticias cantidad={12} />
+    </div>
+  </section>
+</Main>
