@@ -1,0 +1,362 @@
+<template>
+  <section class="partidos-proximos">
+    <div class="container">
+      
+      
+      <div v-if="loading" class="text-center py-5">
+        <p>Cargando partidos...</p>
+      </div>
+      
+      <div v-else-if="error" class="text-center py-5">
+        <p class="text-danger">Error al cargar los partidos</p>
+      </div>
+      
+      <div v-else class="swiper partidos-swiper">
+        <div class="swiper-wrapper">
+          <div 
+            v-for="(partido, index) in partidosLimitados" 
+            :key="index"
+            class="swiper-slide"
+          >
+            <div class="partido-card">
+              <div class="partido-header">
+                <div class="partido-fecha">
+                  {{ formatearFecha(partido.fecha) }}, {{ partido.hora }} Hrs
+                </div>
+              </div>
+              
+              <div class="partido-content">
+                <div class="equipo equipo-local">
+                  <div class="equipo-logo">
+                    <img 
+                      :src="getLogoUrl(partido.equipo_local)" 
+                      :alt="partido.equipo_local"
+                      @error="handleImageError"
+                    />
+                  </div>
+                  <div class="equipo-nombre">{{ partido.equipo_local }}</div>
+                </div>
+                
+                <div class="vs">VS</div>
+                
+                <div class="equipo equipo-visitante">
+                  <div class="equipo-logo">
+                    <img 
+                      :src="getLogoUrl(partido.equipo_visitante)" 
+                      :alt="partido.equipo_visitante"
+                      @error="handleImageError"
+                    />
+                  </div>
+                  <div class="equipo-nombre">{{ partido.equipo_visitante }}</div>
+                </div>
+              </div>
+              
+              <div class="partido-footer">
+                <div class="partido-sede">{{ partido.sede }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="swiper-pagination"></div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+      </div>
+    </div>
+  </section>
+</template>
+
+<script setup>
+import { ref, computed, onMounted, watch } from 'vue';
+
+const props = defineProps({
+  cantidad: {
+    type: Number,
+    default: 6
+  }
+});
+
+const partidos = ref([]);
+const loading = ref(true);
+const error = ref(false);
+const swiperInstance = ref(null);
+
+const partidosLimitados = computed(() => {
+  return partidos.value.slice(0, props.cantidad);
+});
+
+const cargarPartidos = async () => {
+  try {
+    loading.value = true;
+    error.value = false;
+    
+    // Cargar axios desde CDN si no está disponible
+    if (typeof axios === 'undefined') {
+      await loadScript('https://cdn.jsdelivr.net/npm/axios@1.6.0/dist/axios.min.js');
+    }
+    
+    const response = await axios.get('/assets/data/partidos_proximos_t26.json');
+    partidos.value = response.data;
+  } catch (err) {
+    console.error('Error al cargar partidos:', err);
+    error.value = true;
+  } finally {
+    loading.value = false;
+  }
+};
+
+const loadScript = (src) => {
+  return new Promise((resolve, reject) => {
+    const script = document.createElement('script');
+    script.src = src;
+    script.onload = resolve;
+    script.onerror = reject;
+    document.head.appendChild(script);
+  });
+};
+
+const formatearFecha = (fecha) => {
+  const date = new Date(fecha);
+  const meses = [
+    'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
+    'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'
+  ];
+  return `${date.getDate()} de ${meses[date.getMonth()]} ${date.getFullYear()}`;
+};
+
+const getLogoUrl = (equipo) => {
+  // Si es Gigantes, usar el logo de Gigantes
+  if (equipo.toLowerCase().includes('gigantes')) {
+    return '/assets/images/logo_gigates.svg';
+  }
+  // Para otros equipos, podrías tener logos específicos o un placeholder
+  return '/assets/images/logo.svg';
+};
+
+const handleImageError = (event) => {
+  event.target.src = '/assets/images/logo.svg';
+};
+
+const initSwiper = () => {
+  if (typeof Swiper === 'undefined') {
+    loadScript('https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js').then(() => {
+      initSwiperInstance();
+    });
+  } else {
+    initSwiperInstance();
+  }
+};
+
+const initSwiperInstance = () => {
+  if (swiperInstance.value) {
+    swiperInstance.value.destroy();
+  }
+  
+  swiperInstance.value = new Swiper('.partidos-swiper', {
+    slidesPerView: 1,
+    spaceBetween: 20,
+    loop: false,
+    pagination: {
+      el: '.swiper-pagination',
+      clickable: true,
+    },
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev',
+    },
+    breakpoints: {
+      768: {
+        slidesPerView: 2,
+        spaceBetween: 30,
+      },
+    },
+  });
+};
+
+watch(() => partidos.value.length, () => {
+  if (partidos.value.length > 0) {
+    setTimeout(() => {
+      initSwiper();
+    }, 100);
+  }
+});
+
+onMounted(() => {
+  // Cargar CSS de Swiper
+  if (!document.querySelector('link[href*="swiper"]')) {
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css';
+    document.head.appendChild(link);
+  }
+  
+  cargarPartidos();
+});
+</script>
+
+<style scoped>
+.partidos-proximos {
+
+}
+
+.section-title {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 3rem;
+  text-transform: uppercase;
+  text-align: center;
+  margin-bottom: 3rem;
+  color: var(--bs-primary);
+  letter-spacing: 2px;
+}
+
+.partidos-swiper {
+  padding-bottom: 50px;
+}
+
+.partido-card {
+  background: var(--bs-primary);
+background: radial-gradient(circle,rgba(30, 115, 168, 1) 0%, rgba(13, 57, 99, 1) 50%);
+  border-radius: 12px;
+  border: 1px solid #185E8F;
+  padding: 2rem;
+  color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.partido-card:hover {
+  
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+}
+
+.partido-header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.partido-fecha {
+  font-family: "Arimo", sans-serif;
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+.partido-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 2rem 0;
+  gap: 1rem;
+}
+
+.equipo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.equipo-logo {
+  width: 100px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  padding: 10px;
+}
+
+.equipo-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.equipo-nombre {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 1.2rem;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.vs {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--bs-warning);
+  padding: 0 1rem;
+}
+
+.partido-footer {
+  text-align: center;
+  margin-top: auto;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.partido-sede {
+  font-family: "Arimo", sans-serif;
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+.swiper-pagination {
+  bottom: 0 !important;
+}
+
+.swiper-pagination-bullet {
+  background: var(--bs-primary);
+  opacity: 0.5;
+}
+
+.swiper-pagination-bullet-active {
+  opacity: 1;
+  background: var(--bs-warning);
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+  color: var(--bs-primary);
+}
+
+.swiper-button-next:after,
+.swiper-button-prev:after {
+  font-size: 24px;
+}
+
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+  color: var(--bs-warning);
+}
+
+@media (max-width: 767.98px) {
+  .section-title {
+    font-size: 2rem;
+  }
+  
+  .partido-content {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  .vs {
+    font-size: 1.5rem;
+    padding: 0.5rem 0;
+  }
+  
+  .equipo-logo {
+    width: 80px;
+    height: 80px;
+  }
+  
+  .equipo-nombre {
+    font-size: 1rem;
+  }
+}
+</style>
+

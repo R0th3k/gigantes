@@ -1,0 +1,73 @@
+[
+  {
+    "fecha": "2026-01-15",
+    "hora": "20:00",
+    "equipo_local": "Gigantes",
+    "equipo_visitante": "Orizaba",
+    "sede": "Estadio Morelos, Aguascalientes"
+  },
+  {
+    "fecha": "2026-01-18",
+    "hora": "19:30",
+    "equipo_local": "Leones de Yucatán",
+    "equipo_visitante": "Gigantes",
+    "sede": "Estadio Kukulcán, Mérida"
+  },
+  {
+    "fecha": "2026-01-22",
+    "hora": "20:00",
+    "equipo_local": "Gigantes",
+    "equipo_visitante": "Toros de Tijuana",
+    "sede": "Estadio Morelos, Aguascalientes"
+  },
+  {
+    "fecha": "2026-01-25",
+    "hora": "18:00",
+    "equipo_local": "Sultanes de Monterrey",
+    "equipo_visitante": "Gigantes",
+    "sede": "Estadio Mobil Super, Monterrey"
+  },
+  {
+    "fecha": "2026-01-28",
+    "hora": "20:00",
+    "equipo_local": "Gigantes",
+    "equipo_visitante": "Orizaba",
+    "sede": "Estadio Morelos, Aguascalientes"
+  },
+  {
+    "fecha": "2026-02-01",
+    "hora": "19:00",
+    "equipo_local": "Diablos Rojos del México",
+    "equipo_visitante": "Gigantes",
+    "sede": "Estadio Fray Nano, Ciudad de México"
+  },
+  {
+    "fecha": "2026-02-05",
+    "hora": "20:00",
+    "equipo_local": "Gigantes",
+    "equipo_visitante": "Acereros del Norte",
+    "sede": "Estadio Morelos, Aguascalientes"
+  },
+  {
+    "fecha": "2026-02-08",
+    "hora": "19:30",
+    "equipo_local": "Orizaba",
+    "equipo_visitante": "Gigantes",
+    "sede": "Estadio Socum, Orizaba"
+  },
+  {
+    "fecha": "2026-02-12",
+    "hora": "20:00",
+    "equipo_local": "Gigantes",
+    "equipo_visitante": "Tigres de Quintana Roo",
+    "sede": "Estadio Morelos, Aguascalientes"
+  },
+  {
+    "fecha": "2026-02-15",
+    "hora": "18:30",
+    "equipo_local": "Guerreros de Oaxaca",
+    "equipo_visitante": "Gigantes",
+    "sede": "Estadio Eduardo Vasconcelos, Oaxaca"
+  }
+]
+
