@@ -1,8 +1,10 @@
     ---
     const sections: Array<{ name: string; href: string; isAnchor?: boolean; external?: boolean }> = [
       { name: "Inicio", href: "/" },
+      { name: "Resultados", href: "/resultados" },
       { name: "Tienda", href: "/tienda" },
       { name: "Noticias", href: "/blog" },
+      { name: "Galería", href: "/galeria" },
       { name: "Contacto", href: "/contacto" },
     ];
     import { SITE_TITLE } from '@/consts';
@@ -15,10 +17,10 @@
         <div class="top-bar"></div>
         <div class="container">
             <div class="navbar-content">
-                <!-- Enlaces izquierda: Inicio, Tienda -->
+                <!-- Enlaces izquierda: Inicio, Resultados, Tienda -->
                 <div class="navbar-links-left">
                     <ul class="navbar-nav">
-                        {sections.slice(0, 2).map((section) => (
+                        {sections.slice(0, 3).map((section) => (
                             <li class="nav-item">
                                 <a
                                     class={`nav-link ${(
@@ -41,10 +43,10 @@
                     </a>
                 </div>
                 
-                <!-- Enlaces derecha: Noticias, Contacto -->
+                <!-- Enlaces derecha: Noticias, Galería, Contacto -->
                 <div class="navbar-links-right">
                     <ul class="navbar-nav">
-                        {sections.slice(2).map((section) => (
+                        {sections.slice(3).map((section) => (
                             <li class="nav-item">
                                 <a
                                     class={`nav-link ${(

@@ -3,99 +3,101 @@ import Main from '@/layouts/Main.astro';
 import { url } from '@/utils/url';
 ---
 
-<Main title="Contacto" class="contacto-section">
-  <section class="container">
-    <div class="row g-0">
-      <!-- Sección izquierda - Información de contacto -->
-      <div class="col-lg-6 contacto-info">
-        <div class="contacto-info-content">
-          <h2 class="contacto-title">CONTÁCTANOS</h2>
-          <p class="contacto-description">
-            Estamos aquí para ayudarte. Si tienes alguna pregunta, comentario o sugerencia, no dudes en ponerte en contacto con nosotros. Tu opinión es importante para nosotros y nos ayuda a mejorar continuamente.
-          </p>
-          
-          <div class="contacto-details">
-            <div class="contacto-detail-item">
-              <i class="fa-solid fa-location-dot contacto-icon"></i>
-              <div class="contacto-detail-content">
-                <span class="contacto-label">Ubicación</span>
-                <span class="contacto-value">Estadio Morelos, Aguascalientes, Aguascalientes</span>
-              </div>
-            </div>
+<Main title="Contacto">
+  <div class="bg-strokes">
+    <section class="container">
+      <div class="row g-0">
+        <!-- Sección izquierda - Información de contacto -->
+        <div class="col-lg-6 contacto-info">
+          <div class="contacto-info-content">
+            <h2 class="contacto-title">CONTÁCTANOS</h2>
+            <p class="contacto-description">
+              Estamos aquí para ayudarte. Si tienes alguna pregunta, comentario o sugerencia, no dudes en ponerte en contacto con nosotros. Tu opinión es importante para nosotros y nos ayuda a mejorar continuamente.
+            </p>
             
-            <div class="contacto-detail-item">
-              <i class="fa-solid fa-envelope contacto-icon"></i>
-              <div class="contacto-detail-content">
-                <span class="contacto-label">Email</span>
-                <span class="contacto-value">hola@gigantes.mx</span>
+            <div class="contacto-details">
+              <div class="contacto-detail-item">
+                <i class="fa-solid fa-location-dot contacto-icon"></i>
+                <div class="contacto-detail-content">
+                  <span class="contacto-label">Ubicación</span>
+                  <span class="contacto-value">Estadio Morelos, Aguascalientes, Aguascalientes</span>
+                </div>
               </div>
-            </div>
-            
-            <div class="contacto-detail-item">
-              <i class="fa-solid fa-phone contacto-icon"></i>
-              <div class="contacto-detail-content">
-                <span class="contacto-label">Teléfono</span>
-                <div class="contacto-phone-numbers">
-                  <span class="contacto-value">449 369 852 74</span>
-                  <span class="contacto-value">449 369 852 75</span>
-                  <span class="contacto-value">449 369 852 76</span>
+              
+              <div class="contacto-detail-item">
+                <i class="fa-solid fa-envelope contacto-icon"></i>
+                <div class="contacto-detail-content">
+                  <span class="contacto-label">Email</span>
+                  <span class="contacto-value">hola@gigantes.mx</span>
+                </div>
+              </div>
+              
+              <div class="contacto-detail-item">
+                <i class="fa-solid fa-phone contacto-icon"></i>
+                <div class="contacto-detail-content">
+                  <span class="contacto-label">Teléfono</span>
+                  <div class="contacto-phone-numbers">
+                    <span class="contacto-value">449 369 852 74</span>
+                    <span class="contacto-value">449 369 852 75</span>
+                    <span class="contacto-value">449 369 852 76</span>
+                  </div>
                 </div>
               </div>
             </div>
+            
+            <div class="contacto-social">
+              <a href="https://www.facebook.com/GigantesDeAguascalientes?locale=es_LA" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Facebook">
+                <i class="fa-brands fa-facebook-f"></i>
+              </a>
+              <a href="https://www.instagram.com/gigantesdeaguascalientes/" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Instagram">
+                <i class="fa-brands fa-instagram"></i>
+              </a>
+              <a href="https://twitter.com/gigantesags" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Twitter">
+                <i class="fa-brands fa-twitter"></i>
+              </a>
+              <a href="https://wa.me/5244936985274" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="WhatsApp">
+                <i class="fa-brands fa-whatsapp"></i>
+              </a>
+            </div>
           </div>
-          
-          <div class="contacto-social">
-            <a href="https://www.facebook.com/GigantesDeAguascalientes?locale=es_LA" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Facebook">
-              <i class="fa-brands fa-facebook-f"></i>
-            </a>
-            <a href="https://www.instagram.com/gigantesdeaguascalientes/" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Instagram">
-              <i class="fa-brands fa-instagram"></i>
-            </a>
-            <a href="https://twitter.com/gigantesags" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Twitter">
-              <i class="fa-brands fa-twitter"></i>
-            </a>
-            <a href="https://wa.me/5244936985274" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="WhatsApp">
-              <i class="fa-brands fa-whatsapp"></i>
-            </a>
+        </div>
+        
+        <!-- Sección derecha - Formulario -->
+        <div class="col-lg-6 contacto-form-wrapper">
+          <div class="contacto-form-container">
+            <form class="contacto-form" method="POST" action="/send-mail.php" id="contacto-form">
+              <div id="form-message" class="alert d-none" role="alert"></div>
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre Completo" pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+" required>
+                <label for="nombre">Nombre Completo</label>
+                <small class="form-error" id="nombre-error"></small>
+              </div>
+              
+              <div class="form-floating mb-3">
+                <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com" required>
+                <label for="email">Email</label>
+                <small class="form-error" id="email-error"></small>
+              </div>
+              
+              <div class="form-floating mb-3">
+                <input type="tel" class="form-control" id="telefono" name="telefono" placeholder="449 123 456 78" pattern="[0-9\s\-\(\)]+" required>
+                <label for="telefono">Teléfono</label>
+                <small class="form-error" id="telefono-error"></small>
+              </div>
+              
+              <div class="form-floating mb-3">
+                <textarea class="form-control" id="mensaje" name="mensaje" placeholder="Escribe tu mensaje aquí" style="height: 120px;" required></textarea>
+                <label for="mensaje">Mensaje</label>
+                <small class="form-error" id="mensaje-error"></small>
+              </div>
+              
+              <button type="submit" class="btn btn-submit">ENVIAR MENSAJE</button>
+            </form>
           </div>
         </div>
       </div>
-      
-      <!-- Sección derecha - Formulario -->
-      <div class="col-lg-6 contacto-form-wrapper">
-        <div class="contacto-form-container">
-          <form class="contacto-form" method="POST" action="/send-mail.php" id="contacto-form">
-            <div id="form-message" class="alert d-none" role="alert"></div>
-            <div class="form-floating mb-3">
-              <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre Completo" pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+" required>
-              <label for="nombre">Nombre Completo</label>
-              <small class="form-error" id="nombre-error"></small>
-            </div>
-            
-            <div class="form-floating mb-3">
-              <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com" required>
-              <label for="email">Email</label>
-              <small class="form-error" id="email-error"></small>
-            </div>
-            
-            <div class="form-floating mb-3">
-              <input type="tel" class="form-control" id="telefono" name="telefono" placeholder="449 123 456 78" pattern="[0-9\s\-\(\)]+" required>
-              <label for="telefono">Teléfono</label>
-              <small class="form-error" id="telefono-error"></small>
-            </div>
-            
-            <div class="form-floating mb-3">
-              <textarea class="form-control" id="mensaje" name="mensaje" placeholder="Escribe tu mensaje aquí" style="height: 120px;" required></textarea>
-              <label for="mensaje">Mensaje</label>
-              <small class="form-error" id="mensaje-error"></small>
-            </div>
-            
-            <button type="submit" class="btn btn-submit">ENVIAR MENSAJE</button>
-          </form>
-        </div>
-      </div>
-    </div>
-  </section>
+    </section>
+  </div>
 </Main>
 
 <style>

@@ -1,0 +1,40 @@
+---
+import Main from '@/layouts/Main.astro';
+---
+
+<Main title="Resultados">
+  <section class="section resultados-proximamente py-5">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-8 text-center">
+          <h1 class="display-3 mb-4 text-warning">Próximamente</h1>
+          <p class="lead mb-4 text-white">
+            Estamos trabajando en la sección de resultados. Muy pronto podrás ver los resultados de todos los partidos de los Gigantes de Aguascalientes.
+          </p>
+          <p class="text-white">
+            Mientras tanto, síguenos en nuestras redes sociales para estar al tanto de las novedades.
+          </p>
+          <div class="mt-5">
+            <a href="/" class="btn btn-primary btn-lg">Volver al inicio</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Main>
+
+<style>
+  .resultados-proximamente {
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+  }
+  
+  .resultados-proximamente h1 {
+    font-family: "Bebas Neue", sans-serif;
+    color: var(--bs-primary);
+    text-transform: uppercase;
+    letter-spacing: 3px;
+  }
+</style>
+
