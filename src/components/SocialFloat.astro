@@ -1,0 +1,107 @@
+---
+const pathname = Astro.url.pathname;
+// No mostrar en la página de contacto
+const showSocialFloat = !pathname.includes('/contacto');
+---
+
+{showSocialFloat && (
+  <div class="social-float">
+    <a 
+      href="https://www.facebook.com/GigantesDeAguascalientes?locale=es_LA" 
+      target="_blank" 
+      rel="noopener noreferrer"
+      class="social-float-link facebook"
+      aria-label="Facebook"
+    >
+      <i class="fa-brands fa-facebook-f"></i>
+    </a>
+    <a 
+      href="https://www.instagram.com/gigantesdeaguascalientes/" 
+      target="_blank" 
+      rel="noopener noreferrer"
+      class="social-float-link instagram"
+      aria-label="Instagram"
+    >
+      <i class="fa-brands fa-instagram"></i>
+    </a>
+    <a 
+      href="https://www.tiktok.com/@gigantesdeaguascalientes" 
+      target="_blank" 
+      rel="noopener noreferrer"
+      class="social-float-link tiktok"
+      aria-label="TikTok"
+    >
+      <i class="fa-brands fa-tiktok"></i>
+    </a>
+    <a 
+      href="https://wa.me/5244936985274" 
+      target="_blank" 
+      rel="noopener noreferrer"
+      class="social-float-link whatsapp"
+      aria-label="WhatsApp"
+    >
+      <i class="fa-brands fa-whatsapp"></i>
+    </a>
+  </div>
+)}
+
+<style>
+  .social-float {
+    position: fixed;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .social-float-link {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    font-size: 1.3rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    background-color: #FFB400; /* warning */
+    color: #0D3963; /* primary */
+  }
+  
+  .social-float-link:hover {
+    background-color: #0D3963; /* primary */
+    color: #FFB400; /* warning */
+    transform: translateY(-5px) scale(1.1);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+  }
+  
+  @media (max-width: 991.98px) {
+    .social-float {
+      right: 15px;
+    }
+    
+    .social-float-link {
+      width: 45px;
+      height: 45px;
+      font-size: 1.2rem;
+    }
+  }
+  
+  @media (max-width: 575.98px) {
+    .social-float {
+      right: 10px;
+      gap: 0.75rem;
+    }
+    
+    .social-float-link {
+      width: 40px;
+      height: 40px;
+      font-size: 1.1rem;
+    }
+  }
+</style>
+
