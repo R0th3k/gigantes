@@ -1,0 +1,60 @@
+---
+import Main from "@/layouts/Main.astro";
+import Hero from "@/components/Hero.astro";
+import Partidos from "@/components/Partidos.vue";
+import Noticias from "@/components/Noticias.astro";
+import Image from "@/components/Image.astro";
+import { url } from "@/utils/url";
+---
+
+<Main title="Inicio" class="main-content">
+
+  <Hero />
+  
+  <section class="section partidos-proximos py-5 bg-balls">
+    <div class="container">
+      <h2 class="text-warning text-center pb-3">Próximos Partidos</h2>
+      <Partidos proximos={true} anteriores={false} client:load cantidad={6} />
+    </div>
+  </section>
+
+  <section class="section noticias py-5 bg-light">
+    <div class="container">
+      <h2 class="text-primary text-center pb-3">NOTICIAS</h2>
+      <Noticias cantidad={3} showPagination={false} />
+      <div class="text-center mt-4">
+        <a href={url("/blog")} class="btn btn-primary btn-lg">Ver todas las noticias</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section somos-gigantes py-5 bg-dark text-light">
+    <div class="container">
+      
+      <div class="row">
+        <div class="col-md-6">
+          <Image name="chica.png" alt="Quiénes Somos"  />
+        </div>
+        <div class="col-md-6">
+          <h2 class="text-secondary pb-3">Quiénes Somos</h2>
+          <p>
+            Gigantes Voleibol es un equipo apasionado por el juego que nació para llevar el voleibol local a otro nivel, combinando disciplina, trabajo en equipo y amor por la cancha. Nuestro objetivo es formar jugadores competitivos dentro y fuera del deporte, creando una comunidad de aficionados que viva cada punto como si fuera el último.
+          </p>
+          <p class="mt-3">
+            Entrenamos varias veces por semana con enfoque en técnica, estrategia y condición física, siempre en un ambiente de camaradería y respeto. Buscamos que cada jugador, sin importar su posición, se sienta parte clave del equipo y que cada fan se identifique con nuestros colores y nuestra actitud gigante.
+          </p>
+          
+        </div>
+      </div>
+      
+    </div>
+  </section>
+
+  <section class="section partidos-anteriores py-5 bg-strokes">
+    <div class="container">
+      <h2 class="text-warning text-center pb-3">Partidos Jugados</h2>
+      <Partidos proximos={false} anteriores={true} client:load cantidad={6} />
+    </div>
+  </section>
+
+</Main>

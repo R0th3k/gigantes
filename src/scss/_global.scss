@@ -43,8 +43,8 @@ a{
 html{
     overflow-x: hidden;
     font-size: initial!important;
-    scrollbar-color: $primary $secondary;
-    // scrollbar-width: thin;
+    scrollbar-color: $secondary $primary;
+    scrollbar-width: thin;
 }
 body {
     font-family: "Arimo", sans-serif;
