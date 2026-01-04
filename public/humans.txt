@@ -3,7 +3,7 @@
   Sitio web: https://hektor.mx
   Contacto: hola@hektor.mx
   Rol: Desarrollo Frontend
-  Cliente: 
+  Cliente: Gigantes de Aguascalientes
 
 /* TECNOLOGIAS */
   Frontend: HTML5, CSS3, JavaScript
@@ -13,6 +13,7 @@
 /* SITE */
   Tipo: Sitio Estatico
   Estilo: Responsive, Mobile First
-  Fecha: 2025
+  Fecha: 2026
 
 /* AGRADECIMIENTOS */
+Martha Campos por estar.

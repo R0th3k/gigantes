@@ -4,6 +4,7 @@ import Hero from "@/components/Hero.astro";
 import Partidos from "@/components/Partidos.vue";
 import Noticias from "@/components/Noticias.astro";
 import Image from "@/components/Image.astro";
+import { url } from "@/utils/url";
 ---
 
 <Main title="Inicio" class="main-content">
@@ -13,14 +14,17 @@ import Image from "@/components/Image.astro";
   <section class="section partidos-proximos py-5 bg-balls">
     <div class="container">
       <h2 class="text-warning text-center pb-3">Próximos Partidos</h2>
-      <Partidos proximos={true} anteriores={false} client:load cantidad={} />
+      <Partidos proximos={true} anteriores={false} client:load cantidad={6} />
     </div>
   </section>
 
   <section class="section noticias py-5 bg-light">
     <div class="container">
       <h2 class="text-primary text-center pb-3">NOTICIAS</h2>
-      <Noticias cantidad={3} />
+      <Noticias cantidad={3} showPagination={false} />
+      <div class="text-center mt-4">
+        <a href={url("/blog")} class="btn btn-primary btn-lg">Ver todas las noticias</a>
+      </div>
     </div>
   </section>
 

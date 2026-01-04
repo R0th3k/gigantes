@@ -29,7 +29,7 @@
                 <div class="equipo equipo-local">
                   <div class="equipo-logo">
                     <img 
-                      :src="getLogoUrl(partido.equipo_local)" 
+                      :src="getLogoUrl(partido.logo_local)" 
                       :alt="partido.equipo_local"
                       @error="handleImageError"
                     />
@@ -45,7 +45,7 @@
                 <div class="equipo equipo-visitante">
                   <div class="equipo-logo">
                     <img 
-                      :src="getLogoUrl(partido.equipo_visitante)" 
+                      :src="getLogoUrl(partido.logo_visitante)" 
                       :alt="partido.equipo_visitante"
                       @error="handleImageError"
                     />
@@ -170,16 +170,17 @@ const formatearFecha = (fecha) => {
   return `${date.getDate()} de ${meses[date.getMonth()]} ${date.getFullYear()}`;
 };
 
-const getLogoUrl = (equipo) => {
-  // Si es Gigantes, usar el logo de Gigantes
-  if (equipo.toLowerCase().includes('gigantes')) {
-    return '/assets/images/logo_gigates.svg';
+const getLogoUrl = (logo) => {
+  // Si el logo es null o está vacío, usar un placeholder
+  if (!logo || logo === 'null' || logo === '') {
+    return '/assets/images/logo.svg';
   }
-  // Para otros equipos, podrías tener logos específicos o un placeholder
-  return '/assets/images/logo.svg';
+  // Construir la ruta usando el logo del JSON
+  return `/assets/images/equipos/${logo}.svg`;
 };
 
 const handleImageError = (event) => {
+  // Si falla la carga, usar el logo por defecto
   event.target.src = '/assets/images/logo.svg';
 };
 

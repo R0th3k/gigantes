@@ -5,27 +5,30 @@ import { paginate } from '@/utils/content';
 
 interface Props {
   cantidad?: number;
+  currentPage?: number;
+  showPagination?: boolean;
 }
 
-const { cantidad = 3 } = Astro.props;
+const { cantidad = 3, currentPage, showPagination = false } = Astro.props;
 
 // Obtener todos los posts ordenados por fecha
 const allPosts = (await getCollection('blog')).sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
 
-// Si hay más de 12 posts, usar paginación
+// Si showPagination es true y hay más de 9 posts, usar paginación
 const totalPosts = allPosts.length;
-const needsPagination = totalPosts > 12;
+const needsPagination = showPagination && totalPosts > 9;
 
 let postsToShow;
 let pagination = null;
 let paginationPages: (number | string)[] = [];
 
 if (needsPagination) {
-  // Obtener el número de página de la URL (query param)
-  const currentPage = Number(Astro.url.searchParams.get('page') || '1');
-  const paginated = paginate(allPosts, currentPage, cantidad);
+  // Usar el parámetro de página pasado como prop, o leerlo de la URL si no está disponible
+  const page = currentPage ?? Number(Astro.url.searchParams.get('page') || '1');
+  // Cuando hay paginación, siempre mostrar 9 posts por página
+  const paginated = paginate(allPosts, page, 9);
   
   postsToShow = paginated.items;
   pagination = {
@@ -105,7 +108,7 @@ if (needsPagination) {
           <li class="page-item">
             <a 
               class="page-link" 
-              href={`?page=${pagination.current - 1}`}
+              href={url(`/blog?page=${pagination.current - 1}`)}
               aria-label="Anterior"
             >
               <span aria-hidden="true">&laquo;</span>
@@ -126,7 +129,7 @@ if (needsPagination) {
             <li class={`page-item ${pageNum === pagination.current ? 'active' : ''}`}>
               <a 
                 class="page-link" 
-                href={`?page=${pageNum}`}
+                href={url(`/blog?page=${pageNum}`)}
               >
                 {pageNum}
               </a>
@@ -138,7 +141,7 @@ if (needsPagination) {
           <li class="page-item">
             <a 
               class="page-link" 
-              href={`?page=${pagination.current + 1}`}
+              href={url(`/blog?page=${pagination.current + 1}`)}
               aria-label="Siguiente"
             >
               <span aria-hidden="true">&raquo;</span>
