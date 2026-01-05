@@ -33,7 +33,7 @@ import { url } from "@/utils/url";
       
       <div class="row">
         <div class="col-md-6">
-          <Image name="chica.png" alt="Quiénes Somos"  />
+          <Image name="chica.png" alt="Quiénes Somos" class="img-fluid" />
         </div>
         <div class="col-md-6">
           <h2 class="text-secondary pb-3">Quiénes Somos</h2>
@@ -54,6 +54,9 @@ import { url } from "@/utils/url";
     <div class="container">
       <h2 class="text-warning text-center pb-3">Partidos Jugados</h2>
       <Partidos proximos={false} anteriores={true} client:load cantidad={6} />
+      <div class="text-center mt-4">
+        <a href={url("/resultados")} class="btn btn-warning btn-lg">Resultados</a>
+      </div>
     </div>
   </section>
 

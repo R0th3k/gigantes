@@ -1,7 +1,7 @@
 ---
 import Main from '@/layouts/Main.astro';
 import { url } from '@/utils/url';
-
+import HeroInner from '@/components/HeroInner.astro';
 // Crear array de 20 imágenes usando las 3 del hero (alternadas)
 const heroImages = [
   '/assets/images/hero/home-1.jpg',
@@ -23,8 +23,13 @@ for (let i = 0; i < 3; i++) {
 
 <Main title="Galería">
   <section class="section galeria py-5">
-    <div class="container">
-      <h2 class="text-primary text-center mb-5">GALERÍA</h2>
+    <HeroInner 
+    image="/assets/images/hero/home-1.jpg" 
+    title="Galería" 
+    textColor="white" 
+                    />
+    <div class="container mt-5">
+      
       
       <div class="row g-4" id="galeria-grid">
         {galeriaImages.map((img, index) => (

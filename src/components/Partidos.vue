@@ -176,7 +176,7 @@ const getLogoUrl = (logo) => {
     return '/assets/images/logo.svg';
   }
   // Construir la ruta usando el logo del JSON
-  return `/assets/images/equipos/${logo}.svg`;
+  return `/assets/images/equipos/${logo}.png`;
 };
 
 const handleImageError = (event) => {

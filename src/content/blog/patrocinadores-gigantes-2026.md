@@ -2,7 +2,7 @@
 title: 'Gigantes anuncia nuevos patrocinadores para temporada 2026'
 description: 'Importantes empresas locales y nacionales se suman al proyecto del equipo'
 pubDate: 'Dec 01 2025'
-heroImage: '/blog-placeholder-about.jpg'
+heroImage: '/blog-placeholder-2.jpg'
 ---
 
 Los Gigantes de Aguascalientes han anunciado una serie de nuevos patrocinios para la temporada 2026, consolidando importantes alianzas comerciales que fortalecen el proyecto del equipo tanto en el aspecto deportivo como en el desarrollo de la comunidad.

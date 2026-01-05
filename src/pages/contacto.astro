@@ -1,10 +1,15 @@
 ---
 import Main from '@/layouts/Main.astro';
-import { url } from '@/utils/url';
+import HeroInner from '@/components/HeroInner.astro';
 ---
 
 <Main title="Contacto">
   <div class="bg-strokes">
+    <HeroInner 
+    image="/assets/images/hero-contacto.jpg" 
+    title="Contacto" 
+    textColor="white" 
+                    />
     <section class="container">
       <div class="row g-0">
         <!-- Sección izquierda - Información de contacto -->
@@ -67,25 +72,25 @@ import { url } from '@/utils/url';
           <div class="contacto-form-container">
             <form class="contacto-form" method="POST" action="/send-mail.php" id="contacto-form">
               <div id="form-message" class="alert d-none" role="alert"></div>
-              <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre Completo" pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+" required>
+              <div class="form-floating mb-4">
+                <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre Completo" required>
                 <label for="nombre">Nombre Completo</label>
                 <small class="form-error" id="nombre-error"></small>
               </div>
               
-              <div class="form-floating mb-3">
+              <div class="form-floating mb-4">
                 <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com" required>
                 <label for="email">Email</label>
                 <small class="form-error" id="email-error"></small>
               </div>
               
-              <div class="form-floating mb-3">
-                <input type="tel" class="form-control" id="telefono" name="telefono" placeholder="449 123 456 78" pattern="[0-9\s\-\(\)]+" required>
+              <div class="form-floating mb-4">
+                <input type="tel" class="form-control" id="telefono" name="telefono" placeholder="449 123 456 78" required>
                 <label for="telefono">Teléfono</label>
                 <small class="form-error" id="telefono-error"></small>
               </div>
               
-              <div class="form-floating mb-3">
+              <div class="form-floating mb-4">
                 <textarea class="form-control" id="mensaje" name="mensaje" placeholder="Escribe tu mensaje aquí" style="height: 120px;" required></textarea>
                 <label for="mensaje">Mensaje</label>
                 <small class="form-error" id="mensaje-error"></small>
@@ -252,6 +257,7 @@ import { url } from '@/utils/url';
   
   .form-floating {
     position: relative;
+    margin-bottom: 0;
   }
   
   .form-floating > .form-control {
@@ -306,8 +312,15 @@ import { url } from '@/utils/url';
     display: block;
     color: #dc3545;
     font-size: 0.875rem;
-    margin-top: 0.25rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0;
+    padding-left: 0.75rem;
     min-height: 1.25rem;
+    line-height: 1.4;
+  }
+  
+  .mb-4 {
+    margin-bottom: 1.5rem !important;
   }
   
   #form-message {
@@ -436,8 +449,15 @@ import { url } from '@/utils/url';
       }
     }
     
+    // Deshabilitar mensajes de validación nativos del navegador
+    nombreInput.addEventListener('invalid', (e) => {
+      e.preventDefault();
+      nombreInput.setCustomValidity('');
+    });
+    
     // Validación en tiempo real para nombre
     nombreInput.addEventListener('input', () => {
+      nombreInput.setCustomValidity('');
       const value = nombreInput.value.trim();
       if (value === '') {
         showError(nombreInput, 'nombre-error', 'El nombre es requerido');
@@ -448,8 +468,15 @@ import { url } from '@/utils/url';
       }
     });
     
+    // Deshabilitar mensajes de validación nativos del navegador
+    emailInput.addEventListener('invalid', (e) => {
+      e.preventDefault();
+      emailInput.setCustomValidity('');
+    });
+    
     // Validación en tiempo real para email
     emailInput.addEventListener('input', () => {
+      emailInput.setCustomValidity('');
       const value = emailInput.value.trim();
       if (value === '') {
         showError(emailInput, 'email-error', 'El email es requerido');
@@ -460,8 +487,15 @@ import { url } from '@/utils/url';
       }
     });
     
+    // Deshabilitar mensajes de validación nativos del navegador
+    telefonoInput.addEventListener('invalid', (e) => {
+      e.preventDefault();
+      telefonoInput.setCustomValidity('');
+    });
+    
     // Validación en tiempo real para teléfono (solo números mientras escribe)
     telefonoInput.addEventListener('input', (e) => {
+      telefonoInput.setCustomValidity('');
       // Permitir solo números, espacios, guiones y paréntesis
       let value = e.target.value.replace(/[^0-9\s\-\(\)]/g, '');
       e.target.value = value;
@@ -475,8 +509,15 @@ import { url } from '@/utils/url';
       }
     });
     
+    // Deshabilitar mensajes de validación nativos del navegador
+    mensajeInput.addEventListener('invalid', (e) => {
+      e.preventDefault();
+      mensajeInput.setCustomValidity('');
+    });
+    
     // Validación en tiempo real para mensaje
     mensajeInput.addEventListener('input', () => {
+      mensajeInput.setCustomValidity('');
       const value = mensajeInput.value.trim();
       if (value === '') {
         showError(mensajeInput, 'mensaje-error', 'El mensaje es requerido');

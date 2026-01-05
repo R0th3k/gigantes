@@ -3,24 +3,20 @@ import Main from '@/layouts/Main.astro';
 import Noticias from '@/components/Noticias.astro';
 import HeroInner from '@/components/HeroInner.astro';
 
-// Hacer que esta página sea dinámica para que funcione con query parameters
-export const prerender = false;
-
-// Obtener el parámetro de página de la URL
-const pageParam = Astro.url.searchParams.get('page');
-const currentPage = pageParam ? Number(pageParam) : 1;
+// Página estática - siempre mostrar página 1
+const currentPage = 1;
 ---
 
 <Main title="Blog">
   <HeroInner 
-    image="/assets/images/hero/home-1.jpg" 
+    image="/assets/images/hero-noticias.jpg" 
     title="NOTICIAS" 
     textColor="white" 
-  />
+                    />
   
   <section class="section noticias py-5 bg-light">
     <div class="container">
       <Noticias cantidad={9} currentPage={currentPage} showPagination={true} />
-    </div>
-  </section>
+        </div>
+      </section>
 </Main>

@@ -108,7 +108,7 @@ if (needsPagination) {
           <li class="page-item">
             <a 
               class="page-link" 
-              href={url(`/blog?page=${pagination.current - 1}`)}
+              href={pagination.current - 1 === 1 ? url('/blog') : url(`/blog/page/${pagination.current - 1}`)}
               aria-label="Anterior"
             >
               <span aria-hidden="true">&laquo;</span>
@@ -125,11 +125,13 @@ if (needsPagination) {
             );
           }
           
+          const pageUrl = pageNum === 1 ? url('/blog') : url(`/blog/page/${pageNum}`);
+          
           return (
             <li class={`page-item ${pageNum === pagination.current ? 'active' : ''}`}>
               <a 
                 class="page-link" 
-                href={url(`/blog?page=${pageNum}`)}
+                href={pageUrl}
               >
                 {pageNum}
               </a>
@@ -141,7 +143,7 @@ if (needsPagination) {
           <li class="page-item">
             <a 
               class="page-link" 
-              href={url(`/blog?page=${pagination.current + 1}`)}
+              href={url(`/blog/page/${pagination.current + 1}`)}
               aria-label="Siguiente"
             >
               <span aria-hidden="true">&raquo;</span>

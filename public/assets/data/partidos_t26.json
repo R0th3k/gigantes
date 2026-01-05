@@ -35,11 +35,11 @@
     "hora": "16:00",
     "equipo_local": "Gigantes",
     "logo_local": "gigantes",
-    "sets_local": [25, 20, 18],
+    "sets_local": [25, 20, 18, null, null],
     "puntos_local": 1,
     "equipo_visitante": "Toros de Tijuana",
     "logo_visitante": "toros_de_tijuana",
-    "sets_visitante": [23, 25, 25],
+    "sets_visitante": [23, 25, 25, null, null],
     "puntos_visitante": 2,
     "sede": "Estadio Morelos, Aguascalientes"
   },

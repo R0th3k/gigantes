@@ -2,7 +2,7 @@
 title: 'Gigantes logra importante victoria sobre Toros de Tijuana'
 description: 'El equipo local se impone 3-0 en el Estadio Morelos ante más de 4,000 aficionados'
 pubDate: 'Jan 04 2026'
-heroImage: '/blog-placeholder-1.jpg'
+heroImage: '/blog-placeholder-2.jpg'
 ---
 
 Los Gigantes de Aguascalientes lograron una victoria contundente sobre los Toros de Tijuana por marcador de 3-0 en el Estadio Morelos, ante una multitudinaria asistencia de más de 4,000 aficionados que llenaron las gradas del recinto.

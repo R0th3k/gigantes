@@ -2,7 +2,7 @@
 title: 'Gigantes de Aguascalientes inaugura temporada 2026 con victoria'
 description: 'El equipo local comenzó la temporada con una emocionante victoria sobre Orizaba en el Estadio Morelos'
 pubDate: 'Jan 02 2026'
-heroImage: '/blog-placeholder-1.jpg'
+heroImage: '/blog-placeholder-3.jpg'
 ---
 
 Los Gigantes de Aguascalientes dieron inicio a la temporada 2026 de la Liga Nacional de Voleibol con una victoria contundente sobre el equipo de Orizaba en el Estadio Morelos. El encuentro, que se disputó el pasado 1 de enero, dejó a los más de 3,500 aficionados locales completamente satisfechos.

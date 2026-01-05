@@ -1,40 +1,512 @@
 ---
 import Main from '@/layouts/Main.astro';
+import { url } from '@/utils/url';
+import HeroInner from '@/components/HeroInner.astro';
+import fs from 'fs';
+import path from 'path';
+
+// Leer archivo JSON de partidos
+const jsonPath = path.join(process.cwd(), 'public', 'assets', 'data', 'partidos_t26.json');
+const partidosData = JSON.parse(fs.readFileSync(jsonPath, 'utf-8'));
+
+// Leer archivo JSON de puntaje
+const puntajePath = path.join(process.cwd(), 'public', 'assets', 'data', 'puntaje_t26.json');
+const puntajeData = JSON.parse(fs.readFileSync(puntajePath, 'utf-8'));
+
+// Filtrar solo partidos jugados (que tienen sets)
+const partidosJugados = partidosData.filter((partido: any) => 
+  partido.sets_local !== null && partido.sets_visitante !== null
+);
+
+// Función para formatear fecha
+function formatearFecha(fecha: string): string {
+  const meses = [
+    'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
+    'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'
+  ];
+  const [año, mes, dia] = fecha.split('-');
+  return `${dia} de ${meses[parseInt(mes) - 1]} ${año}`;
+}
+
+// Función para obtener URL del logo
+function getLogoUrl(logoName: string | null | undefined): string {
+  if (!logoName) {
+    return url('/assets/images/balon.svg');
+  }
+  
+  // Intentar usar el logo del equipo, si no existe se manejará en el cliente
+  return url(`/assets/images/equipos/${logoName}.png`);
+}
 ---
 
 <Main title="Resultados">
-  <section class="section resultados-proximamente py-5">
-    <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-md-8 text-center">
-          <h1 class="display-3 mb-4 text-warning">Próximamente</h1>
-          <p class="lead mb-4 text-white">
-            Estamos trabajando en la sección de resultados. Muy pronto podrás ver los resultados de todos los partidos de los Gigantes de Aguascalientes.
-          </p>
-          <p class="text-white">
-            Mientras tanto, síguenos en nuestras redes sociales para estar al tanto de las novedades.
-          </p>
-          <div class="mt-5">
-            <a href="/inicio" class="btn btn-primary btn-lg">Volver al inicio</a>
+  <HeroInner 
+    image="/assets/images/hero-resultados.jpg" 
+    title="RESULTADOS Temporada 2026" 
+    textColor="white" 
+  />
+  
+  <section class="resultados-section">
+    
+    <div class="container resultados-container">
+      {partidosJugados.map((partido) => (
+        <div class="resultado-card">
+          <div class="resultado-content">
+            <!-- Equipo Local -->
+            <div class="equipo-info equipo-local">
+              <h3 class="equipo-nombre">{partido.equipo_local}</h3>
+              <div class="equipo-logo">
+                <img 
+                  src={getLogoUrl(partido.logo_local)} 
+                  alt={partido.equipo_local}
+                  onerror="this.onerror=null; this.src='/assets/images/balon.svg';"
+                />
+              </div>
+              
+              <!-- Sets labels -->
+              <div class="sets-labels">
+                {[1, 2, 3, 4, 5].map((num) => (
+                  <div class="set-label">{num}°</div>
+                ))}
+              </div>
+              
+              <!-- Puntos por set -->
+              <div class="sets-puntos">
+                {partido.sets_local.map((puntos, index) => (
+                  <div class="set-punto">{puntos !== null ? puntos : '-'}</div>
+                ))}
+              </div>
+            </div>
+            
+            <!-- Marcador central -->
+            <div class="marcador-central">
+              <div class="sets-ganados sets-local">{partido.puntos_local}</div>
+              <div class="volleyball-icon">
+                <img src={url('/assets/images/balon.svg')} alt="Volleyball" />
+              </div>
+              <div class="sets-ganados sets-visitante">{partido.puntos_visitante}</div>
+            </div>
+            
+            <!-- Equipo Visitante -->
+            <div class="equipo-info equipo-visitante">
+              <h3 class="equipo-nombre">{partido.equipo_visitante}</h3>
+              <div class="equipo-logo">
+                <img 
+                  src={getLogoUrl(partido.logo_visitante)} 
+                  alt={partido.equipo_visitante}
+                  onerror="this.onerror=null; this.src='/assets/images/balon.svg';"
+                />
+              </div>
+              
+              <!-- Sets labels -->
+              <div class="sets-labels">
+                {[1, 2, 3, 4, 5].map((num) => (
+                  <div class="set-label">{num}°</div>
+                ))}
+              </div>
+              
+              <!-- Puntos por set -->
+              <div class="sets-puntos">
+                {partido.sets_visitante.map((puntos, index) => (
+                  <div class="set-punto">{puntos !== null ? puntos : '-'}</div>
+                ))}
+              </div>
+            </div>
+          </div>
+          
+          <!-- Información del partido -->
+          <div class="partido-info">
+            {formatearFecha(partido.fecha)}, {partido.hora} Hrs | {partido.sede}
           </div>
         </div>
-      </div>
+      ))}
+    </div>
+  </section>
+  
+  <section class="puntaje-section">
+    <div class="puntaje-header">
+      <h2 class="puntaje-title text-center">TEMPORADA 2026</h2>
+      <div class="puntaje-header-line"></div>
+    </div>
+    
+    <div class="puntaje-container container">
+      <table class="puntaje-table">
+        <thead>
+          <tr>
+            <th>POS</th>
+            <th>EQUIPO</th>
+            <th>PJ</th>
+            <th>G</th>
+            <th>P</th>
+            <th>SF</th>
+            <th>SC</th>
+            <th>PTS</th>
+          </tr>
+        </thead>
+        <tbody>
+          {puntajeData.map((equipo, index) => (
+            <tr class={index % 2 === 0 ? 'row-even' : 'row-odd'}>
+              <td class="pos-cell">{equipo.posicion}</td>
+              <td class="equipo-cell">
+                <img 
+                  src={getLogoUrl(equipo.logo)} 
+                  alt={equipo.equipo} 
+                  class="equipo-logo-table"
+                  onerror="this.onerror=null; this.src='/assets/images/balon.svg';"
+                />
+                <span>{equipo.equipo}</span>
+              </td>
+              <td>{equipo.pj}</td>
+              <td>{equipo.g}</td>
+              <td>{equipo.p}</td>
+              <td>{equipo.sf}</td>
+              <td>{equipo.sc}</td>
+              <td class="pts-cell">{equipo.pts}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   </section>
 </Main>
 
 <style>
-  .resultados-proximamente {
-    min-height: 60vh;
-    display: flex;
-    align-items: center;
+  .resultados-section {
+    background: linear-gradient(180deg, #0D3963 0%, #1a4d7a 100%);
+    background-image: url('/assets/images/balls.png');
+    background-size: cover;
+    background-position: center;
+    background-blend-mode: overlay;
+    min-height: 100vh;
+    padding: 3rem 0;
   }
   
-  .resultados-proximamente h1 {
+  .resultados-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+  
+  .resultado-card {
+    background: white;
+    border-radius: 15px;
+    padding: .5rem;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+  }
+  
+  .resultado-content {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 2rem;
+    align-items: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  .equipo-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .equipo-nombre {
     font-family: "Bebas Neue", sans-serif;
-    color: var(--bs-primary);
+    font-size: 1.8rem;
+    color: #0D3963;
     text-transform: uppercase;
-    letter-spacing: 3px;
+    letter-spacing: 2px;
+    margin: 0;
+  }
+  
+  .equipo-logo {
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .equipo-logo img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+  }
+  
+  .sets-labels,
+  .sets-puntos {
+    display: flex;
+    gap: 0.5rem;
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .set-label,
+  .set-punto {
+    background-color: #0D3963;
+    color: white;
+    padding: 0.5rem 0.75rem;
+    border-radius: 8px;
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 1rem;
+    min-width: 45px;
+    text-align: center;
+  }
+  
+  .set-punto {
+    font-size: 1.1rem;
+  }
+  
+  .marcador-central {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 0 1rem;
+  }
+  
+  .sets-ganados {
+    background-color: #6CB3DF;
+    color: white;
+    padding: 1.5rem 2rem;
+    border-radius: 12px;
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 3rem;
+    min-width: 80px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+  
+  .volleyball-icon {
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .volleyball-icon img {
+    width: 100%;
+    height: 100%;
+    filter: drop-shadow(0 4px 8px rgba(255, 180, 0, 0.5));
+  }
+  
+  .partido-info {
+    background-color: #0D3963;
+    color: white;
+    padding: 1rem 1.5rem;
+    border-radius: 10px;
+    text-align: center;
+    font-family: "Arimo", sans-serif;
+    font-size: 0.95rem;
+  }
+  
+  @media (max-width: 991.98px) {
+    .resultado-content {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+    
+    .marcador-central {
+      order: -1;
+      justify-content: center;
+    }
+    
+    .sets-ganados {
+      font-size: 2.5rem;
+      padding: 1rem 1.5rem;
+    }
+    
+    .volleyball-icon {
+      width: 60px;
+      height: 60px;
+    }
+  }
+  
+  @media (max-width: 575.98px) {
+    .resultados-title {
+      font-size: 2.5rem;
+    }
+    
+    .resultado-card {
+      padding: 1.5rem;
+    }
+    
+    .equipo-nombre {
+      font-size: 1.4rem;
+    }
+    
+    .sets-ganados {
+      font-size: 2rem;
+      padding: 0.75rem 1rem;
+      min-width: 60px;
+    }
+    
+    .set-label,
+    .set-punto {
+      padding: 0.4rem 0.5rem;
+      font-size: 0.9rem;
+      min-width: 35px;
+    }
+  }
+  
+  /* Estilos para la tabla de puntaje */
+  .puntaje-section {
+    background: linear-gradient(180deg, #0D3963 0%, #1a4d7a 100%);
+    background-image: url('/assets/images/balls.png');
+    background-size: cover;
+    background-position: center;
+    background-blend-mode: overlay;
+    padding: 3rem 0;
+  }
+  
+  .puntaje-header {
+    background-color: #000;
+    padding: 1.5rem 2rem;
+    position: relative;
+  }
+  
+  .puntaje-title {
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 2rem;
+    color: white;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+  
+  .puntaje-header-line {
+    height: 3px;
+    background-color: #FF8C00;
+    margin-top: 0.5rem;
+  }
+  
+  .puntaje-container {
+    padding: 2rem;
+    overflow-x: auto;
+  }
+  
+  .puntaje-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: transparent;
+    font-family: "Arimo", sans-serif;
+  }
+  
+  .puntaje-table thead {
+    background-color: #0D3963!important;
+  }
+  
+  .puntaje-table th {
+    color: #0D3963;
+    background-color: #E8F4F8;
+    padding: 1rem;
+    text-align: center;
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border: none;
+  }
+  
+  .puntaje-table tbody tr {
+    transition: background-color 0.2s;
+  }
+  
+  .puntaje-table tbody tr.row-even {
+    background-color: #E8F4F8;
+  }
+  
+  .puntaje-table tbody tr.row-odd {
+    background-color: white;
+  }
+  
+  .puntaje-table td {
+    padding: 1.2rem 1rem;
+    text-align: center;
+    color: #0D3963;
+    font-weight: bold;
+    font-size: 1rem;
+    border: none;
+  }
+  
+  .pos-cell {
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 1.3rem;
+  }
+  
+  .equipo-cell {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 1rem;
+    text-align: left !important;
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+  }
+  
+  .equipo-logo-table {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+    flex-shrink: 0;
+  }
+  
+  .pts-cell {
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 1.3rem;
+    color: #0D3963;
+  }
+  
+  @media (max-width: 991.98px) {
+    .puntaje-container {
+      padding: 1rem;
+    }
+    
+    .puntaje-table th,
+    .puntaje-table td {
+      padding: 0.8rem 0.5rem;
+      font-size: 0.9rem;
+    }
+    
+    .equipo-logo-table {
+      width: 30px;
+      height: 30px;
+    }
+    
+    .puntaje-title {
+      font-size: 1.5rem;
+    }
+  }
+  
+  @media (max-width: 575.98px) {
+    .puntaje-header {
+      padding: 1rem;
+    }
+    
+    .puntaje-title {
+      font-size: 1.2rem;
+    }
+    
+    .puntaje-table th {
+      font-size: 0.85rem;
+      padding: 0.6rem 0.3rem;
+    }
+    
+    .puntaje-table td {
+      padding: 0.7rem 0.3rem;
+      font-size: 0.8rem;
+    }
+    
+    .equipo-logo-table {
+      width: 25px;
+      height: 25px;
+    }
+    
+    .equipo-cell {
+      gap: 0.5rem;
+      font-size: 0.9rem;
+    }
   }
 </style>
-

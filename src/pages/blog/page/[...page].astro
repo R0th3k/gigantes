@@ -1,0 +1,45 @@
+---
+import Main from '@/layouts/Main.astro';
+import Noticias from '@/components/Noticias.astro';
+import HeroInner from '@/components/HeroInner.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  // Obtener todos los posts para calcular el número de páginas
+  const allPosts = (await getCollection('blog')).sort(
+    (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+  );
+
+  const postsPerPage = 9;
+  const totalPages = Math.ceil(allPosts.length / postsPerPage);
+  
+  const paths = [];
+  
+  // Generar rutas para páginas 2 en adelante
+  for (let i = 2; i <= totalPages; i++) {
+    paths.push({
+      params: { page: i.toString() },
+      props: { currentPage: i },
+    });
+  }
+  
+  return paths;
+}
+
+const { currentPage } = Astro.props;
+---
+
+<Main title="Blog">
+  <HeroInner 
+    image="/assets/images/hero-noticias.jpg" 
+    title="NOTICIAS" 
+    textColor="white" 
+  />
+  
+  <section class="section noticias py-5 bg-light">
+    <div class="container">
+      <Noticias cantidad={9} currentPage={currentPage} showPagination={true} />
+    </div>
+  </section>
+</Main>
+
