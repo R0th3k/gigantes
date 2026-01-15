@@ -52,7 +52,7 @@ if (!empty($errors)) {
 }
 
 // Configurar destinatario
-$to = 'hola@hektor.mx';
+$to = 'hola@hektor.mx,gigantesags@gmail.com';
 $subject = 'Nuevo mensaje de contacto - Gigantes de Aguascalientes';
 
 // Construir el cuerpo del mensaje
