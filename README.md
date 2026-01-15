@@ -1,165 +1,140 @@
-# Proyecto Astro + Bootstrap 5 + SCSS
+# Gigantes de Aguascalientes
 
-Sitio estático en Astro con blog (MD/MDX), Bootstrap 5 desde SCSS, sitemap y RSS listos para producción.
+Sitio web oficial del equipo de voleibol **Gigantes de Aguascalientes**. Sitio estático desarrollado con Astro, Bootstrap 5 y SCSS, que incluye blog de noticias, resultados de partidos, galería de fotos y formulario de contacto.
 
-## Requisitos
-- Node 18+ (recomendado 20+)
+## 🏐 Sobre el Proyecto
+
+Este sitio web presenta al equipo de voleibol Gigantes de Aguascalientes, mostrando información sobre próximos partidos, resultados, noticias del equipo y contenido multimedia. El sitio está optimizado para producción con sitemap, RSS y SEO configurado.
+
+## 🚀 Características
+
+- **Página de Inicio**: Hero con slides, próximos partidos y últimas noticias
+- **Blog de Noticias**: Sistema de blog con paginación para noticias sobre voleibol en Aguascalientes
+- **Resultados**: Visualización de resultados de partidos jugados
+- **Galería**: Galería de imágenes con PhotoSwipe
+- **Contacto**: Formulario de contacto con validación JavaScript y envío por PHP
+- **Tienda**: Página temporal de próximamente
+- **Redes Sociales**: Integración con Facebook, Instagram, TikTok y WhatsApp
+
+## 📋 Requisitos
+
+- Node.js 18+ (recomendado 20+)
 - npm 9+
+- Servidor PHP (para el formulario de contacto)
 
-## Instalación
+## 🛠️ Instalación
+
 ```bash
 npm install
 ```
 
-## Desarrollo
+## 💻 Desarrollo
+
 ```bash
 npm run dev
 ```
-Servidor local: `http://localhost:4321`
 
-## Build de producción
+El servidor de desarrollo estará disponible en `http://localhost:4321`
+
+## 🏗️ Build de Producción
+
 ```bash
 npm run build
 npm run preview
 ```
-El build se genera en `dist/`.
 
-## Estructura
+El build se genera en `dist/`. Para producción, sube el contenido de `dist/` a tu servidor web.
+
+## 📁 Estructura del Proyecto
+
 ```
-public/           # Estáticos (imágenes, favicon, robots.txt)
+public/
+  assets/          # Imágenes, logos, datos JSON de partidos
+  send-mail.php    # Script PHP para envío de emails
+  .htaccess        # Configuración de redirección HTTPS
+  robots.txt       # Configuración SEO
 src/
-  components/    # Componentes .astro (Navbar, Footer, BaseHead)
-  content/       # Blog en Markdown/MDX + schemas
-  layouts/       # Layouts: Main y BlogPost
-  pages/         # Rutas del sitio
-  scss/          # Estilos (Bootstrap desde SCSS + parciales)
+  components/      # Componentes Astro reutilizables
+    - Hero.astro
+    - Navbar.astro
+    - Footer.astro
+    - Noticias.astro
+    - Loader.astro
+    - SocialFloat.astro
+  content/
+    blog/          # Posts del blog en Markdown
+  layouts/
+    Main.astro     # Layout principal
+  pages/           # Rutas del sitio
+    - index.astro  # Página temporal de lanzamiento
+    - inicio.astro # Página principal
+    - blog/        # Blog y paginación
+    - contacto.astro
+    - resultados.astro
+    - galeria.astro
+    - tienda.astro
+  scss/            # Estilos (Bootstrap desde SCSS + personalización)
+  consts.ts        # Constantes del sitio (título, patrocinadores)
+  utils/           # Utilidades y helpers
 ```
 
-## Configuración clave
-- `astro.config.mjs` define `site` para URLs absolutas (sitemap, RSS, OG).
-- `src/components/BaseHead.astro` añade metadatos SEO, canonical y OG.
-- `public/robots.txt` publica el sitemap: `Sitemap: https://hektor.mx/sitemap-index.xml`.
+## 🎨 Tecnologías Utilizadas
 
-### Rutas con base (subcarpetas)
-Si vas a desplegar el sitio bajo una subcarpeta (por ejemplo, `https://dominio.com/misitio/`), usa el helper `url(path)` para generar rutas y URLs de assets compatibles con dev y prod.
+- **Astro**: Framework para sitios estáticos
+- **Bootstrap 5**: Framework CSS (compilado desde SCSS)
+- **SCSS**: Preprocesador CSS con variables personalizadas
+- **Vue.js**: Componentes interactivos (Partidos)
+- **PhotoSwipe**: Galería de imágenes
+- **Swiper**: Carrusel de slides
+- **Font Awesome**: Iconos
+- **PHP**: Backend para formulario de contacto
 
-- Helper: `src/utils/url.ts`
-```ts
-export function url(path: string): string {
-  const base = import.meta.env.BASE_URL || '/';
-  const normalized = path.startsWith('/') ? path.slice(1) : path;
-  return `${base}${normalized}`;
-}
-```
+## 📧 Formulario de Contacto
 
-- Enlaces y assets en `.astro`:
-```astro
+El formulario de contacto (`/contacto`) utiliza `public/send-mail.php` para enviar emails a `hola@hektor.mx`. Asegúrate de configurar correctamente el servidor PHP y los permisos de envío de correo.
+
+## 🔧 Configuración
+
+### Variables del Sitio
+
+Edita `src/consts.ts` para modificar:
+- Título del sitio
+- Descripción
+- Lista de patrocinadores
+
+### Estilos
+
+Los estilos se personalizan en `src/scss/_variables.scss` donde puedes modificar colores, fuentes y otros valores de Bootstrap.
+
+### SEO
+
+- `astro.config.mjs` define `site` para URLs absolutas (sitemap, RSS, OG)
+- `src/components/BaseHead.astro` añade metadatos SEO, canonical y Open Graph
+- `public/robots.txt` publica el sitemap
+
+## 📱 Redes Sociales
+
+- Facebook: [Gigantes de Aguascalientes](https://www.facebook.com/GigantesDeAguascalientes)
+- Instagram: [@gigantesdeaguascalientes](https://www.instagram.com/gigantesdeaguascalientes/)
+- TikTok: [@gigantesdeaguascalientes](https://www.tiktok.com/@gigantesdeaguascalientes)
+
+## 📝 Scripts Disponibles
+
+- `npm run dev`: Inicia el servidor de desarrollo
+- `npm run build`: Compila el sitio para producción
+- `npm run preview`: Previsualiza el build de producción
+
+## 🌐 Despliegue
+
+1. Ejecuta `npm run build`
+2. Sube el contenido de `dist/` a tu servidor web
+3. Asegúrate de que el servidor tenga PHP habilitado para el formulario de contacto
+4. Configura el `.htaccess` para redirección HTTPS (ya incluido)
+
+## 📄 Licencia
+
+Este proyecto es propiedad de Gigantes de Aguascalientes.
+
 ---
-import { url } from '@/utils/url';
----
-<a href={url('/blog')}>Blog</a>
-<img src={url('/assets/images/logo.svg')} alt="Logo" />
-```
 
-- En listados dinámicos:
-```astro
-<a href={url(`/blog/${post.id}/`)}>Leer más</a>
-```
-
-Nota:
-- Para metadatos (canonical, OG/Twitter) usa `Astro.site` para generar URLs absolutas.
-- Si despliegas SIEMPRE en subcarpeta fija (p.ej. GitHub Pages), también puedes fijar `base` en `astro.config.mjs` (ej. `base: '/mi-repo/'`). `withBase()` usará ese valor automáticamente.
-
-## Estilos (Bootstrap desde SCSS)
-- Bootstrap se compila desde `src/scss/index.scss` (no se usa CDN).
-- Puedes personalizar variables en `src/scss/_variables.scss`.
-
-Nota: verás advertencias de deprecación de Sass por `@import` y funciones globales; son propias de Bootstrap 5.x. No afectan el build. Para eliminarlas en el futuro, migra a `@use` cuando actualices a una versión de Bootstrap compatible.
-
-## Helpers disponibles (`src/utils/`)
-
-### Rutas y URLs
-- `url(path: string)`: compone rutas respetando `BASE_URL` (útil si despliegas bajo subcarpeta).
-  - Ejemplo: `url('/blog')` → `/blog` en dev, `/subcarpeta/blog` en prod.
-- `asset(path: string)`: atajo para assets dentro de `public/assets/` usando `url()`.
-  - Ejemplo: `asset('images/logo.svg')` → `/assets/images/logo.svg` (o con base si aplica).
-- `absoluteUrl(pathOrUrl: string | URL)`: genera URL absoluta usando `Astro.site` (ideal para OG/RSS).
-  - Ejemplo: `absoluteUrl('/blog/post')` → `https://tu-dominio.com/blog/post`.
-
-### Navegación
-- `isExternal(href: string)`: detecta si un enlace es externo (`http/https`).
-- `linkAttrs(href: string)`: agrega attrs seguros a enlaces externos: `{ target: '_blank', rel: 'noopener noreferrer' }`.
-- `isActive(pathname: string, href: string)`: determina si una ruta está activa (para resaltar en la navbar).
-- `classNames(...args)`: combina clases condicionales de forma limpia.
-
-Uso ejemplo en `.astro`:
-```astro
----
-import { url, isActive, linkAttrs, classNames, asset } from '@/utils';
-const pathname = Astro.url.pathname;
----
-<a href={url('/blog')} {...linkAttrs('/blog')}
-   class={classNames('nav-link', { active: isActive(pathname, '/blog') })}>
-  Blog
-</a>
-<img src={asset('images/logo.svg')} alt="Logo" />
-```
-
-### Formato
-- `formatDate(date, locale?, options?)`: formatea fechas.
-  - Ejemplo: `formatDate('2024-06-01')` → `1 jun 2024` (según locale).
-- `formatCurrency(value, currency?, locale?)`: formatea moneda.
-  - Ejemplo: `formatCurrency(199, 'MXN')` → `$199.00`.
-- `formatNumber(value, locale?, options?)`: formatea números generales.
-- `slugify(str)`: convierte a slug URL-safe (quita acentos/espacios).
-- `truncate(str, max?, suffix?)`: recorta textos para cards/listas.
-- `readingTime(text, wpm?)`: estima minutos de lectura (default 200 wpm).
-
-### Contenido
-- `paginate(items, page, perPage)`: devuelve items paginados y metadatos (total, pages, hasPrev/Next).
-- `sortPostsByDate(posts)`: ordena posts por fecha descendente.
-- `hero(src?, fallback?)`: retorna `src` o un placeholder.
-
-### Meta/SEO
-- `buildCanonical(pathname)`: compone URL canónica con `Astro.site`.
-- `ogImageUrl(path)`: versión absoluta para imágenes OG/Twitter.
-
-### Entorno
-- `env(key, fallback?)`: lectura segura de `import.meta.env` (útil para `PUBLIC_*`).
-
-### Snippets rápidos
-```ts
-import { formatCurrency, truncate, readingTime, slugify } from '@/utils';
-
-formatCurrency(199, 'MXN'); // "$199.00"
-truncate('Texto largo...', 50);
-readingTime('texto con muchas palabras...');
-slugify('Título con acentos y espacios');
-```
-
-## Contenido del blog
-- Los posts viven en `src/content/blog/` (`.md` o `.mdx`).
-- El esquema está en `src/content.config.ts`.
-- Lista de posts: `/blog`. Página de post: `/blog/[slug]`.
-
-Frontmatter mínimo por post:
-```yaml
-title: "Título del post"
-description: "Descripción corta"
-pubDate: "2024-06-01"
-heroImage: "/blog-placeholder-1.jpg" # opcional
-```
-
-## Buenas prácticas aplicadas
-- Unificación de estilos globales 
-- URLs absolutas en Open Graph/Twitter usando `Astro.site`.
-- Navbar con rutas absolutas desde raíz y `aria-current`.
-- Fechas localizadas a `es-MX`.
-
-## Scripts útiles
-- `npm run dev`: servidor de desarrollo
-- `npm run build`: compilar producción
-- `npm run preview`: previsualizar producción
-
-## Despliegue
-Sube el contenido de `dist/` a tu hosting estático (Netlify, Vercel, GitHub Pages, etc.). Asegura que el dominio en producción coincida con `site` en `astro.config.mjs`.
+**Desarrollado con ❤️ para Gigantes de Aguascalientes**
