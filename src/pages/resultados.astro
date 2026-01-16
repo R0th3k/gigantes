@@ -49,7 +49,16 @@ function getLogoUrl(logoName: string | null | undefined): string {
   <section class="resultados-section">
     
     <div class="container resultados-container">
-      {partidosJugados.map((partido) => (
+      {partidosJugados.length === 0 ? (
+        <div class="mensaje-vacio">
+          <div class="mensaje-vacio-content">
+            <i class="fas fa-calendar-alt mensaje-icon"></i>
+            <h3 class="mensaje-titulo">Aún no hay partidos jugados</h3>
+            <p class="mensaje-texto">Los resultados aparecerán aquí una vez que se hayan disputado los partidos de la temporada.</p>
+          </div>
+        </div>
+      ) : (
+        partidosJugados.map((partido) => (
         <div class="resultado-card">
           <div class="resultado-content">
             <!-- Equipo Local -->
@@ -119,7 +128,8 @@ function getLogoUrl(logoName: string | null | undefined): string {
             {formatearFecha(partido.fecha)}, {partido.hora} Hrs | {partido.sede}
           </div>
         </div>
-      ))}
+        ))
+      )}
     </div>
   </section>
   
@@ -130,42 +140,52 @@ function getLogoUrl(logoName: string | null | undefined): string {
     </div>
     
     <div class="puntaje-container container">
-      <table class="puntaje-table">
-        <thead>
-          <tr>
-            <th>POS</th>
-            <th>EQUIPO</th>
-            <th>PJ</th>
-            <th>G</th>
-            <th>P</th>
-            <th>SF</th>
-            <th>SC</th>
-            <th>PTS</th>
-          </tr>
-        </thead>
-        <tbody>
-          {puntajeData.map((equipo, index) => (
-            <tr class={index % 2 === 0 ? 'row-even' : 'row-odd'}>
-              <td class="pos-cell">{equipo.posicion}</td>
-              <td class="equipo-cell">
-                <img 
-                  src={getLogoUrl(equipo.logo)} 
-                  alt={equipo.equipo} 
-                  class="equipo-logo-table"
-                  onerror="this.onerror=null; this.src='/assets/images/balon.svg';"
-                />
-                <span>{equipo.equipo}</span>
-              </td>
-              <td>{equipo.pj}</td>
-              <td>{equipo.g}</td>
-              <td>{equipo.p}</td>
-              <td>{equipo.sf}</td>
-              <td>{equipo.sc}</td>
-              <td class="pts-cell">{equipo.pts}</td>
+      {partidosJugados.length === 0 ? (
+        <div class="mensaje-vacio">
+          <div class="mensaje-vacio-content">
+            <i class="fas fa-trophy mensaje-icon"></i>
+            <h3 class="mensaje-titulo">Próximamente</h3>
+            <p class="mensaje-texto">La tabla de posiciones aparecerá aquí una vez que se hayan jugado los primeros partidos de la temporada.</p>
+          </div>
+        </div>
+      ) : (
+        <table class="puntaje-table">
+          <thead>
+            <tr>
+              <th>POS</th>
+              <th>EQUIPO</th>
+              <th>PJ</th>
+              <th>G</th>
+              <th>P</th>
+              <th>SF</th>
+              <th>SC</th>
+              <th>PTS</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {puntajeData.map((equipo, index) => (
+              <tr class={index % 2 === 0 ? 'row-even' : 'row-odd'}>
+                <td class="pos-cell">{equipo.posicion}</td>
+                <td class="equipo-cell">
+                  <img 
+                    src={getLogoUrl(equipo.logo)} 
+                    alt={equipo.equipo} 
+                    class="equipo-logo-table"
+                    onerror="this.onerror=null; this.src='/assets/images/balon.svg';"
+                  />
+                  <span>{equipo.equipo}</span>
+                </td>
+                <td>{equipo.pj}</td>
+                <td>{equipo.g}</td>
+                <td>{equipo.p}</td>
+                <td>{equipo.sf}</td>
+                <td>{equipo.sc}</td>
+                <td class="pts-cell">{equipo.pts}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
     </div>
   </section>
 </Main>
@@ -504,9 +524,73 @@ function getLogoUrl(logoName: string | null | undefined): string {
       height: 25px;
     }
     
-    .equipo-cell {
-      gap: 0.5rem;
-      font-size: 0.9rem;
+      .equipo-cell {
+        gap: 0.5rem;
+        font-size: 0.9rem;
+      }
+    }
+  
+  /* Estilos para mensajes vacíos */
+  .mensaje-vacio {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 400px;
+    padding: 3rem 1rem;
+  }
+  
+  .mensaje-vacio-content {
+    text-align: center;
+    max-width: 500px;
+    background: white;
+    padding: 3rem 2rem;
+    border-radius: 15px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  }
+  
+  .mensaje-icon {
+    font-size: 4rem;
+    color: #6CB3DF;
+    margin-bottom: 1.5rem;
+  }
+  
+  .mensaje-titulo {
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 2rem;
+    color: #0D3963;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 1rem;
+  }
+  
+  .mensaje-texto {
+    font-family: "Arimo", sans-serif;
+    font-size: 1.1rem;
+    color: #666;
+    line-height: 1.6;
+    margin: 0;
+  }
+  
+  @media (max-width: 575.98px) {
+    .mensaje-vacio {
+      min-height: 300px;
+      padding: 2rem 1rem;
+    }
+    
+    .mensaje-vacio-content {
+      padding: 2rem 1.5rem;
+    }
+    
+    .mensaje-icon {
+      font-size: 3rem;
+    }
+    
+    .mensaje-titulo {
+      font-size: 1.5rem;
+    }
+    
+    .mensaje-texto {
+      font-size: 1rem;
     }
   }
 </style>

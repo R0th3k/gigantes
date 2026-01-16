@@ -5,6 +5,29 @@ import Partidos from "@/components/Partidos.vue";
 import Noticias from "@/components/Noticias.astro";
 import Image from "@/components/Image.astro";
 import { url } from "@/utils/url";
+import fs from 'fs';
+import path from 'path';
+
+// Leer archivo JSON de partidos
+const jsonPath = path.join(process.cwd(), 'public', 'assets', 'data', 'partidos_t26.json');
+const partidosData = JSON.parse(fs.readFileSync(jsonPath, 'utf-8'));
+
+// Función para verificar si un partido ya se jugó
+const yaPaso = (partido: any) => {
+  const ahora = new Date();
+  const fechaHoraPartido = new Date(`${partido.fecha}T${partido.hora}:00`);
+  return fechaHoraPartido < ahora;
+};
+
+// Función para verificar si un partido tiene resultados
+const tieneResultados = (partido: any) => {
+  return partido.puntos_local !== null || partido.puntos_visitante !== null ||
+         (partido.sets_local && partido.sets_local.some((set: any) => set !== null)) ||
+         (partido.sets_visitante && partido.sets_visitante.some((set: any) => set !== null));
+};
+
+// Verificar si hay partidos jugados (que ya pasaron y tienen resultados)
+const hayPartidosJugados = partidosData.some((partido: any) => yaPaso(partido) && tieneResultados(partido));
 ---
 
 <Main title="Inicio" class="main-content">
@@ -71,15 +94,17 @@ import { url } from "@/utils/url";
     </div>
   </section>
 
-  <section class="section partidos-anteriores py-5 bg-strokes">
-    <div class="container">
-      <h2 class="text-warning text-center pb-3">Partidos Jugados</h2>
-      <Partidos proximos={false} anteriores={true} client:load cantidad={6} />
-      <div class="text-center mt-4">
-        <a href={url("/resultados")} class="btn btn-warning btn-lg">Resultados</a>
+  {hayPartidosJugados && (
+    <section class="section partidos-anteriores py-5 bg-strokes">
+      <div class="container">
+        <h2 class="text-warning text-center pb-3">Partidos Jugados</h2>
+        <Partidos proximos={false} anteriores={true} client:load cantidad={6} />
+        <div class="text-center mt-4">
+          <a href={url("/resultados")} class="btn btn-warning btn-lg">Resultados</a>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
+  )}
 
 </Main>
 

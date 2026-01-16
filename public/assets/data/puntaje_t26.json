@@ -12,8 +12,8 @@
   },
   {
     "posicion": 2,
-    "equipo": "Orizaba",
-    "logo": "orizaba",
+    "equipo": "Freseras",
+    "logo": "freseras",
     "pj": 5,
     "g": 4,
     "p": 1,
@@ -23,8 +23,8 @@
   },
   {
     "posicion": 3,
-    "equipo": "Leones de Yucatán",
-    "logo": "leones_de_yucatan",
+    "equipo": "Guerreras de Puebla",
+    "logo": "guerreras_de_puebla",
     "pj": 5,
     "g": 3,
     "p": 2,
@@ -34,8 +34,8 @@
   },
   {
     "posicion": 4,
-    "equipo": "Toros de Tijuana",
-    "logo": "toros_de_tijuana",
+    "equipo": "Leonas",
+    "logo": "leonas",
     "pj": 5,
     "g": 3,
     "p": 2,
@@ -45,58 +45,24 @@
   },
   {
     "posicion": 5,
-    "equipo": "Sultanes de Monterrey",
-    "logo": "sultanes_de_monterrey",
-    "pj": 4,
+    "equipo": "Coronelas de Durango",
+    "logo": "coronelas_de_durango",
+    "pj": 5,
     "g": 2,
-    "p": 2,
+    "p": 3,
     "sf": 20,
     "sc": 22,
     "pts": 6
   },
   {
     "posicion": 6,
-    "equipo": "Diablos Rojos del México",
-    "logo": "diablos_rojos_del_mexico",
-    "pj": 4,
-    "g": 2,
-    "p": 2,
-    "sf": 18,
-    "sc": 24,
-    "pts": 5
-  },
-  {
-    "posicion": 7,
-    "equipo": "Acereros del Norte",
-    "logo": "acereros_del_norte",
-    "pj": 4,
+    "equipo": "Tapatías Club",
+    "logo": "tapatias_club",
+    "pj": 5,
     "g": 1,
-    "p": 3,
+    "p": 4,
     "sf": 15,
     "sc": 28,
     "pts": 4
-  },
-  {
-    "posicion": 8,
-    "equipo": "Tigres de Quintana Roo",
-    "logo": "tigres_de_quintana_roo",
-    "pj": 4,
-    "g": 1,
-    "p": 3,
-    "sf": 12,
-    "sc": 30,
-    "pts": 3
-  },
-  {
-    "posicion": 9,
-    "equipo": "Guerreros de Oaxaca",
-    "logo": "guerreros_de_oaxaca",
-    "pj": 4,
-    "g": 0,
-    "p": 4,
-    "sf": 8,
-    "sc": 32,
-    "pts": 1
   }
 ]
-

@@ -1,0 +1,149 @@
+---
+import { url } from '@/utils/url';
+
+interface Props {
+  images: string[];
+  basePath?: string;
+  galleryId?: string;
+}
+
+const { images, basePath = '/assets/images/blog/posts/', galleryId } = Astro.props;
+
+// Generar ID único para la galería si no se proporciona
+const uniqueId = galleryId || `gallery-${Math.random().toString(36).substr(2, 9)}`;
+const gallerySelector = `#${uniqueId}`;
+
+// Construir rutas completas de las imágenes
+const imagePaths = images.map(imageName => {
+  // Si la imagen ya tiene una ruta completa, usarla tal cual
+  if (imageName.startsWith('/') || imageName.startsWith('http')) {
+    return imageName;
+  }
+  // Si no, construir la ruta con basePath
+  return `${basePath}${imageName}`;
+});
+---
+
+<div class="gallery-container">
+  <div class="row g-4" id={uniqueId}>
+    {imagePaths.map((imagePath, index) => {
+      const fullPath = url(imagePath);
+      return (
+        <div class="col-md-4 col-sm-6 gallery-item">
+          <a 
+            href={fullPath} 
+            class="gallery-link"
+            data-pswp-width="1728"
+            data-pswp-height="1080"
+            data-cropped="true"
+          >
+            <img 
+              src={fullPath} 
+              alt={`Imagen ${index + 1}`}
+              class="gallery-image"
+              loading="lazy"
+            />
+          </a>
+        </div>
+      );
+    })}
+  </div>
+</div>
+
+<!-- PhotoSwipe CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/5.4.4/photoswipe.min.css" />
+
+<!-- PhotoSwipe Core JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/5.4.4/umd/photoswipe.umd.min.js"></script>
+
+<!-- PhotoSwipe Lightbox JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/5.4.4/umd/photoswipe-lightbox.umd.min.js"></script>
+
+<script is:inline set:html={`
+  (function() {
+    const galleryId = '${uniqueId}';
+    document.addEventListener('DOMContentLoaded', () => {
+      // Esperar a que PhotoSwipeLightbox esté disponible
+      const initGallery = () => {
+        if (typeof PhotoSwipeLightbox === 'undefined' || typeof PhotoSwipe === 'undefined') {
+          setTimeout(initGallery, 100);
+          return;
+        }
+        
+        // Verificar que el elemento de la galería existe
+        const galleryElement = document.getElementById(galleryId);
+        if (!galleryElement) {
+          return;
+        }
+        
+        // Inicializar PhotoSwipe Lightbox
+        const lightbox = new PhotoSwipeLightbox({
+          gallery: '#' + galleryId,
+          children: 'a.gallery-link',
+          pswpModule: PhotoSwipe,
+          bgOpacity: 0.9,
+          showHideAnimationType: 'fade',
+          spacing: 0.1
+        });
+        
+        lightbox.init();
+      };
+      
+      initGallery();
+    });
+  })();
+`} />
+
+<style is:inline>
+  .gallery-container {
+    margin: 2rem 0;
+  }
+  
+  .gallery-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+  }
+  
+  .gallery-item:hover {
+    transform: translateY(-5px);
+  }
+  
+  .gallery-link {
+    display: block;
+    width: 100%;
+    height: 100%;
+    text-decoration: none;
+  }
+  
+  .gallery-image {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 10px;
+    transition: transform 0.3s ease, filter 0.3s ease;
+  }
+  
+  .gallery-item:hover .gallery-image {
+    transform: scale(1.05);
+    filter: brightness(1.1);
+  }
+
+  .pswp {
+    z-index: 999999999999!important;
+}
+  
+  @media (max-width: 767.98px) {
+    .gallery-image {
+      height: 250px;
+    }
+  }
+  
+  @media (max-width: 575.98px) {
+    .gallery-image {
+      height: 200px;
+    }
+  }
+</style>
