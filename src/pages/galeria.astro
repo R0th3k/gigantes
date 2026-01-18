@@ -2,29 +2,36 @@
 import Main from '@/layouts/Main.astro';
 import { url } from '@/utils/url';
 import HeroInner from '@/components/HeroInner.astro';
-// Crear array de 20 imágenes usando las 3 del hero (alternadas)
-const heroImages = [
-  '/assets/images/hero/home-1.jpg',
-  '/assets/images/hero/home-2.jpg',
-  '/assets/images/hero/home-3.jpg'
-];
+import fs from 'fs';
+import path from 'path';
 
-const galeriaImages = [];
-for (let i = 0; i < 3; i++) {
-  const imageIndex = i % heroImages.length;
-  galeriaImages.push({
-    src: heroImages[imageIndex],
-    title: `Imagen ${i + 1} - Gigantes de Aguascalientes`,
-    width: 1728,
-    height: 810
+// Dimensiones de las imágenes: 1080 x 1035
+const IMAGE_WIDTH = 1080;
+const IMAGE_HEIGHT = 1350;
+
+// Obtener todas las imágenes de la carpeta galeria
+const galeriaPath = path.join(process.cwd(), 'public', 'assets', 'images', 'galeria');
+const imageFiles = fs.readdirSync(galeriaPath)
+  .filter(file => file.endsWith('.jpg') || file.endsWith('.jpeg') || file.endsWith('.png'))
+  .sort((a, b) => {
+    // Ordenar numéricamente: 2.jpg, 3.jpg, ..., 16.jpg
+    const numA = parseInt(a.replace(/\D/g, '')) || 0;
+    const numB = parseInt(b.replace(/\D/g, '')) || 0;
+    return numA - numB;
   });
-}
+
+const galeriaImages = imageFiles.map((file, index) => ({
+  src: `/assets/images/galeria/${file}`,
+  title: `Gigantes de Aguascalientes - ${file}`,
+  width: IMAGE_WIDTH,
+  height: IMAGE_HEIGHT
+}));
 ---
 
 <Main title="Galería">
   <section class="section galeria py-5">
     <HeroInner 
-    image="/assets/images/hero/home-1.jpg" 
+    image="/assets/images/hero/galeria.jpg" 
     title="Galería" 
     textColor="white" 
                     />
@@ -33,14 +40,13 @@ for (let i = 0; i < 3; i++) {
       
       <div class="row g-4" id="galeria-grid">
         {galeriaImages.map((img, index) => (
-          <div class="col-md-4 col-sm-6 galeria-item">
+          <div class="col-md-3 col-sm-6 galeria-item">
             <a 
               href={url(img.src)} 
               class="galeria-link"
               data-pswp-width={img.width}
               data-pswp-height={img.height}
-              data-cropped="true"
-              target="_blank"
+              data-pswp-src={url(img.src)}
             >
               <img 
                 src={url(img.src)} 
@@ -81,7 +87,19 @@ for (let i = 0; i < 3; i++) {
         pswpModule: PhotoSwipe,
         bgOpacity: 0.9,
         showHideAnimationType: 'fade',
-        spacing: 0.1
+        spacing: 0.1,
+        // Configurar para respetar las dimensiones de las imágenes
+        imageClickAction: 'close',
+        tapAction: 'toggle-controls',
+        doubleTapAction: 'zoom',
+        // Ajustar el zoom para que las imágenes se vean completas
+        maxZoomLevel: 2,
+        wheelToZoom: true
+      });
+      
+      // Configurar el tamaño de las imágenes antes de abrir
+      lightbox.on('beforeOpen', () => {
+        lightbox.pswp.options.imageClickAction = 'close';
       });
       
       lightbox.init();
@@ -91,7 +109,7 @@ for (let i = 0; i < 3; i++) {
   });
 </script>
 
-<style>
+<style is:inline>
   .galeria {
     min-height: 60vh;
   }
@@ -124,7 +142,8 @@ for (let i = 0; i < 3; i++) {
   
   .galeria-image {
     width: 100%;
-    height: 300px;
+    height: auto;
+    /* aspect-ratio: 1080 / 1035; */
     object-fit: cover;
     border-radius: 10px;
     transition: transform 0.3s ease, filter 0.3s ease;
@@ -134,16 +153,29 @@ for (let i = 0; i < 3; i++) {
     transform: scale(1.05);
     filter: brightness(1.1);
   }
+  .pswp.pswp--open.pswp--has_mouse.pswp--ui-visible.pswp--zoom-allowed{
+      z-index: 99999999999999!important;
+  }
+  /* Estilos para PhotoSwipe */
+  :global(.pswp__img) {
+    object-fit: contain !important;
+  }
+  
+  :global(.pswp__zoom-wrap) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
   
   @media (max-width: 767.98px) {
     .galeria-image {
-      height: 250px;
+      /* aspect-ratio: 1080 / 1035; */
     }
   }
   
   @media (max-width: 575.98px) {
     .galeria-image {
-      height: 200px;
+      /* aspect-ratio: 1080 / 1035; */
     }
     
     .galeria h2 {

@@ -12,10 +12,26 @@ import path from 'path';
 const jsonPath = path.join(process.cwd(), 'public', 'assets', 'data', 'partidos_t26.json');
 const partidosData = JSON.parse(fs.readFileSync(jsonPath, 'utf-8'));
 
+// Función para crear una fecha en zona horaria local desde fecha y hora en formato CST
+const crearFechaCST = (fecha: string, hora: string) => {
+  // Parsear fecha y hora manualmente: "2026-01-17" y "20:00"
+  const [año, mes, dia] = fecha.split('-');
+  const [horas, minutos] = hora.split(':');
+  
+  // Crear fecha usando los componentes directamente (se interpretará en zona horaria local)
+  return new Date(
+    parseInt(año),
+    parseInt(mes) - 1, // Los meses en Date son 0-indexados
+    parseInt(dia),
+    parseInt(horas),
+    parseInt(minutos)
+  );
+};
+
 // Función para verificar si un partido ya se jugó
 const yaPaso = (partido: any) => {
   const ahora = new Date();
-  const fechaHoraPartido = new Date(`${partido.fecha}T${partido.hora}:00`);
+  const fechaHoraPartido = crearFechaCST(partido.fecha, partido.hora);
   return fechaHoraPartido < ahora;
 };
 
@@ -49,6 +65,7 @@ const hayPartidosJugados = partidosData.some((partido: any) => yaPaso(partido) &
         <a href={url("/blog")} class="btn btn-primary btn-lg">Ver todas las noticias</a>
       </div>
     </div>
+
   </section>
 
   <section class="section somos-gigantes py-5 bg-dark text-light">
@@ -69,7 +86,7 @@ const hayPartidosJugados = partidosData.some((partido: any) => yaPaso(partido) &
         </div>
       </div>
 
-      <div class="row">
+      <div class="row mt-5">
         <div class="col-md-2">
         </div>
         <div class="col-md-4">

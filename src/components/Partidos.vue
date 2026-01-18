@@ -100,17 +100,34 @@ const loading = ref(true);
 const error = ref(false);
 const swiperInstance = ref(null);
 
+// Función para crear una fecha en zona horaria local desde fecha y hora en formato CST
+const crearFechaCST = (fecha, hora) => {
+  // Parsear fecha y hora manualmente: "2026-01-17" y "20:00"
+  const [año, mes, dia] = fecha.split('-');
+  const [horas, minutos] = hora.split(':');
+  
+  // Crear fecha usando los componentes directamente (se interpretará en zona horaria local)
+  // Esto evita que JavaScript interprete la fecha como UTC
+  return new Date(
+    parseInt(año),
+    parseInt(mes) - 1, // Los meses en Date son 0-indexados
+    parseInt(dia),
+    parseInt(horas),
+    parseInt(minutos)
+  );
+};
+
 // Función para verificar si un partido ya pasó
 const yaPaso = (partido) => {
   const ahora = new Date();
-  const fechaHoraPartido = new Date(`${partido.fecha}T${partido.hora}:00`);
+  const fechaHoraPartido = crearFechaCST(partido.fecha, partido.hora);
   return fechaHoraPartido < ahora;
 };
 
 // Función para verificar si un partido es futuro
 const esFuturo = (partido) => {
   const ahora = new Date();
-  const fechaHoraPartido = new Date(`${partido.fecha}T${partido.hora}:00`);
+  const fechaHoraPartido = crearFechaCST(partido.fecha, partido.hora);
   return fechaHoraPartido >= ahora;
 };
 
@@ -162,12 +179,14 @@ const loadScript = (src) => {
 };
 
 const formatearFecha = (fecha) => {
-  const date = new Date(fecha);
+  // Parsear la fecha manualmente para evitar problemas de zona horaria
+  // La fecha viene en formato "YYYY-MM-DD" y debe interpretarse en GMT-6 (CST)
+  const [año, mes, dia] = fecha.split('-');
   const meses = [
     'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
     'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'
   ];
-  return `${date.getDate()} de ${meses[date.getMonth()]} ${date.getFullYear()}`;
+  return `${dia} de ${meses[parseInt(mes) - 1]} ${año}`;
 };
 
 const getLogoUrl = (logo) => {
