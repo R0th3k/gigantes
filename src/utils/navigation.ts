@@ -10,7 +10,7 @@ export function linkAttrs(href: string): LinkAttrs {
 
 export function isActive(pathname: string, href: string): boolean {
   if (!href) return false;
-  if (href === '/inicio' || href === '/') return pathname === '/inicio' || pathname === '/';
+  if (href === '/') return pathname === '/';
   return pathname.startsWith(href);
 }
 

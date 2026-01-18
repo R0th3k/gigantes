@@ -1,6 +1,6 @@
     ---
     const sections: Array<{ name: string; href: string; isAnchor?: boolean; external?: boolean }> = [
-      { name: "Inicio", href: "/inicio" },
+      { name: "Inicio", href: "/" },
       { name: "Resultados", href: "/resultados" },
       { name: "Tienda", href: "/tienda" },
       { name: "Noticias", href: "/blog" },
@@ -24,10 +24,10 @@
                             <li class="nav-item">
                                 <a
                                     class={`nav-link ${(
-                                      section.href === '/inicio' ? pathname === '/inicio' : pathname.startsWith(section.href)
+                                      section.href === '/' ? pathname === '/' : pathname.startsWith(section.href)
                                     ) ? 'active' : ''}`}
                                     href={url(section.href)}
-                                    aria-current={(section.href === '/inicio' ? pathname === '/inicio' : pathname.startsWith(section.href)) ? 'page' : undefined}
+                                    aria-current={(section.href === '/' ? pathname === '/' : pathname.startsWith(section.href)) ? 'page' : undefined}
                                 >
                                     {section.name}
                                 </a>
@@ -38,7 +38,7 @@
                 
                 <!-- Logo centrado -->
                 <div class="navbar-brand-container">
-                    <a class="navbar-brand" href={url('/inicio')}> 
+                    <a class="navbar-brand" href={url('/')}> 
                         <img src={url('/assets/images/logo_gigates.svg')} alt={SITE_TITLE} class="navbar-logo" />
                     </a>
                 </div>
@@ -50,10 +50,10 @@
                             <li class="nav-item">
                                 <a
                                     class={`nav-link ${(
-                                      section.href === '/inicio' ? pathname === '/inicio' : pathname.startsWith(section.href)
+                                      section.href === '/' ? pathname === '/' : pathname.startsWith(section.href)
                                     ) ? 'active' : ''}`}
                                     href={url(section.href)}
-                                    aria-current={(section.href === '/inicio' ? pathname === '/inicio' : pathname.startsWith(section.href)) ? 'page' : undefined}
+                                    aria-current={(section.href === '/' ? pathname === '/' : pathname.startsWith(section.href)) ? 'page' : undefined}
                                 >
                                     {section.name}
                                 </a>
@@ -70,7 +70,7 @@
         <div class="top-bar"></div>
         <div class="container">
             <div class="navbar-mobile-header">
-                <a class="navbar-brand" href={url('/inicio')}> 
+                <a class="navbar-brand" href={url('/')}> 
                     <img src={url('/assets/images/logo_gigates.svg')} alt={SITE_TITLE} class="navbar-logo" />
                 </a>
                 <button
@@ -89,7 +89,7 @@
                         <li class="nav-item">
                             <a
                                 class={`nav-link ${(
-                                  section.href === '/inicio' ? pathname === '/inicio' : pathname.startsWith(section.href)
+                                  section.href === '/' ? pathname === '/' : pathname.startsWith(section.href)
                                 ) ? 'active' : ''}`}
                                 href={url(section.href)}
                                 aria-current={(section.href === '/' ? pathname === '/' : pathname.startsWith(section.href)) ? 'page' : undefined}

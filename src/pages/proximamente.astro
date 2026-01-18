@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gigantes de Aguascalientes</title>
+    <!-- Google Fonts - Bebas Neue -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <div class="container ">
+        <!-- Fondo con degradado -->
+        <div class="gradient-background"></div>
+        
+        <!-- Imagen de fondo -->
+        <div class="background-image"></div>
+        
+        <!-- Contenido principal -->
+        <div class="content">
+            <!-- Logo -->
+            <div class="logo-container">
+                <img src="/assets/images/logo_gigates.svg" alt="Logo Gigantes" class="logo">
+            </div>
+            
+            <!-- Texto principal -->
+            <div class="text-container">
+                <h1 class="main-text">ALGO GIGANTE ESTA POR DESPERTAR</h1>
+                <h2 class="sub-text">EN AGUASCALIENTES</h2>
+                <h3 class="date-text">ENERO 2026</h3>
+            </div>
+            
+            <!-- Balón con animación -->
+            <div class="ball-container">
+                <img src="/assets/images/balon.svg" alt="Balón" class="ball">
+            </div>
+            
+            <!-- Redes sociales -->
+            <div class="social-icons">
+                <a href="https://www.facebook.com/GigantesDeAguascalientes?locale=es_LA" target="_blank" rel="noopener noreferrer" class="social-icon">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="https://www.instagram.com/gigantesdeaguascalientes/" target="_blank" rel="noopener noreferrer" class="social-icon">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="https://www.tiktok.com/@gigantesdeaguascalientes" target="_blank" rel="noopener noreferrer" class="social-icon">
+                    <i class="fab fa-tiktok"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Bebas Neue', sans-serif;
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+}
+
+.container {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* Fondo con degradado azul */
+.gradient-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #1E73A8;
+    background: radial-gradient(circle, rgba(30, 115, 168, 1) 0%, rgba(13, 57, 99, 1) 50%);
+    z-index: 1;
+}
+
+/* Imagen de fondo */
+.background-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('/assets/images/balls.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.3;
+    z-index: 2;
+}
+
+/* Contenido principal */
+.content {
+    position: relative;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    padding: 20px;
+}
+
+/* Logo */
+.logo-container {
+    margin-bottom: 40px;
+    animation: fadeInDown 1s ease-out;
+}
+
+.logo {
+    max-width: 300px;
+    width: 100%;
+    height: auto;
+}
+
+/* Texto principal */
+.text-container {
+    text-align: center;
+    margin-bottom: 60px;
+    animation: fadeInUp 1s ease-out 0.3s both;
+}
+
+.main-text {
+    color: white;
+    font-size: 2.5rem;
+    font-weight: 400;
+    font-family: 'Bebas Neue', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 15px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.sub-text {
+    color: white;
+    font-size: 2rem;
+    font-weight: 400;
+    font-family: 'Bebas Neue', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.date-text {
+    color: white;
+    font-size: 3rem;
+    font-weight: 400;
+    font-family: 'Bebas Neue', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Contenedor del balón */
+.ball-container {
+    margin-bottom: 40px;
+    animation: fadeInUp 1s ease-out 0.6s both;
+}
+
+/* Balón con animación */
+.ball {
+    width: 160px;
+    height: 160px;
+    animation: ballAnimation 6s ease-in-out infinite;
+    filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.3));
+    transform-origin: center center;
+}
+
+/* Animación combinada del balón: flotación y rotación */
+@keyframes ballAnimation {
+    0% {
+        transform: translateY(0px) rotate(0deg) scale(1);
+    }
+    25% {
+        transform: translateY(-20px) rotate(90deg) scale(1.05);
+    }
+    50% {
+        transform: translateY(0px) rotate(180deg) scale(1);
+    }
+    75% {
+        transform: translateY(-20px) rotate(270deg) scale(1.05);
+    }
+    100% {
+        transform: translateY(0px) rotate(360deg) scale(1);
+    }
+}
+
+/* Redes sociales */
+.social-icons {
+    display: flex;
+    gap: 20px;
+    animation: fadeInUp 1s ease-out 0.9s both;
+}
+
+.social-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #FFB400 0%, #FF8C00 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #0D3963;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 10px rgba(255, 180, 0, 0.3);
+}
+
+.social-icon i {
+    font-size: 24px;
+    color: #0D3963;
+}
+
+.social-icon:hover {
+    transform: translateY(-5px) scale(1.1);
+    box-shadow: 0 6px 15px rgba(255, 180, 0, 0.5);
+}
+
+/* Animaciones de entrada */
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .main-text {
+        font-size: 1.5rem;
+    }
+    
+    .sub-text {
+        font-size: 1.2rem;
+    }
+    
+    .date-text {
+        font-size: 2rem;
+    }
+    
+    .ball {
+        width: 200px;
+        height: 200px;
+    }
+    
+    .logo {
+        max-width: 200px;
+    }
+    
+    .social-icon {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .social-icon i {
+        font-size: 20px;
+    }
+}
+
+a {
+    text-decoration: none;
+}
+</style>

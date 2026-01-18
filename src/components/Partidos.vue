@@ -92,7 +92,7 @@ const props = defineProps({
 
 // Validar que solo una prop esté activa
 if (props.proximos && props.anteriores) {
-  console.warn('PartidosProximos: No se pueden usar "proximos" y "anteriores" al mismo tiempo. Se usará "proximos" por defecto.');
+  // Se usará "proximos" por defecto
 }
 
 const partidos = ref([]);
@@ -161,7 +161,6 @@ const cargarPartidos = async () => {
     const response = await axios.get('/assets/data/partidos_t26.json');
     partidos.value = response.data;
   } catch (err) {
-    console.error('Error al cargar partidos:', err);
     error.value = true;
   } finally {
     loading.value = false;

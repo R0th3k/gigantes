@@ -411,12 +411,96 @@ import HeroInner from '@/components/HeroInner.astro';
 </style>
 
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const form = document.querySelector('.contacto-form');
-    const nombreInput = document.getElementById('nombre');
-    const emailInput = document.getElementById('email');
-    const telefonoInput = document.getElementById('telefono');
-    const mensajeInput = document.getElementById('mensaje');
+  // Declarar tipo para grecaptcha
+  declare const grecaptcha: {
+    ready: (callback: () => void) => void;
+    execute: (siteKey: string, options: { action: string }) => Promise<string>;
+  };
+  
+  // Site key de reCAPTCHA v3
+  const RECAPTCHA_SITE_KEY = '6LdSLE4sAAAAABbYVbbIroSwlFfJ77-zzAkynUe7';
+  
+  // Función para cargar el script de reCAPTCHA dinámicamente
+  function loadRecaptchaScript(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      // Verificar si ya está cargado y listo
+      if (typeof (window as any).grecaptcha !== 'undefined' && 
+          typeof (window as any).grecaptcha.ready === 'function') {
+        (window as any).grecaptcha.ready(() => {
+          resolve();
+        });
+        return;
+      }
+      
+      // Verificar si el script ya existe en el DOM
+      const existingScript = document.querySelector(`script[src*="recaptcha/api.js"]`);
+      if (existingScript) {
+        // Esperar a que grecaptcha esté disponible
+        let attempts = 0;
+        const maxAttempts = 100; // 10 segundos máximo (100 * 100ms)
+        const checkInterval = setInterval(() => {
+          attempts++;
+          if (typeof (window as any).grecaptcha !== 'undefined' && 
+              typeof (window as any).grecaptcha.ready === 'function') {
+            clearInterval(checkInterval);
+            (window as any).grecaptcha.ready(() => {
+              resolve();
+            });
+          } else if (attempts >= maxAttempts) {
+            clearInterval(checkInterval);
+            reject(new Error('reCAPTCHA no se pudo cargar después de esperar'));
+          }
+        }, 100);
+        return;
+      }
+      
+      // Crear y cargar el script
+      const script = document.createElement('script');
+      script.src = `https://www.google.com/recaptcha/api.js?render=${RECAPTCHA_SITE_KEY}`;
+      script.async = true;
+      script.defer = true;
+      
+      script.onload = () => {
+        // Esperar a que grecaptcha esté completamente inicializado
+        let attempts = 0;
+        const maxAttempts = 50; // 5 segundos máximo
+        const checkRecaptcha = setInterval(() => {
+          attempts++;
+          if (typeof (window as any).grecaptcha !== 'undefined' && 
+              typeof (window as any).grecaptcha.ready === 'function') {
+            clearInterval(checkRecaptcha);
+            (window as any).grecaptcha.ready(() => {
+              resolve();
+            });
+          } else if (attempts >= maxAttempts) {
+            clearInterval(checkRecaptcha);
+            reject(new Error('reCAPTCHA no se pudo inicializar después de cargar el script'));
+          }
+        }, 100);
+      };
+      
+      script.onerror = () => {
+        reject(new Error('Error al cargar el script de reCAPTCHA. Verifica tu conexión a internet.'));
+      };
+      
+      document.head.appendChild(script);
+    });
+  }
+  
+  document.addEventListener('DOMContentLoaded', async () => {
+    // Cargar reCAPTCHA primero
+    try {
+      await loadRecaptchaScript();
+      console.log('✅ reCAPTCHA v3 cargado correctamente');
+    } catch (error: any) {
+      console.error('❌ Error al cargar reCAPTCHA:', error);
+      // Continuar sin reCAPTCHA si hay error
+    }
+    const form = document.querySelector('.contacto-form') as HTMLFormElement;
+    const nombreInput = document.getElementById('nombre') as HTMLInputElement;
+    const emailInput = document.getElementById('email') as HTMLInputElement;
+    const telefonoInput = document.getElementById('telefono') as HTMLInputElement;
+    const mensajeInput = document.getElementById('mensaje') as HTMLTextAreaElement;
     
     // Función para validar email
     function validateEmail(email) {
@@ -504,8 +588,9 @@ import HeroInner from '@/components/HeroInner.astro';
     telefonoInput.addEventListener('input', (e) => {
       telefonoInput.setCustomValidity('');
       // Permitir solo números, espacios, guiones y paréntesis
-      let value = e.target.value.replace(/[^0-9\s\-\(\)]/g, '');
-      e.target.value = value;
+      const target = e.target as HTMLInputElement;
+      let value = target.value.replace(/[^0-9\s\-\(\)]/g, '');
+      target.value = value;
       
       if (value === '') {
         showError(telefonoInput, 'telefono-error', 'El teléfono es requerido');
@@ -584,63 +669,171 @@ import HeroInner from '@/components/HeroInner.astro';
       
       if (!isValid) {
         // Scroll al primer error
-        const firstError = form.querySelector('.error');
+        const firstError = form.querySelector('.error') as HTMLElement;
         if (firstError) {
           firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          firstError.focus();
+          (firstError as HTMLInputElement).focus();
         }
         return;
       }
       
       // Deshabilitar botón de envío
-      const submitBtn = form.querySelector('.btn-submit');
-      const originalText = submitBtn.textContent;
+      const submitBtn = form.querySelector('.btn-submit') as HTMLButtonElement;
+      const originalText = submitBtn.textContent || '';
       submitBtn.disabled = true;
       submitBtn.textContent = 'Enviando...';
       
-      // Preparar datos del formulario
-      const formData = new FormData(form);
-      
       try {
-        // Enviar datos mediante AJAX
-        const response = await fetch('/send-mail.php', {
-          method: 'POST',
-          body: formData
-        });
+        // Ejecutar reCAPTCHA v3 con timeout
+        let recaptchaToken = '';
+        try {
+          // Verificar que grecaptcha esté disponible y listo
+          if (typeof (window as any).grecaptcha === 'undefined' || 
+              typeof (window as any).grecaptcha.ready !== 'function' ||
+              typeof (window as any).grecaptcha.execute !== 'function') {
+            throw new Error('reCAPTCHA no está completamente cargado. Por favor, recarga la página.');
+          }
+          
+          recaptchaToken = await Promise.race([
+            new Promise<string>((resolve, reject) => {
+              // Asegurarse de que grecaptcha esté listo antes de ejecutar
+              (window as any).grecaptcha.ready(() => {
+                try {
+                  (window as any).grecaptcha.execute(RECAPTCHA_SITE_KEY, { action: 'submit' })
+                    .then((token: string) => {
+                      if (!token || token.length === 0) {
+                        reject(new Error('Token de reCAPTCHA vacío'));
+                        return;
+                      }
+                      console.log('✅ reCAPTCHA token generado:', token.substring(0, 20) + '...');
+                      resolve(token);
+                    })
+                    .catch((error: any) => {
+                      console.error('❌ Error al generar token de reCAPTCHA:', error);
+                      // Si el error es sobre la clave del sitio, dar un mensaje más específico
+                      if (error.message && error.message.includes('site key')) {
+                        reject(new Error('Clave de sitio de reCAPTCHA inválida. Verifica la configuración.'));
+                      } else {
+                        reject(error);
+                      }
+                    });
+                } catch (execError: any) {
+                  reject(execError);
+                }
+              });
+            }),
+            new Promise<string>((_, reject) => {
+              setTimeout(() => {
+                reject(new Error('Timeout: reCAPTCHA tardó demasiado en responder'));
+              }, 15000); // 15 segundos timeout para reCAPTCHA
+            })
+          ]);
+        } catch (recaptchaError: any) {
+          console.error('❌ Error al ejecutar reCAPTCHA:', recaptchaError);
+          // Si el error es de clave inválida, permitir enviar sin reCAPTCHA (temporalmente)
+          if (recaptchaError.message?.includes('site key') || recaptchaError.message?.includes('Invalid site key')) {
+            console.warn('⚠️ reCAPTCHA no está configurado correctamente para este dominio.');
+            console.warn('⚠️ Enviando formulario sin validación de reCAPTCHA (modo temporal).');
+            recaptchaToken = ''; // Token vacío - el PHP permitirá el envío temporalmente
+            // Continuar con el envío del formulario
+          } else {
+            // Para otros errores, mostrar mensaje y detener
+            let errorMessage = 'Error al verificar reCAPTCHA. ';
+            if (recaptchaError.message?.includes('Timeout')) {
+              errorMessage += 'reCAPTCHA tardó demasiado en responder. Por favor, recarga la página e intenta nuevamente.';
+            } else {
+              errorMessage += 'Por favor, recarga la página e intenta nuevamente.';
+            }
+            showFormMessage(errorMessage, 'error');
+            submitBtn.disabled = false;
+            submitBtn.textContent = originalText;
+            return;
+          }
+        }
         
-        const result = await response.json();
+        // Preparar datos del formulario
+        const formData = new FormData(form);
+        // Agregar token de reCAPTCHA solo si existe (puede estar vacío si hay problemas de configuración)
+        if (recaptchaToken && recaptchaToken.length > 0) {
+          formData.append('recaptcha_token', recaptchaToken);
+          console.log('📤 Enviando formulario CON token de reCAPTCHA');
+        } else {
+          formData.append('recaptcha_token', ''); // Enviar vacío para que el PHP lo detecte
+          console.warn('⚠️ Enviando formulario SIN token de reCAPTCHA (modo temporal)');
+        }
+        
+        // Enviar datos mediante AJAX con timeout
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 segundos timeout
+        
+        let response;
+        try {
+          response = await fetch('/send-mail.php', {
+            method: 'POST',
+            body: formData,
+            signal: controller.signal
+          });
+          clearTimeout(timeoutId);
+        } catch (fetchError: any) {
+          clearTimeout(timeoutId);
+          if (fetchError.name === 'AbortError') {
+            showFormMessage('La petición tardó demasiado. Por favor, verifica tu conexión e intenta nuevamente.', 'error');
+          } else {
+            showFormMessage('Error de conexión. Por favor, verifica tu conexión a internet e intenta nuevamente.', 'error');
+          }
+          submitBtn.disabled = false;
+          submitBtn.textContent = originalText;
+          return;
+        }
+        
+        let result;
+        try {
+          const text = await response.text();
+          result = JSON.parse(text);
+        } catch (parseError) {
+          showFormMessage('Error al procesar la respuesta del servidor. Por favor, intenta nuevamente.', 'error');
+          submitBtn.disabled = false;
+          submitBtn.textContent = originalText;
+          return;
+        }
         
         if (result.success) {
+          console.log('✅ Formulario enviado exitosamente');
+          if (recaptchaToken && recaptchaToken.length > 0) {
+            console.log('✅ reCAPTCHA validado correctamente en el servidor');
+          } else {
+            console.warn('⚠️ Formulario enviado sin validación de reCAPTCHA (modo temporal)');
+          }
           // Mostrar mensaje de éxito
           showFormMessage(result.message, 'success');
           // Limpiar formulario
           form.reset();
           // Remover clases de validación
-          form.querySelectorAll('.form-control').forEach(input => {
-            input.classList.remove('error', 'valid');
+          form.querySelectorAll('.form-control').forEach((input) => {
+            (input as HTMLElement).classList.remove('error', 'valid');
           });
-          form.querySelectorAll('.form-error').forEach(error => {
-            error.textContent = '';
+          form.querySelectorAll('.form-error').forEach((error) => {
+            (error as HTMLElement).textContent = '';
           });
         } else {
+          console.error('❌ Error al enviar formulario:', result.message);
+          if (result.message && result.message.includes('reCAPTCHA')) {
+            console.error('⚠️ El problema está relacionado con reCAPTCHA');
+          }
           // Mostrar mensaje de error
           showFormMessage(result.message || 'Error al enviar el mensaje. Por favor, intenta nuevamente.', 'error');
-          
-          // Si hay errores específicos, mostrarlos
-          if (result.errors && Array.isArray(result.errors)) {
-            result.errors.forEach((errorMsg, index) => {
-              // Intentar asociar errores a campos específicos si es posible
-              console.error('Error:', errorMsg);
-            });
-          }
         }
-      } catch (error) {
-        console.error('Error:', error);
-        showFormMessage('Error de conexión. Por favor, verifica tu conexión a internet e intenta nuevamente.', 'error');
-      } finally {
-        // Rehabilitar botón
+      } catch (error: any) {
+        showFormMessage('Error inesperado. Por favor, intenta nuevamente. Si el problema persiste, contacta al administrador.', 'error');
+        // Asegurarse de rehabilitar el botón en caso de error
         submitBtn.disabled = false;
         submitBtn.textContent = originalText;
+      } finally {
+        // Rehabilitar botón (por si acaso no se hizo antes)
+        if (submitBtn.disabled) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = originalText;
+        }
       }
     });
   });

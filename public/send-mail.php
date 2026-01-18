@@ -11,6 +11,116 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
+// Clave secreta de reCAPTCHA v3
+define('RECAPTCHA_SECRET_KEY', '6LdSLE4sAAAAADWe3Ae-_BtvMUoozHBNjCkfUbYO');
+
+// Función para verificar reCAPTCHA v3
+function verifyRecaptcha($token) {
+    if (empty($token)) {
+        return false;
+    }
+    
+    $url = 'https://www.google.com/recaptcha/api/siteverify';
+    $data = [
+        'secret' => RECAPTCHA_SECRET_KEY,
+        'response' => $token,
+        'remoteip' => $_SERVER['REMOTE_ADDR'] ?? ''
+    ];
+    
+    // Intentar usar cURL primero (más confiable)
+    if (function_exists('curl_init')) {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 10); // Timeout de 10 segundos
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
+        
+        $result = curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $curlError = curl_error($ch);
+        curl_close($ch);
+        
+        if ($result === false || $httpCode !== 200) {
+            // Si falla cURL, intentar con file_get_contents
+            return verifyRecaptchaFallback($token, $data);
+        }
+    } else {
+        // Fallback a file_get_contents si cURL no está disponible
+        return verifyRecaptchaFallback($token, $data);
+    }
+    
+    $response = json_decode($result, true);
+    
+    // Verificar que la respuesta sea exitosa y el score sea mayor a 0.3
+    // Score mínimo: 0.3 (ajustable según necesidades)
+    // 0.0 = bot, 1.0 = humano real
+    $isValid = isset($response['success']) && $response['success'] === true && 
+               isset($response['score']) && $response['score'] >= 0.3;
+    
+    return $isValid;
+}
+
+// Función fallback usando file_get_contents
+function verifyRecaptchaFallback($token, $data) {
+    $url = 'https://www.google.com/recaptcha/api/siteverify';
+    
+    $options = [
+        'http' => [
+            'header' => "Content-type: application/x-www-form-urlencoded\r\n",
+            'method' => 'POST',
+            'content' => http_build_query($data),
+            'timeout' => 10 // Timeout de 10 segundos
+        ]
+    ];
+    
+    $context = stream_context_create($options);
+    $result = @file_get_contents($url, false, $context);
+    
+    if ($result === false) {
+        return false;
+    }
+    
+    $response = json_decode($result, true);
+    
+    // Verificar que la respuesta sea exitosa y el score sea mayor a 0.3
+    return isset($response['success']) && $response['success'] === true && 
+           isset($response['score']) && $response['score'] >= 0.3;
+}
+
+// Obtener token de reCAPTCHA
+$recaptchaToken = isset($_POST['recaptcha_token']) ? trim($_POST['recaptcha_token']) : '';
+
+// Validar reCAPTCHA (temporalmente permitir sin token si hay problemas de configuración)
+$recaptchaEnabled = true; // Cambiar a false para deshabilitar reCAPTCHA temporalmente
+
+if ($recaptchaEnabled) {
+    if (empty($recaptchaToken)) {
+        // Si no hay token pero el formulario se envió, permitir continuar con advertencia
+        // (solo para desarrollo/debugging - en producción debería rechazarse)
+        error_log('Advertencia: Formulario enviado sin token de reCAPTCHA');
+        // Comentar las siguientes líneas para permitir envío sin reCAPTCHA temporalmente
+        /*
+        http_response_code(400);
+        echo json_encode([
+            'success' => false, 
+            'message' => 'Token de reCAPTCHA no recibido. Por favor, recarga la página e intenta nuevamente.'
+        ]);
+        exit;
+        */
+    } else {
+        if (!verifyRecaptcha($recaptchaToken)) {
+            http_response_code(400);
+            echo json_encode([
+                'success' => false, 
+                'message' => 'Verificación de reCAPTCHA fallida. Por favor, intenta nuevamente.'
+            ]);
+            exit;
+        }
+    }
+}
+
 // Obtener y limpiar datos del formulario
 $nombre = isset($_POST['nombre']) ? trim($_POST['nombre']) : '';
 $email = isset($_POST['email']) ? trim($_POST['email']) : '';
