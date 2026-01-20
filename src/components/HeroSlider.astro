@@ -24,7 +24,13 @@ const normalizedSlides = slides.map(slide => ({
 ---
 
 <section class="hero">
-  <div class="swiper hero-swiper">
+  <!-- Imagen móvil (solo visible en móvil) -->
+  <div class="hero-mobile">
+    <img src={url('/assets/images/hero-movil.png')} alt="Gigantes de Aguascalientes" />
+  </div>
+  
+  <!-- Slider desktop (oculto en móvil) -->
+  <div class="swiper hero-swiper hero-desktop">
     <div class="swiper-wrapper">
       {normalizedSlides.map((slide) => (
         <div class="swiper-slide">
@@ -63,8 +69,8 @@ const normalizedSlides = slides.map(slide => ({
 
 <script is:inline>
   document.addEventListener('DOMContentLoaded', () => {
-    // Inicializar Swiper con efecto parallax
-    if (typeof Swiper !== 'undefined') {
+    // Solo inicializar Swiper en desktop (pantallas mayores a 991px)
+    if (window.innerWidth > 991.98 && typeof Swiper !== 'undefined') {
       const heroSwiper = new Swiper('.hero-swiper', {
         loop: true,
         autoplay: {
@@ -97,6 +103,18 @@ const normalizedSlides = slides.map(slide => ({
     position: relative;
     min-height: 900px;
     overflow: hidden;
+  }
+  
+  /* Imagen móvil - oculta por defecto */
+  .hero-mobile {
+    display: none;
+  }
+  
+  .hero-mobile img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
   }
   
   .hero-swiper {
@@ -220,6 +238,20 @@ const normalizedSlides = slides.map(slide => ({
   }
   
   @media (max-width: 991.98px) {
+    /* Ocultar slider en móvil */
+    .hero-desktop {
+      display: none !important;
+    }
+    
+    /* Mostrar imagen móvil */
+    .hero-mobile {
+      display: block;
+      width: 100%;
+      height: 100%;
+      min-height: 500px;
+      position: relative;
+    }
+    
     .hero {
       margin-top: -120px;
       padding-top: 120px;
@@ -244,6 +276,10 @@ const normalizedSlides = slides.map(slide => ({
     .hero {
       margin-top: -100px;
       padding-top: 100px;
+      min-height: 400px;
+    }
+    
+    .hero-mobile {
       min-height: 400px;
     }
     

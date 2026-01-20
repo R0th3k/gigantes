@@ -4,12 +4,12 @@
     "hora": "20:00",
     "equipo_local": "Gigantes",
     "logo_local": "gigantes",
-    "sets_local": null,
-    "puntos_local": null,
+    "sets_local": [25, 20, 23, 15, null],
+    "puntos_local": 1,
     "equipo_visitante": "Coronelas de Durango",
     "logo_visitante": "coronelas_de_durango",
-    "sets_visitante": null,
-    "puntos_visitante": null,
+    "sets_visitante": [23, 25, 25, 25, null],
+    "puntos_visitante": 3,
     "sede": "Auditorio Morelos, Aguascalientes"
   },
   {
@@ -45,12 +45,12 @@
     "hora": "18:00",
     "equipo_local": "Gigantes",
     "logo_local": "gigantes",
-    "sets_local": null,
-    "puntos_local": null,
+    "sets_local": [16, 18, 26, 20, null],
+    "puntos_local": 1,
     "equipo_visitante": "Coronelas de Durango",
     "logo_visitante": "coronelas_de_durango",
-    "sets_visitante": null,
-    "puntos_visitante": null,
+    "sets_visitante": [25, 25, 24, 25, null],
+    "puntos_visitante": 3,
     "sede": "Auditorio Morelos, Aguascalientes"
   },
   {
