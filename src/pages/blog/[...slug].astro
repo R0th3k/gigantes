@@ -2,6 +2,7 @@
 import { type CollectionEntry, getCollection } from 'astro:content';
 import Main from '@/layouts/Main.astro';
 import FormattedDate from '@/components/FormattedDate.astro';
+import ShareButtons from '@/components/ShareButtons.astro';
 import { render } from 'astro:content';
 import { url } from '@/utils/url';
 
@@ -17,6 +18,7 @@ type Props = CollectionEntry<'blog'>;
 const post = Astro.props;
 const { Content } = await render(post);
 const { title, description, pubDate, updatedDate, heroImage } = post.data;
+const postUrl = `/blog/${post.id}/`;
 ---
 
 <Main title={title} description={description} image={heroImage}>
@@ -54,6 +56,8 @@ const { title, description, pubDate, updatedDate, heroImage } = post.data;
           <div class="prose">
             <Content />
           </div>
+
+          <ShareButtons title={title} url={postUrl} description={description} />
 
         </div>
       </div>

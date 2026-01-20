@@ -1,0 +1,365 @@
+---
+interface Props {
+  title: string;
+  url: string;
+  description?: string;
+}
+
+const { title, url: postUrl, description } = Astro.props;
+
+// Construir URL completa (se actualizará en el cliente)
+const baseUrl = 'https://gigantesdeaguascalientes.com';
+const fullUrl = `${baseUrl}${postUrl}`;
+---
+
+<div class="share-buttons-container">
+  <div class="share-buttons-label">
+    <i class="fa-solid fa-share-nodes"></i>
+    <span>Comparte esta noticia</span>
+  </div>
+  <div class="share-buttons">
+    <a 
+      href="#"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="share-btn share-btn-facebook"
+      data-share="facebook"
+      aria-label="Compartir en Facebook"
+      title="Compartir en Facebook"
+    >
+      <i class="fa-brands fa-facebook-f"></i>
+      <span>Facebook</span>
+    </a>
+    
+    <a 
+      href="#"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="share-btn share-btn-twitter"
+      data-share="twitter"
+      aria-label="Compartir en X (Twitter)"
+      title="Compartir en X (Twitter)"
+    >
+      <i class="fa-brands fa-x-twitter"></i>
+      <span>X (Twitter)</span>
+    </a>
+    
+    <a 
+      href="#"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="share-btn share-btn-whatsapp"
+      data-share="whatsapp"
+      aria-label="Compartir en WhatsApp"
+      title="Compartir en WhatsApp"
+    >
+      <i class="fa-brands fa-whatsapp"></i>
+      <span>WhatsApp</span>
+    </a>
+    
+    <a 
+      href="#"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="share-btn share-btn-linkedin"
+      data-share="linkedin"
+      aria-label="Compartir en LinkedIn"
+      title="Compartir en LinkedIn"
+    >
+      <i class="fa-brands fa-linkedin-in"></i>
+      <span>LinkedIn</span>
+    </a>
+    
+    <a 
+      href="#"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="share-btn share-btn-telegram"
+      data-share="telegram"
+      aria-label="Compartir en Telegram"
+      title="Compartir en Telegram"
+    >
+      <i class="fa-brands fa-telegram"></i>
+      <span>Telegram</span>
+    </a>
+    
+    <button 
+      type="button"
+      class="share-btn share-btn-copy"
+      aria-label="Copiar enlace"
+      title="Copiar enlace"
+      data-url={fullUrl}
+    >
+      <i class="fa-solid fa-link"></i>
+      <span>Copiar enlace</span>
+    </button>
+  </div>
+</div>
+
+<div data-share-title={title} style="display: none;"></div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Obtener URL actual del navegador
+    const currentUrl = window.location.href;
+    const encodedUrl = encodeURIComponent(currentUrl);
+    
+    // Obtener título del atributo data o del h1 de la página
+    const titleElement = document.querySelector('[data-share-title]');
+    const pageTitle = document.querySelector('h1');
+    const shareTitle = titleElement ? titleElement.getAttribute('data-share-title') : (pageTitle ? pageTitle.textContent.trim() : document.title);
+    const encodedTitle = encodeURIComponent(shareTitle);
+
+    // Construir URLs de compartir
+    const shareUrls = {
+      facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
+      twitter: `https://x.com/intent/tweet?text=${encodedTitle}&url=${encodedUrl}`,
+      whatsapp: `https://wa.me/?text=${encodedTitle}%20${encodedUrl}`,
+      linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`,
+      telegram: `https://t.me/share/url?url=${encodedUrl}&text=${encodedTitle}`
+    };
+
+    // Actualizar href de todos los botones de compartir
+    const shareLinks = document.querySelectorAll('.share-btn[data-share]');
+    shareLinks.forEach(link => {
+      const shareType = link.getAttribute('data-share');
+      if (shareUrls[shareType]) {
+        link.setAttribute('href', shareUrls[shareType]);
+      }
+    });
+
+    // Manejar botón de copiar
+    const copyBtn = document.querySelector('.share-btn-copy');
+    if (copyBtn) {
+      copyBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        const url = currentUrl;
+        const originalHTML = this.innerHTML;
+        
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(url).then(() => {
+            this.innerHTML = '<i class="fa-solid fa-check"></i> ¡Copiado!';
+            this.classList.add('copied');
+            setTimeout(() => {
+              this.innerHTML = originalHTML;
+              this.classList.remove('copied');
+            }, 2000);
+          }).catch(() => {
+            fallbackCopy(url, this, originalHTML);
+          });
+        } else {
+          fallbackCopy(url, this, originalHTML);
+        }
+      });
+    }
+  });
+
+  function fallbackCopy(text, btn, originalHTML) {
+    const textArea = document.createElement('textarea');
+    textArea.value = text;
+    textArea.style.position = 'fixed';
+    textArea.style.opacity = '0';
+    textArea.style.left = '-999999px';
+    document.body.appendChild(textArea);
+    textArea.select();
+    try {
+      document.execCommand('copy');
+      btn.innerHTML = '<i class="fa-solid fa-check"></i> ¡Copiado!';
+      btn.classList.add('copied');
+      setTimeout(() => {
+        btn.innerHTML = originalHTML;
+        btn.classList.remove('copied');
+      }, 2000);
+    } catch (err) {
+      alert('No se pudo copiar el enlace');
+    }
+    document.body.removeChild(textArea);
+  }
+</script>
+
+<style>
+  .share-buttons-container {
+    margin: 2rem 0;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-radius: 15px;
+    border: 2px solid #dee2e6;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .share-buttons-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: #212529;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .share-buttons-label i {
+    font-size: 1.3rem;
+    color: #dc3545;
+  }
+
+  .share-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .share-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.25rem;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    cursor: pointer;
+    color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .share-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.2);
+    transition: left 0.3s ease;
+  }
+
+  .share-btn:hover::before {
+    left: 100%;
+  }
+
+  .share-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  }
+
+  .share-btn:active {
+    transform: translateY(0);
+  }
+
+  .share-btn i {
+    font-size: 1.1rem;
+  }
+
+  .share-btn span {
+    white-space: nowrap;
+  }
+
+  /* Facebook */
+  .share-btn-facebook {
+    background: linear-gradient(135deg, #1877f2 0%, #0d5fcc 100%);
+  }
+
+  .share-btn-facebook:hover {
+    background: linear-gradient(135deg, #0d5fcc 0%, #0a4ba3 100%);
+  }
+
+  /* Twitter/X */
+  .share-btn-twitter {
+    background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+  }
+
+  .share-btn-twitter:hover {
+    background: linear-gradient(135deg, #1a1a1a 0%, #000000 100%);
+  }
+
+  /* WhatsApp */
+  .share-btn-whatsapp {
+    background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
+  }
+
+  .share-btn-whatsapp:hover {
+    background: linear-gradient(135deg, #128c7e 0%, #0d6b5f 100%);
+  }
+
+  /* LinkedIn */
+  .share-btn-linkedin {
+    background: linear-gradient(135deg, #0077b5 0%, #005885 100%);
+  }
+
+  .share-btn-linkedin:hover {
+    background: linear-gradient(135deg, #005885 0%, #004466 100%);
+  }
+
+  /* Telegram */
+  .share-btn-telegram {
+    background: linear-gradient(135deg, #0088cc 0%, #006699 100%);
+  }
+
+  .share-btn-telegram:hover {
+    background: linear-gradient(135deg, #006699 0%, #004d73 100%);
+  }
+
+  /* Copiar enlace */
+  .share-btn-copy {
+    background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+    border: none;
+  }
+
+  .share-btn-copy:hover {
+    background: linear-gradient(135deg, #495057 0%, #343a40 100%);
+  }
+
+  .share-btn-copy.copied {
+    background: linear-gradient(135deg, #28a745 0%, #1e7e34 100%);
+    animation: pulse 0.5s ease;
+  }
+
+  @keyframes pulse {
+    0%, 100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.05);
+    }
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .share-buttons {
+      flex-direction: column;
+    }
+
+    .share-btn {
+      width: 100%;
+      justify-content: center;
+      padding: 0.875rem 1.5rem;
+    }
+
+    .share-btn span {
+      flex: 1;
+      text-align: center;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .share-buttons-container {
+      padding: 1rem;
+    }
+
+    .share-buttons-label {
+      font-size: 1rem;
+      justify-content: center;
+    }
+
+    .share-btn {
+      font-size: 0.9rem;
+      padding: 0.75rem 1rem;
+    }
+  }
+</style>

@@ -12,32 +12,6 @@
     "puntos_visitante": 3,
     "sede": "Auditorio Morelos, Aguascalientes"
   },
-  {
-    "fecha": "2026-01-17",
-    "hora": "19:00",
-    "equipo_local": "Tapatías",
-    "logo_local": "tapatias",
-    "sets_local": null,
-    "puntos_local": null,
-    "equipo_visitante": "Guerreras de Puebla",
-    "logo_visitante": "guerreras",
-    "sets_visitante": null,
-    "puntos_visitante": null,
-    "sede": "Gimnasio Joly Ramírez, Guadalajara"
-  },
-  {
-    "fecha": "2026-01-17",
-    "hora": "19:00",
-    "equipo_local": "Leonas",
-    "logo_local": "leonas",
-    "sets_local": null,
-    "puntos_local": null,
-    "equipo_visitante": "Freseras",
-    "logo_visitante": "freseras",
-    "sets_visitante": null,
-    "puntos_visitante": null,
-    "sede": "Deportiva \"Tota\" Carbajal, León"
-  },
 
 
   {
@@ -53,32 +27,8 @@
     "puntos_visitante": 3,
     "sede": "Auditorio Morelos, Aguascalientes"
   },
-  {
-    "fecha": "2026-01-18",
-    "hora": "14:00",
-    "equipo_local": "Tapatías",
-    "logo_local": "tapatias",
-    "sets_local": null,
-    "puntos_local": null,
-    "equipo_visitante": "Guerreras de Puebla",
-    "logo_visitante": "guerreras",
-    "sets_visitante": null,
-    "puntos_visitante": null,
-    "sede": "Gimnasio Joly Ramírez, Guadalajara"
-  },
-  {
-    "fecha": "2026-01-18",
-    "hora": "13:00",
-    "equipo_local": "Leonas",
-    "logo_local": "leonas",
-    "sets_local": null,
-    "puntos_local": null,
-    "equipo_visitante": "Freseras",
-    "logo_visitante": "freseras",
-    "sets_visitante": null,
-    "puntos_visitante": null,
-    "sede": "Deportiva \"Tota\" Carbajal, León"
-  },
+
+
 
 
 
@@ -98,32 +48,7 @@
     "puntos_visitante": null,
     "sede": "Por definir"
   },
-  {
-    "fecha": "2026-01-24",
-    "hora": "17:00",
-    "equipo_local": "Guerreras de Puebla",
-    "logo_local": "guerreras",
-    "sets_local": null,
-    "puntos_local": null,
-    "equipo_visitante": "Leonas",
-    "logo_visitante": "leonas",
-    "sets_visitante": null,
-    "puntos_visitante": null,
-    "sede": "Por definir"
-  },
-  {
-    "fecha": "2026-01-24",
-    "hora": "20:00",
-    "equipo_local": "Coronelas de Durango",
-    "logo_local": "coronelas_de_durango",
-    "sets_local": null,
-    "puntos_local": null,
-    "equipo_visitante": "Tapatías",
-    "logo_visitante": "tapatias",
-    "sets_visitante": null,
-    "puntos_visitante": null,
-    "sede": "Por definir"
-  },
+
 
   {
     "fecha": "2026-01-25",
@@ -138,32 +63,7 @@
     "puntos_visitante": null,
     "sede": "Por definir"
   },
-  {
-    "fecha": "2026-01-25",
-    "hora": "12:00",
-    "equipo_local": "Guerreras de Puebla",
-    "logo_local": "guerreras",
-    "sets_local": null,
-    "puntos_local": null,
-    "equipo_visitante": "Leonas",
-    "logo_visitante": "leonas",
-    "sets_visitante": null,
-    "puntos_visitante": null,
-    "sede": "Por definir"
-  },
-  {
-    "fecha": "2026-01-25",
-    "hora": "16:00",
-    "equipo_local": "Coronelas de Durango",
-    "logo_local": "coronelas_de_durango",
-    "sets_local": null,
-    "puntos_local": null,
-    "equipo_visitante": "Tapatías",
-    "logo_visitante": "tapatias",
-    "sets_visitante": null,
-    "puntos_visitante": null,
-    "sede": "Por definir"
-  },
+  
 
 
 
@@ -176,34 +76,9 @@
     "puntos_local": null,
     "equipo_visitante": "Gigantes",
     "logo_visitante": "gigantes",
-    "sets_visitante": null,
-    "puntos_visitante": null,
-    "sede": "Por definir"
-  },
-  {
-    "fecha": "2026-02-01",
-    "hora": "13:00",
-    "equipo_local": "Leonas",
-    "logo_local": "leonas",
-    "sets_local": null,
-    "puntos_local": null,
-    "equipo_visitante": "Coronelas de Durango",
-    "logo_visitante": "coronelas_de_durango",
-    "sets_visitante": null,
-    "puntos_visitante": null,
-    "sede": "Por definir"
-  },
-  {
-    "fecha": "2026-02-01",
-    "hora": "16:00",
-    "equipo_local": "Freseras",
-    "logo_local": "freseras",
-    "sets_local": null,
-    "puntos_local": null,
-    "equipo_visitante": "Guerreras de Puebla",
-    "logo_visitante": "guerreras",
     "sets_visitante": null,
     "puntos_visitante": null,
     "sede": "Por definir"
   }
+  
 ]

@@ -20,12 +20,39 @@ const imageFiles = fs.readdirSync(galeriaPath)
     return numA - numB;
   });
 
-const galeriaImages = imageFiles.map((file, index) => ({
-  src: `/assets/images/galeria/${file}`,
-  title: `Gigantes de Aguascalientes - ${file}`,
-  width: IMAGE_WIDTH,
-  height: IMAGE_HEIGHT
-}));
+// Obtener imágenes 8 a 13 de la carpeta blog/posts (solo si no existen en galeria)
+const blogPostsPath = path.join(process.cwd(), 'public', 'assets', 'images', 'blog', 'posts');
+const blogImageFiles = [];
+if (fs.existsSync(blogPostsPath)) {
+  const blogFiles = fs.readdirSync(blogPostsPath)
+    .filter(file => {
+      const num = parseInt(file.replace(/\D/g, '')) || 0;
+      const isImage = file.endsWith('.jpg') || file.endsWith('.jpeg') || file.endsWith('.png');
+      const isInRange = num >= 8 && num <= 13;
+      const notInGaleria = !imageFiles.includes(file);
+      return isImage && isInRange && notInGaleria;
+    })
+    .sort((a, b) => {
+      const numA = parseInt(a.replace(/\D/g, '')) || 0;
+      const numB = parseInt(b.replace(/\D/g, '')) || 0;
+      return numA - numB;
+    });
+  blogImageFiles.push(...blogFiles);
+}
+
+// Combinar imágenes de galeria con las de blog/posts (8-13)
+const allImageFiles = [...imageFiles, ...blogImageFiles];
+
+const galeriaImages = allImageFiles.map((file, index) => {
+  // Determinar si la imagen viene de blog/posts o de galeria
+  const isFromBlog = blogImageFiles.includes(file);
+  return {
+    src: isFromBlog ? `/assets/images/blog/posts/${file}` : `/assets/images/galeria/${file}`,
+    title: `Gigantes de Aguascalientes - ${file}`,
+    width: IMAGE_WIDTH,
+    height: IMAGE_HEIGHT
+  };
+});
 ---
 
 <Main title="Galería">
