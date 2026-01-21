@@ -18,6 +18,11 @@ const partidosJugados = partidosData.filter((partido: any) =>
   partido.sets_local !== null && partido.sets_visitante !== null
 );
 
+// Verificar si hay datos de puntaje válidos (no todos son "-" o 0)
+const hayPuntajesValidos = puntajeData.some((equipo: any) => 
+  equipo.pj !== "-" && equipo.pj !== null && equipo.pj !== 0
+);
+
 // Función para formatear fecha
 function formatearFecha(fecha: string): string {
   const meses = [
@@ -140,7 +145,7 @@ function getLogoUrl(logoName: string | null | undefined): string {
     </div>
     
     <div class="puntaje-container container">
-      {partidosJugados.length === 0 ? (
+      {!hayPuntajesValidos ? (
         <div class="mensaje-vacio">
           <div class="mensaje-vacio-content">
             <i class="fas fa-trophy mensaje-icon"></i>
@@ -154,12 +159,11 @@ function getLogoUrl(logoName: string | null | undefined): string {
             <tr>
               <th>POS</th>
               <th>EQUIPO</th>
+              <th>PTS</th>
               <th>PJ</th>
               <th>G</th>
               <th>P</th>
-              <th>SF</th>
-              <th>SC</th>
-              <th>PTS</th>
+              <th>Sets</th>
             </tr>
           </thead>
           <tbody>
@@ -175,12 +179,11 @@ function getLogoUrl(logoName: string | null | undefined): string {
                   />
                   <span>{equipo.equipo}</span>
                 </td>
+                <td class="pts-cell">{equipo.pts}</td>
                 <td>{equipo.pj}</td>
                 <td>{equipo.g}</td>
                 <td>{equipo.p}</td>
-                <td>{equipo.sf}</td>
-                <td>{equipo.sc}</td>
-                <td class="pts-cell">{equipo.pts}</td>
+                <td>{equipo.sf}-{equipo.sc}</td>
               </tr>
             ))}
           </tbody>
