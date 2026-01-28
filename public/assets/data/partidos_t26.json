@@ -40,12 +40,12 @@
     "hora": "16:00",
     "equipo_local": "Freseras",
     "logo_local": "freseras",
-    "sets_local": null,
-    "puntos_local": null,
+    "sets_local": [21, 25, 25, 25, null],
+    "puntos_local": 3,
     "equipo_visitante": "Gigantes",
     "logo_visitante": "gigantes",
-    "sets_visitante": null,
-    "puntos_visitante": null,
+    "sets_visitante": [25, 22, 20, 16, null],
+    "puntos_visitante": 1,
     "sede": "Por definir"
   },
 
@@ -55,12 +55,12 @@
     "hora": "16:00",
     "equipo_local": "Freseras",
     "logo_local": "freseras",
-    "sets_local": null,
-    "puntos_local": null,
+    "sets_local": [23, 12, 18, null, null],
+    "puntos_local": 0,
     "equipo_visitante": "Gigantes",
     "logo_visitante": "gigantes",
-    "sets_visitante": null,
-    "puntos_visitante": null,
+    "sets_visitante": [25, 25, 25,null, null],
+    "puntos_visitante": 3,
     "sede": "Por definir"
   },
   

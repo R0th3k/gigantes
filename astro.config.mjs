@@ -6,7 +6,7 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://hektor.mx/',
+  site: 'https://gigantes.mx/',
   base: '/',
   integrations: [mdx(), vue(), sitemap()],
 });

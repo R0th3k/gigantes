@@ -159,7 +159,6 @@ function getLogoUrl(logoName: string | null | undefined): string {
             <tr>
               <th>POS</th>
               <th>EQUIPO</th>
-              <th>PTS</th>
               <th>PJ</th>
               <th>G</th>
               <th>P</th>
@@ -179,7 +178,6 @@ function getLogoUrl(logoName: string | null | undefined): string {
                   />
                   <span>{equipo.equipo}</span>
                 </td>
-                <td class="pts-cell">{equipo.pts}</td>
                 <td>{equipo.pj}</td>
                 <td>{equipo.g}</td>
                 <td>{equipo.p}</td>
@@ -476,11 +474,6 @@ function getLogoUrl(logoName: string | null | undefined): string {
     flex-shrink: 0;
   }
   
-  .pts-cell {
-    font-family: "Bebas Neue", sans-serif;
-    font-size: 1.3rem;
-    color: #0D3963;
-  }
   
   @media (max-width: 991.98px) {
     .puntaje-container {

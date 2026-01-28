@@ -1,5 +1,5 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://hektor.mx/sitemap-index.xml
+Sitemap: https://gigantes.mx/sitemap-index.xml
 
