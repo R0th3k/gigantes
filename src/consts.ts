@@ -19,4 +19,5 @@ export const patrocinadores = [
     { img: "patrocinadores/p-14.png", url: "https://fitsi.com.mx/clubes/aguascalientes" },
     { img: "patrocinadores/p-15.png", url: "https://centromedicolasalud.com/" },
     { img: "patrocinadores/p-16.png", url: "https://redcolacentro.mx/" },
+    { img: "patrocinadores/p-17.png", url: "https://mexico.littlecaesars.com/es-mx/" },
   ];
