@@ -13,10 +13,17 @@ const partidosData = JSON.parse(fs.readFileSync(jsonPath, 'utf-8'));
 const puntajePath = path.join(process.cwd(), 'public', 'assets', 'data', 'puntaje_t26.json');
 const puntajeData = JSON.parse(fs.readFileSync(puntajePath, 'utf-8'));
 
-// Filtrar solo partidos jugados (que tienen sets)
-const partidosJugados = partidosData.filter((partido: any) => 
-  partido.sets_local !== null && partido.sets_visitante !== null
-);
+// Filtrar solo partidos jugados (que tienen sets) y ordenar del más reciente al más antiguo
+const partidosJugados = partidosData
+  .filter((partido: any) => 
+    partido.sets_local !== null && partido.sets_visitante !== null
+  )
+  .sort((a: any, b: any) => {
+    // Ordenar por fecha descendente (más reciente primero)
+    const fechaA = new Date(a.fecha).getTime();
+    const fechaB = new Date(b.fecha).getTime();
+    return fechaB - fechaA;
+  });
 
 // Verificar si hay datos de puntaje válidos (no todos son "-" o 0)
 const hayPuntajesValidos = puntajeData.some((equipo: any) => 
