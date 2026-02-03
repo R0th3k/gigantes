@@ -93,6 +93,36 @@
     "sets_visitante": [14, 25, 19, null, null],
     "puntos_visitante": 0,
     "sede": "Gimnasio Joly Ramírez"
+  },
+
+
+
+  {
+    "fecha": "2026-02-07",
+    "hora": "17:00",
+    "equipo_local": "Guerreras",
+    "logo_local": "guerreras",
+    "sets_local": null,
+    "puntos_local": null,
+    "equipo_visitante": "Gigantes",
+    "logo_visitante": "gigantes",
+    "sets_visitante": null,
+    "puntos_visitante": null,
+    "sede": "Por definir"
+  },
+
+  {
+    "fecha": "2026-02-08",
+    "hora": "12:00",
+    "equipo_local": "Guerreras",
+    "logo_local": "guerreras",
+    "sets_local": null,
+    "puntos_local": null,
+    "equipo_visitante": "Gigantes",
+    "logo_visitante": "gigantes",
+    "sets_visitante": null,
+    "puntos_visitante": null,
+    "sede": "Por definir"
   }
   
 ]
