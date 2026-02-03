@@ -15,9 +15,14 @@ const puntajeData = JSON.parse(fs.readFileSync(puntajePath, 'utf-8'));
 
 // Filtrar solo partidos jugados (que tienen sets) y ordenar del más reciente al más antiguo
 const partidosJugados = partidosData
-  .filter((partido: any) => 
-    partido.sets_local !== null && partido.sets_visitante !== null
-  )
+  .filter((partido: any) => {
+    // Verificar que los arrays de sets existan y tengan al menos un valor válido
+    const tieneSetsLocal = Array.isArray(partido.sets_local) && 
+      partido.sets_local.some((set: any) => set !== null && set !== undefined);
+    const tieneSetsVisitante = Array.isArray(partido.sets_visitante) && 
+      partido.sets_visitante.some((set: any) => set !== null && set !== undefined);
+    return tieneSetsLocal && tieneSetsVisitante;
+  })
   .sort((a: any, b: any) => {
     // Ordenar por fecha descendente (más reciente primero)
     const fechaA = new Date(a.fecha).getTime();

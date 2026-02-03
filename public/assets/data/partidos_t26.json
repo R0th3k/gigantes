@@ -46,7 +46,7 @@
     "logo_visitante": "gigantes",
     "sets_visitante": [25, 22, 20, 16, null],
     "puntos_visitante": 1,
-    "sede": "Por definir"
+    "sede": "Inforum Irapuato"
   },
 
 
@@ -61,24 +61,38 @@
     "logo_visitante": "gigantes",
     "sets_visitante": [25, 25, 25,null, null],
     "puntos_visitante": 3,
-    "sede": "Por definir"
+    "sede": "Inforum Irapuato"
   },
   
 
 
 
   {
+    "fecha": "2026-01-31",
+    "hora": "14:00",
+    "equipo_local": "Tapatías",
+    "logo_local": "tapatias",
+    "sets_local": [22, 26, 25, 25, null],
+    "puntos_local": 3,
+    "equipo_visitante": "Gigantes",
+    "logo_visitante": "gigantes",
+    "sets_visitante": [25, 24, 9, 21, null],
+    "puntos_visitante": 1,
+    "sede": "Gimnasio Joly Ramírez"
+  },
+
+  {
     "fecha": "2026-02-01",
     "hora": "14:00",
     "equipo_local": "Tapatías",
     "logo_local": "tapatias",
-    "sets_local": null,
-    "puntos_local": null,
+    "sets_local": [25, 27, 25, null, null],
+    "puntos_local": 3,
     "equipo_visitante": "Gigantes",
     "logo_visitante": "gigantes",
-    "sets_visitante": null,
-    "puntos_visitante": null,
-    "sede": "Por definir"
+    "sets_visitante": [14, 25, 19, null, null],
+    "puntos_visitante": 0,
+    "sede": "Gimnasio Joly Ramírez"
   }
   
 ]
