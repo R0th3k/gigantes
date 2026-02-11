@@ -102,13 +102,13 @@
     "hora": "17:00",
     "equipo_local": "Guerreras",
     "logo_local": "guerreras",
-    "sets_local": null,
-    "puntos_local": null,
+    "sets_local": [23, 25, 25, 25, 8],
+    "puntos_local": 2,
     "equipo_visitante": "Gigantes",
     "logo_visitante": "gigantes",
-    "sets_visitante": null,
-    "puntos_visitante": null,
-    "sede": "Por definir"
+    "sets_visitante": [25, 19, 22, 27, 15],
+    "puntos_visitante": 3,
+    "sede": "Gimnasio Miguel Hidalgo"
   },
 
   {
@@ -116,13 +116,163 @@
     "hora": "12:00",
     "equipo_local": "Guerreras",
     "logo_local": "guerreras",
+    "sets_local": [20, 23, 22, null, null],
+    "puntos_local": 0,
+    "equipo_visitante": "Gigantes",
+    "logo_visitante": "gigantes",
+    "sets_visitante": [25, 25, 25, null, null],
+    "puntos_visitante": 3,
+    "sede": "Gimnasio Miguel Hidalgo"
+  },
+
+  {
+    "fecha": "2026-02-14",
+    "hora": "20:00",
+    "equipo_local": "Gigantes",
+    "logo_local": "gigantes",
+    "sets_local": null,
+    "puntos_local": null,
+    "equipo_visitante": "Leonas",
+    "logo_visitante": "leonas",
+    "sets_visitante": null,
+    "puntos_visitante": null,
+    "sede": "Poliforum Municipal de Calvillo",
+    "jornada": 5
+  },
+
+  {
+    "fecha": "2026-02-15",
+    "hora": "18:00",
+    "equipo_local": "Gigantes",
+    "logo_local": "gigantes",
+    "sets_local": null,
+    "puntos_local": null,
+    "equipo_visitante": "Leonas",
+    "logo_visitante": "leonas",
+    "sets_visitante": null,
+    "puntos_visitante": null,
+    "sede": "Poliforum Municipal de Calvillo",
+    "jornada": 5
+  },
+
+  {
+    "fecha": "2026-02-21",
+    "hora": "20:00",
+    "equipo_local": "Gigantes",
+    "logo_local": "gigantes",
+    "sets_local": null,
+    "puntos_local": null,
+    "equipo_visitante": "Freseras",
+    "logo_visitante": "freseras",
+    "sets_visitante": null,
+    "puntos_visitante": null,
+    "sede": "Auditorio Morelos, Aguascalientes",
+    "jornada": 6
+  },
+
+  {
+    "fecha": "2026-02-22",
+    "hora": "18:00",
+    "equipo_local": "Gigantes",
+    "logo_local": "gigantes",
+    "sets_local": null,
+    "puntos_local": null,
+    "equipo_visitante": "Freseras",
+    "logo_visitante": "freseras",
+    "sets_visitante": null,
+    "puntos_visitante": null,
+    "sede": "Auditorio Morelos, Aguascalientes",
+    "jornada": 6
+  },
+
+  {
+    "fecha": "2026-02-28",
+    "hora": "20:00",
+    "equipo_local": "Coronelas de Durango",
+    "logo_local": "coronelas_de_durango",
     "sets_local": null,
     "puntos_local": null,
     "equipo_visitante": "Gigantes",
     "logo_visitante": "gigantes",
     "sets_visitante": null,
     "puntos_visitante": null,
-    "sede": "Por definir"
+    "sede": "Por definir",
+    "jornada": 7
+  },
+
+  {
+    "fecha": "2026-03-01",
+    "hora": "16:00",
+    "equipo_local": "Coronelas de Durango",
+    "logo_local": "coronelas_de_durango",
+    "sets_local": null,
+    "puntos_local": null,
+    "equipo_visitante": "Gigantes",
+    "logo_visitante": "gigantes",
+    "sets_visitante": null,
+    "puntos_visitante": null,
+    "sede": "Por definir",
+    "jornada": 7
+  },
+
+  {
+    "fecha": "2026-03-07",
+    "hora": "20:00",
+    "equipo_local": "Gigantes",
+    "logo_local": "gigantes",
+    "sets_local": null,
+    "puntos_local": null,
+    "equipo_visitante": "Tapatías",
+    "logo_visitante": "tapatias",
+    "sets_visitante": null,
+    "puntos_visitante": null,
+    "sede": "Por definir",
+    "jornada": 8
+  },
+
+  {
+    "fecha": "2026-03-08",
+    "hora": "18:00",
+    "equipo_local": "Gigantes",
+    "logo_local": "gigantes",
+    "sets_local": null,
+    "puntos_local": null,
+    "equipo_visitante": "Tapatías",
+    "logo_visitante": "tapatias",
+    "sets_visitante": null,
+    "puntos_visitante": null,
+    "sede": "Por definir",
+    "jornada": 8
+  },
+
+  {
+    "fecha": "2026-03-14",
+    "hora": "20:00",
+    "equipo_local": "Gigantes",
+    "logo_local": "gigantes",
+    "sets_local": null,
+    "puntos_local": null,
+    "equipo_visitante": "Guerreras",
+    "logo_visitante": "guerreras",
+    "sets_visitante": null,
+    "puntos_visitante": null,
+    "sede": "Por definir",
+    "jornada": 9
+  },
+
+  {
+    "fecha": "2026-03-15",
+    "hora": "18:00",
+    "equipo_local": "Gigantes",
+    "logo_local": "gigantes",
+    "sets_local": null,
+    "puntos_local": null,
+    "equipo_visitante": "Guerreras",
+    "logo_visitante": "guerreras",
+    "sets_visitante": null,
+    "puntos_visitante": null,
+    "sede": "Por definir",
+    "jornada": 9
   }
-  
+
 ]

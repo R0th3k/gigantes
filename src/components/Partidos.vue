@@ -20,6 +20,7 @@
           >
             <div class="partido-card">
               <div class="partido-header">
+                <span v-if="partido.jornada" class="partido-jornada-badge">Jornada {{ partido.jornada }}</span>
                 <div class="partido-fecha">
                   {{ formatearFecha(partido.fecha) }}, {{ partido.hora }} Hrs
                 </div>
@@ -296,6 +297,19 @@ background: radial-gradient(circle,rgba(30, 115, 168, 1) 0%, rgba(13, 57, 99, 1)
 .partido-header {
   text-align: center;
   margin-bottom: 1.5rem;
+}
+
+.partido-jornada-badge {
+  display: inline-block;
+  background: var(--bs-warning);
+  color: var(--bs-primary);
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 0.85rem;
+  font-weight: bold;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  margin-bottom: 0.5rem;
+  letter-spacing: 1px;
 }
 
 .partido-fecha {
