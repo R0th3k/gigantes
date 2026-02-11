@@ -1,21 +1,23 @@
 ---
-import { type CollectionEntry, getCollection } from 'astro:content';
+import { getCollection, getEntry, render } from 'astro:content';
 import Main from '@/layouts/Main.astro';
 import FormattedDate from '@/components/FormattedDate.astro';
 import ShareButtons from '@/components/ShareButtons.astro';
-import { render } from 'astro:content';
 import { url } from '@/utils/url';
 
 export async function getStaticPaths() {
 	const posts = await getCollection('blog');
 	return posts.map((post) => ({
 		params: { slug: post.id },
-		props: post,
+		props: { slug: post.id },
 	}));
 }
-type Props = CollectionEntry<'blog'>;
 
-const post = Astro.props;
+const { slug } = Astro.props;
+const post = await getEntry('blog', slug);
+if (!post) {
+	return new Response(null, { status: 404, statusText: 'Not found' });
+}
 const { Content } = await render(post);
 const { title, description, pubDate, updatedDate, heroImage } = post.data;
 const postUrl = `/blog/${post.id}/`;

@@ -23,8 +23,8 @@ pnpm-debug.log*
 # jetbrains setting folder
 .idea/
 
-# Ftp Config
-#ftp.config
+# Ftp Config (credenciales)
+ftp.config
 
 #package-lock.json
 package-lock.json

@@ -1,11 +1,22 @@
-#!/bin/bash
+#!/usr/bin/env bash
+# Si se ejecutó con sh/dash, volver a ejecutar con bash
+if [ -z "${BASH_VERSION}" ]; then
+    exec /usr/bin/env bash "$0" "$@"
+fi
 
-# Validar si lftp está instalado
-if ! command -v lftp &> /dev/null; then
+# Validar si lftp está instalado (comprueba PATH y ruta estándar /usr/bin)
+if command -v lftp &>/dev/null; then
+    LFTP_CMD="lftp"
+elif [[ -x /usr/bin/lftp ]]; then
+    LFTP_CMD="/usr/bin/lftp"
+else
     echo "⚠️ lftp no está instalado. Intentando instalarlo..."
     sudo apt update && sudo apt install -y lftp
-
-    if ! command -v lftp &> /dev/null; then
+    if command -v lftp &>/dev/null; then
+        LFTP_CMD="lftp"
+    elif [[ -x /usr/bin/lftp ]]; then
+        LFTP_CMD="/usr/bin/lftp"
+    else
         echo "❌ No se pudo instalar lftp. Aborta el script."
         exit 1
     fi
@@ -37,9 +48,9 @@ if [[ ! -d "$LOCAL_PATH" ]]; then
     exit 1
 fi
 
-echo "🚀 Conectando a ftp://$HOST y subiendo archivos desde $LOCAL_PATH a /public_html/desarrollo.azulcentral.com/zamurai..."
+echo "🚀 Conectando a ftp://$HOST y subiendo archivos desde $LOCAL_PATH al destino"
 
-lftp -u "$USER","$PASS" -p 21 "$HOST" <<EOF
+"$LFTP_CMD" -u "$USER","$PASS" -p 21 "$HOST" <<EOF
 set ftp:ssl-allow yes
 set ssl:verify-certificate no
 set net:timeout 20
